@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        .gallery {
+            position: relative;
+            width: 400px;
+            height: 200px;
+            overflow: hidden;
+        }
+        .gallery img {
+            width: 100%;
+            position: absolute;
+        }
+        .gallery .mask {
+            position: absolute;
+            background-color: rgba(0,0,0,0);
+            width: 220px;
+            height: 200px;
+            transition: all .3s;
+        }
+        .gallery .mask a {
+            color: rgba(255,255,255,0);
+            text-decoration: none;
+            display: block;
+/*            width: 0;*/
+            text-align: center;
+            line-height: 200px;
+            transition:all .3s
+
+        }
+        .gallery:hover .mask {
+            background-color: rgba(0,0,0,.5);
+            width: 100%;
+        }
+        .gallery:hover a {
+            color: rgba(255,255,255,1);
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="gallery">
+        <img src="images/01.jpg" alt="">
+        <div class="mask">
+            <a href="#">MORE</a>
+        </div>
+    </div>
+</body>
+</html>

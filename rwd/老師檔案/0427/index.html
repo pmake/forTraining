@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+    <style>
+        h1,h2,h3,h4,h5,h6,p,body {
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: helvetica,arial,sans-serif;
+        }
+        p {
+            color: #444;
+            line-height: 1.5;
+        }
+        .clearfix::after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+        .full {
+            width: 100%;
+        }
+        .fixed {
+            width: 1200px;
+            margin: auto;
+        }
+        nav {
+            background-color: #333;
+        }
+        nav ul {
+            margin: 0;
+            padding: 0;
+            float: right;
+        }
+        nav li {
+            float: left;
+            list-style: none;
+        }
+        nav a {
+            color:#eee;
+            text-decoration: none;
+            font-family: tahoma;
+            display: block;
+            height: 40px;
+            line-height: 40px;
+            padding-left: 20px;
+            padding-right: 20px;
+            transition: all .3s;
+        }
+        nav a:hover {
+            background-color: #666;
+        }
+        .logo {
+            float: left;
+            width: 40px;
+            height: 40px;
+            background-color: #fa0;
+        }
+        header {
+            height: 600px;
+            background-image: url(images/wallpaper.jpg);
+            background-size: cover;
+            background-position: bottom;
+        }
+        #about {
+            padding-top: 100px;
+            padding-bottom: 100px;
+            background-color: #cce4ff;
+
+            
+        }
+       
+        #about .box {
+            width: 370px;
+            float: left;
+            margin-left: 15px;
+            margin-right: 15px;
+            
+        }
+        #about p{
+            margin-top: 20px;
+        }
+        #gallery .box {
+            width: 50%;
+            height: 600px;
+            float: left;
+            overflow: hidden;
+/*            margin-left: 15px;*/
+/*            margin-right: 15px;*/
+        }
+        #gallery .fixed {
+            width: 1170px;
+        }
+        #gallery .box img {
+            width:200%;
+        }
+        #service {
+            padding-top: 150px;
+            padding-bottom: 150px;
+            background-color: #c4c4c4;
+        }
+        #service .box{
+            width: 260px;
+            height: 270px;
+            float: left;
+            overflow: hidden;
+            margin-left: 15px;
+            margin-right: 15px;
+            border-radius: 50%;
+            border: 5px solid #fff;
+            box-shadow: 1px 1px 5px #000;
+            
+        }
+        #service .box img {
+            width:200%;
+        }
+
+    </style>
+</head>
+<body>
+    <nav class="full clearfix">
+        <div class="fixed">
+            <div class="logo"></div>
+            <ul>
+                <li><a href="">ABOUT</a></li>
+                <li><a href="">BLOG</a></li>
+                <li><a href="">SERVICE</a></li>
+            </ul>
+        </div>
+    </nav>
+    <header class="full"></header>
+    <div class="full clearfix" id="about">
+        <div class="fixed">
+            <div class="box">
+                <h1>QWERTY</h1>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe aspernatur neque commodi. Accusamus id cupiditate tempora a veniam deleniti similique quidem magnam reiciendis est modi natus aperiam voluptatum, debitis inventore.
+                </p>
+                
+            </div>
+            <div class="box">
+                <h1>QWERTY</h1>
+                <p>
+                   Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis voluptates fuga ad veritatis, culpa illo. Voluptatem, excepturi provident aut at harum iusto eius, ea, dolorem fugiat sunt tempore beatae temporibus.
+                </p>
+                 
+            </div>
+            <div class="box">
+                <h1>QWERTY</h1>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestias asperiores consequuntur dolore assumenda et harum, eaque similique aut ad expedita praesentium odit ipsum vel sed, cupiditate vitae voluptatibus perferendis accusantium.
+                </p>
+                 
+            </div>
+        </div>
+    </div>
+    <div class="full clearfix"id="gallery">
+        <div class="fixed">
+            <div class="box">
+                <img src="images/01.jpg" alt="">
+            </div>
+            <div class="box">
+                <img src="images/02.jpg" alt="">
+            </div>
+            <div class="box">
+                <img src="images/03.jpg" alt="">
+            </div>
+            <div class="box">
+                <img src="images/04.jpg" alt="">
+            </div>
+
+        </div>
+    </div>
+    <div class="full clearfix" id="service">
+        <div class="fixed">
+            <div class="box">
+                <img src="images/01.jpg" alt="">
+            </div>
+            <div class="box">
+                <img src="images/02.jpg" alt="">
+            </div>
+            <div class="box">
+                <img src="images/03.jpg" alt="">
+            </div>
+            <div class="box">
+                <img src="images/04.jpg" alt="">
+            </div>
+        </div>
+    </div>
+    <footer class="full clearfix">
+        <div class="fixed">
+            <div class="copyright">
+                <p>
+                    XXX COPYRIGHTS &copy; 2016
+                </p>
+            </div>
+            <div class="sns">
+                <a href=""class="fa fa-facebook fa-2x"></a>
+                <a href=""></a>
+                <a href=""></a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

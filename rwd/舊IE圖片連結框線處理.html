@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<!--舊版IE對於圖片連結顯示會有預期之外的框線，會影響排版，需強制取消框線-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>舊IE圖片連結框線問題處理</title>
+    <style>
+        img {
+            border:0;
+        }
+    </style>
+</head>
+<body>
+    <a href="http://tw.yahoo.com">
+        <img src="images/piece1.jpg" alt="喬巴"><!--alt用途:1圖示因故無法顯示時的替代文字 2、影響搜尋-->
+    </a>
+</body>
+</html>

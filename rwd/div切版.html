@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<!--HEX色碼兩兩成雙的可以簡寫成3碼，如#000000可寫成#000-->
+<!--RGB與HEX色碼為色彩的兩種表示方示-->
+<!--RGB三色量皆同的為灰階色彩，如RGB(51,51,51)=#333333=#333-->
+<!--元素總寬度=寬度(width)+外距(margin)+邊框(border)+內距(padding)-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        body, h1, h2, h3, h4, h5, h6, p {
+            margin:0;
+            padding:0;
+        }
+        #container {
+            width: 960px;
+            margin-left:auto;
+            margin-right:auto;
+        }
+        #header {
+            width: 960px;
+            height: 400px;
+            background-color:#0fdbdb;
+        }
+        #main {
+            width: 940px;
+            height: 800px;
+            background-color:#b46bbe;
+            padding-left:10px;
+            padding-right:10px;
+        }
+        .box {
+            width: 450px;
+            height: 460px;
+            background-color: #b6d8ac;
+            margin:10px;
+            float:left;
+        }
+        #footer {
+            width: 960px;
+            height: 200px;
+            background-color:#dbc479;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="header"></div>
+        <div id="main">
+            <div class="box"></div>
+            <div class="box"></div>
+        </div>
+        <div id="footer"></div>
+    </div>
+</body>
+</html>

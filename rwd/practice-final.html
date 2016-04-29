@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        h1,h2,h3,h4,h5,h6,p,body {
+            margin: 0;
+            padding: 0;
+        }
+        .clearfix::after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+        .full {
+            width: 100%;
+        }
+        .fixed {
+            width: 1200px;
+            margin: auto;
+        }
+        nav {
+            background-color: #333;
+        }
+        nav ul {
+            margin: 0;
+            padding: 0;
+            float: right;
+        }
+        nav li {
+            float: left;
+            list-style: none;
+        }
+        nav a {
+            color:#eee;
+            text-decoration: none;
+            font-family: tahoma;
+            display: block;
+            height: 40px;
+            line-height: 40px;
+            padding-left: 20px;
+            padding-right: 20px;
+            transition: all .3s;
+        }
+        nav a:hover {
+            background-color: #666;
+        }
+        .logo {
+            float: left;
+            width: 40px;
+            height: 40px;
+            background-color: #fa0;
+        }
+        header {
+            height: 600px;
+            background-image: url(../RWD/images/wallpaper.jpg);
+            background-size: cover;
+            background-position: bottom;
+        }
+    </style>
+</head>
+<body>
+    <nav class="full clearfix">
+        <div class="fixed">
+            <div class="logo"></div>
+            <ul>
+                <li><a href="">ABOUT</a></li>
+                <li><a href="">BLOG</a></li>
+                <li><a href="">SERVICE</a></li>
+            </ul>
+        </div>
+    </nav>
+    <header class="full"></header>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>等寬導覽列</title>
+    <link href='https://fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>
+    <style>
+        @import url(http://fonts.googleapis.com/earlyaccess/notosanstc.css);
+        nav {
+            width: 500px;
+            margin: auto;
+            background-color: black;
+        }
+        nav ul {
+            margin:0;
+            padding: 0;
+        }
+        nav li {
+            float: right;
+            list-style: none;
+            margin-right: 5px;
+            
+        }
+        nav a {
+            color:#000;
+            font-family: "Oswald";
+            text-decoration: none;
+            background-color: aquamarine;
+            display: block;
+            width: 120px;
+            height: 40px;
+            text-align: center;
+            line-height: 40px;
+            float:left;
+            transition: all .3s;
+        } 
+        nav a:hover {
+            background-color: #0041a8;
+            color: #fff;
+        }
+        .clearfix::after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+        .full {
+            width: 100%;
+        }
+        .fixed {
+            width: 1200px;
+            margin: auto;
+        }
+        header{
+            height:600px;
+            background-image: url(img/wallpapaer.jpg); 
+            background-size: cover;
+            background-position: center;
+        }
+        .logo{
+            background-color: aqua;
+            height:50px;
+            width:50px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="full clearfix">
+       <div class="fixed">
+            <div class="logo"></div>
+        <ul>
+            <li><a href="javascript:;">ABOUT</a></li>
+            <li><a href="javascript:;">SERVICE</a></li>
+            <li><a href="javascript:;">PRODUCT</a></li>
+            <li><a href="javascript:;">CONTACT</a></li>
+        </ul>
+        </div>
+    </nav>
+    <header class="full"></header>
+    
+</body>
+</html>

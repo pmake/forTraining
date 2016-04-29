@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<!--float:將元素改為inline-block模式並漂浮，與inline or inline-block元素佔位關係不變，與block元素互動有變化，於其後的block類別元素會重疊於其下，於其前的block類別元素不受影響-->
+<!--overflow屬性:當容器元素內的元素高度超出容器時，此屬性可自動調整容器高度至需求-->
+<!--clear屬性:禁止元素漂浮於自身之上-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Navigation Practice</title>
+    <style>
+        * {
+            border:1px solid;/*顯示邊界幫助瞭解指令運作範圍與效果*/
+        }
+        /*html,body,nav,ul {
+            border:none;
+        }*/
+        nav ul {
+            margin:0px;
+            padding:0px;
+            width:981px;
+            margin:auto;
+            background-color: brown;
+            /*取回float元素容器高度使背景色有效方法1:overflow屬性，如下列註解內容*/
+            /*overflow:auto;*/
+            
+            /*取回float元素容器高度使背景色有效方法2:設定高度，如下列註解內容*/
+            /*height:74px;*/
+            /*Total height = height+margin+border+padding*/
+        }
+        nav li {
+            float:left;
+            list-style:none;
+        }
+        nav a {
+            color:#000;
+            text-decoration:none;
+            background-color: aqua;
+            display:block;
+            margin:5px;
+            padding:15px;
+            width:65px;
+            height:30px;
+            text-align:center;
+            line-height:30px;
+        }
+        /*取回float元素容器高度使背景色有效方法3:psudo-selector，如下列註解內容*/
+        .clearfix::after {
+            content:"";/*於目標底部新增虛無內容*/
+            display:block;/*將新增內容設為block模式,使其具有推擠float元素能力*/
+            clear:both;/*禁止float元素漂浮於其上，等同讓容器撐高至float元素高度*/
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul class="clearfix">
+            <li><a href="">Mac</a></li>
+            <li><a href="">iPad</a></li>
+            <li><a href="">iPhone</a></li>
+            <li><a href="">Watch</a></li>
+            <li><a href="">TV</a></li>
+            <li><a href="">Music</a></li>
+            <li><a href="">支援服務</a></li>
+            <li><a href="">搜尋</a></li>
+            <li><a href="">購物袋</a></li>
+        </ul>
+    </nav>
+</body>
+</html>
