@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>javascript scope</title>
+    <script language=javascript>
+    //explain1，先講層級
+    var aha="define outside";
+    function fun1(){
+        var lala="define inside";
+        alert(aha);
+    }
+    fun1();
+    alert(lala);
+    //explain2，local及global變數即使同名也不會互相影響
+    /*var Msg;
+    Msg="This is outside of fun1().";
+    alert(Msg);
+    fun1();
+    alert(Msg);
+    function fun1(){
+        var Msg;
+        Msg="This is inside of fun1().";
+        alert(Msg);
+    }*/
+    </script>
+</head>
+<body>
+</body>
+</html>

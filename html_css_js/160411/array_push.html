@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>javascript scope</title>
+    <script language=javascript>
+    var arr=[1,2,3];
+    arr.push(4);//往後延伸增加元素
+    arr.push(5,6);
+    for(var i=0;i<arr.length;i++){
+        document.write(arr[i]+"<br>");
+    }
+    arr.length=2;
+    for(var i=0;i<arr.length;i++){
+        document.write(arr[i]+"<br>");
+    }
+    </script>
+</head>
+<body>
+</body>
+</html>

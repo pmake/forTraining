@@ -1,0 +1,20 @@
+<!--name屬性定義一個變數，選定某選項後提交，實際提交的是該變數，該變數預設值由value屬性定義，若未設定value值則預設為off，若有選定則變為on-->
+<!doctype html>
+<html lang="zh-TW">
+<head>
+	<meta charset="utf-8">
+	<title>radio選擇鈕</title>
+</head>
+    <body>
+      <form>
+        年&nbsp;&nbsp;齡:<br><br><!--&nbsp為空白符號，HTML預設會無視空格，字間的空格只認定1個，所以要使用1個以上的空格時，需使用&nbsp代表空格-->
+        <input type="radio" name="UserAge" value="Age1">未滿二十歲<br>
+        <input type="radio" name="UserAge" value="Age2" checked>20~29歲<br><!--預設選定-->
+        <input type="radio" name="UserAge" value="Age3">30~39歲<br>
+        <input type="radio" name="UserAge" value="Age4">40~49歲<br>
+        <input type="radio" name="UserAge" value="Age5">50歲以上<br><br>
+        <input type="submit">
+        <input type="reset">
+        </form>
+    </body>
+</html>

@@ -1,0 +1,14 @@
+<!--以MAP標籤定義熱點地圖名稱，以AREA標籤定義熱點形狀，座標，半徑以及連結等屬性，定義完成後即可在嵌入圖片標籤中使用USEMAP屬性指定熱點地圖使用，需注意超出圖片區域的熱點座標不會起作用-->
+<!doctype html>
+<html lang="zh-TW">
+<head>
+	<meta charset="utf-8">
+	<title>影像地圖</title>
+</head>
+<body>
+<map name="taipei zoo">
+	<area shape="circle" coords="100,152,34" href="嵌入圖片.html" alt="非洲動物區"><!--熱點形狀(shape)有圓形:定義圓心座標和半徑(x,y,r)、方形:定義左上和右下兩點(x1,y1,x2,y2)、多邊形:一點一點定義(x1,y1,x2,y2,x3,y3....)-->
+</map>
+<img src="jp4.jpg" usemap="#taipei zoo" alt="動物園地圖">
+</body>
+</html>

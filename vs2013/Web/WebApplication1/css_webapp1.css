@@ -1,0 +1,40 @@
+﻿/*initial*/
+nav, footer {
+    padding:0;
+    margin:0;
+}
+table {
+    width:100%;
+}
+
+
+footer table tr td {
+    text-align:center;
+    color:#777;
+}
+
+
+#logo_company {
+    text-align:center;
+}
+#menu {
+    width:150px;
+}
+#logo_company {
+    width:200px;
+}
+#username {
+    width:100px;
+    text-align:center;
+}
+#sysname {
+    text-align:center;
+}
+#button_logout {
+    text-align:center;
+    width:200px;
+}
+#button_home {
+    text-align:center;
+    width:200px;
+}

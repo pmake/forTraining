@@ -1,0 +1,32 @@
+<!---->
+<!doctype html>
+<html lang="zh-TW">
+<head>
+	<meta charset="utf-8">
+	<title>表格格式</title>
+    <style>
+        td {width:25%}<!--CSS有優先權區別，例如單位，%比px高-->
+    </style>
+</head>
+<body>
+<table border="1" width="100%">
+	<tr bgcolor="#ebeb46">
+		<td align="center" valign="center"><img src="../piece1.jpg" width="100"></td>
+		<td align="left">水平靠左</td>
+		<td align="center">水平置中</td>
+        <td align="right">水平靠右</td>
+	</tr>
+	<tr bgcolor="#bae0e6">
+		<td align="center" valign="middle"><img src="../piece2.jpg" width="100"></td>
+		<td valign="top">垂直靠上</td>
+		<td valign="middle">垂直置中</td>
+		<td valign="bottom">垂直靠下</td>
+	</tr>
+	<tr bgcolor="#c0efba">
+		<td align="center" valign="middle"><img src="../piece3.jpg" width="100"></td>
+		<td align="center" valign="middle">水平垂直皆置中</td>
+		<td align="right" valign="top">靠右上</td>
+		<td align="left" valign="bottom">靠左下</td>
+	</tr>
+</table>
+</html>

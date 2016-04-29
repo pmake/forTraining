@@ -1,0 +1,16 @@
+<!--video以及audio等標籤可透過source標籤指定多重檔案來源，預防格式不支援問題-->
+<!doctype html>
+<html lang="zh-TW">
+<head>
+	<meta charset="utf-8">
+	<title>source屬性</title>
+</head>
+    <body>
+        <video>
+            <source src="data/video1.wmv"><!--第一優先使用，若不支援則使用下一個-->
+            <source src="data/video2.wmv"><!--第二優先使用-->
+            <source src="data/video1.ogv"><!--第三優先使用-->
+            不支援此格式
+        </video>
+    </body>
+</html>

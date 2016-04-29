@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+	<meta charset="utf-8">
+	<title>運算子</title>
+    <script>
+    var x=10;
+        x%=7;//運算子簡寫，等同於x=x%7;
+        alert(x);
+        alert(x++);//++為遞增，--為遞減，寫在變數後代表該動作執行完後才+1，寫在前代表先+1再執行動作
+        document.write(x);
+        alert(++x);
+        document.write(x);
+    var y=1,w=2;
+        x=y ^ w;//"^"運算子:進行位元互斥OR運算，二進位表示y:0001 w:0010若同位置值相同則同位置傳回0，若不同則傳回1，結果: x:0011=3
+        alert("^運算結果:"+x);
+    var k,m=10;
+        k=(m>5)?1:2;//"?"運算子，依據?運算子左側邏輯判斷結果傳回設定值，若結果為true則傳回":"左側給定值，若為false則傳回":"右側設定值
+        alert(k);//(m>5)為true，傳回":"左側值1
+    </script>
+</head>
+    <body>
+        <h1>歡迎來到javascript的世界!</h1>
+    </body>
+</html>

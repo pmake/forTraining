@@ -1,0 +1,7 @@
+D:\WCC\vs2013\Web\WebApplication1\bin\WebApplication1.dll.config
+D:\WCC\vs2013\Web\WebApplication1\bin\WebApplication1.dll
+D:\WCC\vs2013\Web\WebApplication1\bin\WebApplication1.pdb
+D:\WCC\vs2013\Web\WebApplication1\obj\Debug\WebApplication1.csprojResolveAssemblyReference.cache
+D:\WCC\vs2013\Web\WebApplication1\obj\Debug\WebApplication1.dll
+D:\WCC\vs2013\Web\WebApplication1\obj\Debug\WebApplication1.pdb
+D:\WCC\vs2013\Web\WebApplication1\bin\AspNet.ScriptManager.jQuery.dll

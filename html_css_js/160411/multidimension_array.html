@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>javascript scope</title>
+    <script language=javascript>
+    var arr=new Array(5),inc=1;
+    for(var i=0;i<arr.length;i++){
+        arr[i]=new Array(2);
+        arr[i][0]=inc;
+        inc++;
+        arr[i][1]=inc;
+        inc++;
+    }
+    for(var j=0;j<arr.length;j++){
+        for(var k=0;k<arr[j].length;k++){
+            document.write(arr[j][k]+"<br>");
+        }
+        document.write("<br>");
+    }
+    </script>
+</head>
+<body>
+</body>
+</html>
