@@ -76,22 +76,22 @@
             <table>
                 <tr>
                     <td>
-                        <asp:Label ID="Label2" runat="server" Text="版權所有 Copyright © 2013 教育部青年發展署"></asp:Label>
+                        <asp:Label ID="lbl_copyright" runat="server" Text=""></asp:Label>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <asp:Label ID="Label3" runat="server" Text="10055臺北市中正區徐州路5號14樓"></asp:Label>
+                        <asp:Label ID="lbl_address" runat="server" Text=""></asp:Label>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <asp:Label ID="Label4" runat="server" Text="電話:886-2-7736-5111   傳真:886-2-2356-6307    E-Mail:yda@mail.yda.gov.tw"></asp:Label>
+                        <asp:Label ID="lbl_contact" runat="server" Text=""></asp:Label>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <asp:Label ID="Label5" runat="server" Text="本網站最佳解析度：1280 X 1024"></asp:Label>
+                        <asp:Label ID="lbl_display" runat="server" Text=""></asp:Label>
                     </td>
                 </tr>
             </table>
