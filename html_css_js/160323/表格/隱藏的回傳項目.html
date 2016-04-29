@@ -1,0 +1,17 @@
+<!--type="hidden"-->
+<!doctype html>
+<html lang="zh-TW">
+<head>
+	<meta charset="utf-8">
+	<title>隱藏的回傳項目</title>
+</head>
+    <body>
+      <form method="post"><!--資料回傳方式分為GET與POST兩種，POST方法可確保回傳密碼時不顯示在網址-->
+         請輸入密碼:<br><br>
+          <input type="password" name="UserPWD" size="10" required><!--size為輸入框寬度-->
+          <input type="hidden" name="Author" value="Andy"><!--此類別預設會回傳，但不會顯示在頁面上，可用來回傳調查區域等資訊-->
+          <input type="submit">
+          <input type="reset">
+        </form>
+    </body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<!--block元素:佔版範圍整列-->
+<!--inline元素:佔版範圍僅內容本身，依序排列，到達邊界自動換列-->
+<!--inline元素無視寬高設定，完全依內容寬高決定，故無內容的inline元素不會顯示-->
+<!--inline-box元素:佔版範圍依寬高而定，依序排列，到達邊界自動換列-->
+<!--常用block元素:h1~H6,p,ul,ol,li,div-->
+<!--常用inline元素:a,img,b,i,strong,em,span/big,small,sup,sub,del-->
+<!--display屬性可改變佔版模式-->
+<!--float屬性設定使元素漂浮，並將佔版模式改為inline-block，漂浮的含意可想像有雙層空間，漂浮在上層，一般在下層，不同層的元素不互相干擾，上層會遮蔽下層內容-->
+<!--float模式排序上優先權較高，從box1雖然在前，但是卻排在後面可知其影響-->
+<html lang="zh-tw">
+<head>
+   <meta charset="UTF-8">
+   <title>Document</title>
+   <style>
+       .box1 {
+           width:150px;
+           height:150px;
+           background-color:aqua;
+           display:inline-block;
+       }
+    
+       .box2 {
+           width:150px;
+           height:150px;
+           background-color:#d0f04a;
+           float:left;
+       }
+       .box3 {
+           width:150px;
+           height:150px;
+           background-color:#7381ce;
+           float:left;
+       }
+       a {
+           color:#454374;
+           text-decoration:overline underline line-through;
+       }
+    </style>
+</head>
+<body>
+<div class="box1"></div>
+<div class="box2"></div>
+<div class="box3"></div>
+</body>
+</html>

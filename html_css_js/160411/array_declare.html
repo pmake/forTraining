@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>javascript scope</title>
+    <script language=javascript>
+    var username1= new Array();
+        username1[0]="曹操";
+        username1[1]="劉備";
+        username1[2]="孫權";  
+    var username2= new Array("張飛","關羽","趙雲");   
+    var username3= ["你","我","他"];  
+    for(var i=0;i<username1.length;i++){
+        document.write(username1[i]+"<br>");
+    }
+    for(var i=0;i<username2.length;i++){
+        document.write(username2[i]+"<br>");
+    }
+    for(var i=0;i<username3.length;i++){
+        document.write(username3[i]+"<br>");
+    }
+    alert(username1.constructor);
+    alert(username2.constructor);
+    alert(username3.constructor);
+    </script>
+</head>
+<body>
+</body>
+</html>

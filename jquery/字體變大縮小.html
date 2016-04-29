@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    <script>
+        $(document).ready(function (){
+          console.log('123');
+            //放大
+            $('button#big').click(function (){
+                $('p').css('font-size',parseInt($('p').css('font-size'))+1)
+            });
+            //縮小
+            $('button#small').click(function (){
+                $('p').css('font-size',parseInt($('p').css('font-size'))-1)
+            });
+        });
+    </script>
+</head>
+<body>
+    <button id="big">bigger</button>
+    <button id="small">smaller</button>
+    <p>O</p>
+</body>
+</html>

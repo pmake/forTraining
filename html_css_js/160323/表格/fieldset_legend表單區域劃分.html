@@ -1,0 +1,35 @@
+<!--fieldset:設定區塊，legend:設定區域標題-->
+<!doctype html>
+<html lang="zh-TW">
+<head>
+	<meta charset="utf-8">
+	<title>表單區域劃分</title>
+</head>
+    <body>
+        <fieldset>
+            <legend>個人資料</legend>
+            <form>
+            年&nbsp;&nbsp;齡:<br><br>
+            <input type="radio" name="UserAge" value="Age1">未滿二十歲<br>
+            <input type="radio" name="UserAge" value="Age2" checked>20~29歲<br>
+            <input type="radio" name="UserAge" value="Age3">30~39歲<br>
+            <input type="radio" name="UserAge" value="Age4">40~49歲<br>
+            <input type="radio" name="UserAge" value="Age5">50歲以上<br><br>
+            <input type="submit">
+            <input type="reset">
+            </form>
+        </fieldset>
+        <fieldset>
+            <legend>手機相關問題</legend>
+            <form>
+              使用過哪些廠牌的手機?<br><br>
+            <input type="checkbox" name="PhoneType[]" value="HTC">HTC<br>
+            <input type="checkbox" name="PhoneType[]" value="Samsung">Samsung<br>
+            <input type="checkbox" name="PhoneType[]" value="Sony">Sony<br>
+            <input type="checkbox" name="PhoneType[]" value="Asus">Asus<br><br>
+            <input type="submit">
+            <input type="reset">
+            </form>
+        </fieldset>
+    </body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<!--參考網址 https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Obsolete_Pages/Obsolete_Pages/Obsolete_Pages/%E6%AD%A3%E8%A6%8F%E8%A1%A8%E9%81%94%E5%BC%8F%E6%A8%A1%E5%BC%8F%E7%9A%84%E7%B7%A8%E5%AF%AB-->
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+   <form action="">
+       只允許1大寫字母: <input type="text" pattern="[A-Z]" placeholder="A" required title="請輸入1大寫字母"><!--pattern為正則內容驗證，placeholder為預設提示內容，required設定欄位為必填，title為錯誤提示訊息--><br><br>
+       只允許1英文字母: <input type="text" pattern="[A-z]" title="請輸入1個英文字母"><br><br>
+       請輸入信用卡卡號: <input type="text" pattern="[0-9]{4}[-][0-9]{4}[-][0-9]{4}[-][0-9]{4}" placeholder="xxxx-xxxx-xxxx-xxxx" title="####-####-####-####"><br><br>
+       請輸入電話號碼: <input type="text" pattern="09[1-8][0-9]([\-|\s]?)[0-9]{3}\1?[0-9]{3}" placeholder="09xx xxx xxx" title="格式錯誤!"><br><br>
+       <input type="submit" value="提交">
+       <input type="reset" value="清除內容">
+   </form>
+</body>
+</html>

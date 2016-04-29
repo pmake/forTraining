@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+	<meta charset="utf-8">
+	<title>表格合併</title>
+    <style>
+        body {font-family:新細明體;}
+    </style>
+</head>
+<body>
+    <p><b>橫跨兩列的單元格:</b></p>
+<table border="1">
+	<tr>
+        <th>姓名</th>
+		<th colspan="2">電話</th>
+	</tr>
+    <tr>
+		<th>Bill Gates</th>
+        <th>555 77 854</th>
+		<th>555 77 855</th>
+	</tr>
+</table>
+    <p><b>橫跨兩行的單元格:</b></p>
+<table border="1">
+	<tr>
+        <th>姓名</th>
+		<th>Bill Gates</th>
+	</tr>
+    <tr>
+        <th rowspan="2">電話</th>
+		<th>555 77 854</th>
+	</tr>
+    <tr>
+        <th>555 77 855</th>
+    </tr>
+</table>
+</html>

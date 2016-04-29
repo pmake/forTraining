@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>內建Number函數</title>
+    <script>
+      function calculate(start,end){
+          var sum;
+          sum= (Number(start)+Number(end))*(end-start+1)/2;/*prompt傳回值為文字型態，javascript語言特性在運算時會自動轉換形態，但不一定會符合預期，最好自行控制好變數形態，例如+號運算一般會判定為文字，文字型態的數字在數學加法運算時就會出現預期之外的結果*/
+          return sum;
+      }
+        var num1=prompt("請輸入起始值");
+        var num2=prompt("請輸入結束值");
+        var result;
+        result = calculate(num1,num2);
+        alert(result);
+    </script>
+</head>
+<body>
+</body>
+</html>

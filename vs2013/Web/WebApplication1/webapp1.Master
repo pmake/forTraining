@@ -1,0 +1,102 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="webapp1.Master.cs" Inherits="WebApplication1.Site1" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link href="css_webapp1.css" rel="stylesheet" />
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <nav>
+            <table>
+                <tr>
+                    <td id="logo_company">
+                        <asp:Image ID="Image1" runat="server" ImageUrl="~/images/sysicon.png" />
+                    </td>
+                    <td id="sysname">
+                        <asp:Label ID="Label1" runat="server" Text="進銷存管理系統" Font-Bold="False" Font-Names="微軟正黑體" Font-Size="XX-Large"></asp:Label>
+                    </td>
+                    <td id="username">
+                        <asp:Label ID="lbl_username" runat="server"></asp:Label>
+                    </td>
+                    <td id="button_logout">
+                        <asp:ImageButton ID="ImageButton1" runat="server" ImageUrl="~/images/logout.png" ToolTip="logout" PostBackUrl="~/login.aspx" />
+                    </td>
+                    <td id="button_home">
+                        <asp:ImageButton ID="ImageButton2" runat="server" ImageUrl="~/images/home.png" ToolTip="return to home page." PostBackUrl="~/home.aspx" />
+                    </td>
+                </tr>
+            </table>
+        </nav>
+        <div id="content">
+            <table>
+                <tr>
+                    <td id="menu">
+                        <asp:Menu ID="Menu1" runat="server" BackColor="#F7F6F3" DynamicHorizontalOffset="2" Font-Names="Verdana" Font-Size="0.8em" ForeColor="#7C6F57" StaticSubMenuIndent="10px">
+                            <DynamicHoverStyle BackColor="#7C6F57" ForeColor="White" />
+                            <DynamicMenuItemStyle HorizontalPadding="5px" VerticalPadding="2px" />
+                            <DynamicMenuStyle BackColor="#F7F6F3" />
+                            <DynamicSelectedStyle BackColor="#5D7B9D" />
+                            <Items>
+                                <asp:MenuItem Text="Bas_基本資料" Value="Bas">
+                                    <asp:MenuItem Text="Bas01_基本資料維護" Value="Bas01"></asp:MenuItem>
+                                    <asp:MenuItem Text="Bas02_基本資料查詢" Value="Bas02"></asp:MenuItem>
+                                </asp:MenuItem>
+                                <asp:MenuItem Text="Sup_進貨管理系統" Value="Sup">
+                                    <asp:MenuItem Text="Sup01_廠商資料維護" Value="Sup01"></asp:MenuItem>
+                                    <asp:MenuItem Text="Sup02_廠商資料查詢" Value="Sup02"></asp:MenuItem>
+                                </asp:MenuItem>
+                                <asp:MenuItem Text="Sal_銷貨管理系統" Value="Sal">
+                                    <asp:MenuItem Text="Sal01_客戶資料維護" Value="Sal01"></asp:MenuItem>
+                                    <asp:MenuItem Text="Sal02_客戶資料查詢" Value="Sal02"></asp:MenuItem>
+                                </asp:MenuItem>
+                                <asp:MenuItem Text="Sto_庫存管理系統" Value="Sto">
+                                    <asp:MenuItem Text="Sto01_物料資料維護" Value="Sto01"></asp:MenuItem>
+                                    <asp:MenuItem Text="Sto02_物料資料查詢" Value="Sto02"></asp:MenuItem>
+                                </asp:MenuItem>
+                            </Items>
+                            <StaticHoverStyle BackColor="#7C6F57" ForeColor="White" />
+                            <StaticMenuItemStyle HorizontalPadding="5px" VerticalPadding="2px" />
+                            <StaticSelectedStyle BackColor="#5D7B9D" />
+                        </asp:Menu>
+                    </td>
+                    <td id="contentarea">
+                        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                        </asp:ContentPlaceHolder>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <footer>
+            <table>
+                <tr>
+                    <td>
+                        <asp:Label ID="Label2" runat="server" Text="版權所有 Copyright © 2013 教育部青年發展署"></asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <asp:Label ID="Label3" runat="server" Text="10055臺北市中正區徐州路5號14樓"></asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <asp:Label ID="Label4" runat="server" Text="電話:886-2-7736-5111   傳真:886-2-2356-6307    E-Mail:yda@mail.yda.gov.tw"></asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <asp:Label ID="Label5" runat="server" Text="本網站最佳解析度：1280 X 1024"></asp:Label>
+                    </td>
+                </tr>
+            </table>
+        </footer>
+
+    </form>
+</body>
+</html>

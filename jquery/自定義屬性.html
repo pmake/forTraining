@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    <style>
+        div {
+            display:none;
+        }
+    </style>
+</head>
+<body>
+   <div id="name">輸入姓名</div>
+   <input type="text" data-targetdiv="#name"><br>
+   <div id="pass1">輸入密碼</div>
+   <input type="password" data-targetdiv="#pass1"><br>
+   <div id="pass2">確認密碼</div>
+   <input type="password" data-targetdiv="#pass2"><br>
+   
+    <script>
+        
+        //HTML5新功能自定義屬性，語法為data-自定義屬性名稱="自定義屬性值"
+        //以下為JQUERY取自定義屬性值的方法data()
+        
+        $('input').focus(function (){
+            $($(this).data('targetdiv')).css('display','block');
+        });
+        
+        $('input').blur(function (){
+            var temp = $(this).data('targetdiv');
+            $(temp).css('display','none');
+            if ($(this).val()==="") $(temp).css('color','red');
+            else $(temp).css('color','black');
+        });
+        
+    </script>
+</body>
+</html>

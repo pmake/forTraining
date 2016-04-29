@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<!--background-color影響範圍不含margin部份-->
+<!--點擊元素時顯示的位置框架亦不含margin部份-->
+<!--<container>:hover <element inside container>可以以容器為滑鼠滑過事件(其他事件亦可)觸發機制對內部元素做動作，例如當滑鼠過過容器，則改變容器裡面指定元素的大小-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Navigation Practice</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    <style>
+        img, body {
+            margin:0;
+            padding:0;
+        }
+        .container {
+            width:512px;
+            height:384px;
+        }
+        #item {
+            width:512px;
+            height:384px;
+            overflow:hidden;
+        }
+        #mask {
+            width:512px;
+            height:384px;
+            background-color: rgba(33, 140, 144, 1);
+            position:absolute;
+            left:0;
+            top:0;
+            transition: .3s;
+            text-align: center;
+        }
+        a {
+            color:rgba(208, 237, 212,1);
+            text-decoration: none;
+            display:block;
+            width:50px;
+            height:50px;
+/*            border:1px solid;*/
+            line-height: 50px;
+            position: absolute;
+            left:0;
+            top:0;
+        }
+        .container:hover #mask {
+            background-color: rgba(33, 140, 144, 0);
+        }
+        .container:hover a {
+            color:rgba(208, 237, 212,1);
+        }
+    </style>
+    
+</head>
+<body>
+    <div class="container" onmousemove="changePosition(event)">
+        <div id="item"><img src="images/piece1.jpg" alt=""></div>
+        <div id="mask"><a href="#">Mask</a></div>
+    </div>
+    <script>
+        function changePosition(event){
+           $('a').css('font-size',30px);
+        }
+    </script>
+</body>
+</html>
