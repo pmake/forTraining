@@ -11,12 +11,12 @@ and open the template in the editor.
     </head>
     <body>
         <?php
-        /*
-        $age=18;
-        $sex="female";
-        $type = ($age>17)?(($sex==="male")?"man":"woman"):"kid";
-        echo $type;
-        */
+
+            $age=18;
+            $sex="female";
+            $type = ($age>17)?(($sex==="male")?"man":"woman"):"kid";
+            echo $type;
+        
         ?>
     </body>
 </html>
