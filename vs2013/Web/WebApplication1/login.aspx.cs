@@ -26,7 +26,7 @@ namespace WebApplication1
 
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = conn;
-            cmd.CommandText = "SELECT mname FROM normalmembers WHERE mno = @mno AND mpassword = @mpassword";
+            cmd.CommandText = "SELECT mname FROM employee WHERE mno = @mno AND mpassword = @mpassword";
             cmd.Parameters.Clear();
             cmd.Parameters.AddWithValue("@mno", txt_userid.Text);
             cmd.Parameters.AddWithValue("@mpassword", txt_password.Text);

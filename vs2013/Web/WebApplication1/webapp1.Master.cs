@@ -12,9 +12,9 @@ namespace WebApplication1
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack) setFixedData();
+            if (!IsPostBack) set_User();
         }
-        private void setFixedData()
+        private void set_User()
         {
             lbl_username.Text = "使用者:" + Session["UserName"].ToString();
             lbl_copyright.Text = WebConfigurationManager.AppSettings["copyright"];

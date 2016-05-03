@@ -1,0 +1,18 @@
+private bool CheckUser1()
+        {
+            bool bln_ok = false;
+
+            ezado myado = new ezado("dbconn");
+            myado.CommandText = "SELECT mname FROM employee WHERE mno = @mno AND mpassword = @mpassword";
+            myado.ParametersAddWithValue("@mno", txt_userid.Text, true);
+            myado.ParametersAddWithValue("@mpassword", txt_password.Text, false);
+            bln_ok = myado.HasRow();
+            if (bln_ok)
+            {
+                Session["UserNo"] = txt_userid.Text;
+                Session["UserName"] = myado.GetSelectValue("mname");
+            }
+            myado.Close();
+
+            return bln_ok;
+        }

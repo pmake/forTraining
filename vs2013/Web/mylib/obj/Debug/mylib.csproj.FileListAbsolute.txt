@@ -1,0 +1,8 @@
+D:\WCC\vs2013\Web\mylib\obj\Debug\mylib.dll
+D:\WCC\vs2013\Web\mylib\obj\Debug\mylib.pdb
+D:\WCC\vs2013\Web\WebApplication1\bin\mylib.dll
+D:\WCC\vs2013\Web\WebApplication1\bin\mylib.pdb
+D:\WCC\vs2013\Web\mylib\bin\mylib.dll
+D:\WCC\vs2013\Web\mylib\bin\mylib.pdb
+D:\WCC\vs2013\Web\WebApplication1\bin\mylib.XML
+D:\WCC\vs2013\Web\mylib\obj\Debug\mylib.csprojResolveAssemblyReference.cache
