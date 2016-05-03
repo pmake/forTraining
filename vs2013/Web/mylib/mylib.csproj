@@ -20,7 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\WebApplication1\bin\mylib.XML</DocumentationFile>
+    <DocumentationFile>C:\Users\Vera\Documents\Visual Studio 2013\Projects\forgit\vs2013\Web\WebApplication1\bin\mylib.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -42,7 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ezado.cs" />
+    <Compile Include="userVerifier.cs" />
     <Compile Include="man.cs" />
     <Compile Include="person.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -65,6 +65,8 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="bin\WebApplication1.dll" />
+    <Content Include="bin\WebApplication1.pdb" />
     <Content Include="css_webapp1.css" />
     <Content Include="images\green.jpg" />
     <Content Include="images\home.png" />

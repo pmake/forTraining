@@ -4,6 +4,26 @@
         <name>mylib</name>
     </assembly>
     <members>
+        <member name="T:mylib.userVerifier">
+            <summary>
+            使用者驗證類別
+            </summary>
+        </member>
+        <member name="M:mylib.userVerifier.dbConnect(System.String)">
+            <summary>
+            連線至指定資料庫方法
+            </summary>
+            <param name="connNameInConfig"></param>
+        </member>
+        <member name="M:mylib.userVerifier.userDataCompare(System.String,System.Object,System.Object)">
+            <summary>
+            比對帳號密碼並傳回指定欄位資料方法
+            </summary>
+            <param name="dataReturn"></param>
+            <param name="userName"></param>
+            <param name="userPassword"></param>
+            <returns></returns>
+        </member>
         <member name="T:mylib.man">
             <summary>
             男性類別

@@ -7,3 +7,12 @@ D:\WCC\vs2013\Web\WebApplication1\obj\Debug\WebApplication1.pdb
 D:\WCC\vs2013\Web\WebApplication1\bin\AspNet.ScriptManager.jQuery.dll
 D:\WCC\vs2013\Web\WebApplication1\bin\mylib.pdb
 D:\WCC\vs2013\Web\WebApplication1\bin\mylib.xml
+C:\Users\Vera\Documents\Visual Studio 2013\Projects\forgit\vs2013\Web\WebApplication1\bin\WebApplication1.dll.config
+C:\Users\Vera\Documents\Visual Studio 2013\Projects\forgit\vs2013\Web\WebApplication1\bin\WebApplication1.dll
+C:\Users\Vera\Documents\Visual Studio 2013\Projects\forgit\vs2013\Web\WebApplication1\bin\WebApplication1.pdb
+C:\Users\Vera\Documents\Visual Studio 2013\Projects\forgit\vs2013\Web\WebApplication1\bin\AspNet.ScriptManager.jQuery.dll
+C:\Users\Vera\Documents\Visual Studio 2013\Projects\forgit\vs2013\Web\WebApplication1\bin\mylib.pdb
+C:\Users\Vera\Documents\Visual Studio 2013\Projects\forgit\vs2013\Web\WebApplication1\bin\mylib.xml
+C:\Users\Vera\Documents\Visual Studio 2013\Projects\forgit\vs2013\Web\WebApplication1\obj\Debug\WebApplication1.csprojResolveAssemblyReference.cache
+C:\Users\Vera\Documents\Visual Studio 2013\Projects\forgit\vs2013\Web\WebApplication1\obj\Debug\WebApplication1.dll
+C:\Users\Vera\Documents\Visual Studio 2013\Projects\forgit\vs2013\Web\WebApplication1\obj\Debug\WebApplication1.pdb

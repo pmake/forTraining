@@ -6,3 +6,8 @@ D:\WCC\vs2013\Web\mylib\bin\mylib.dll
 D:\WCC\vs2013\Web\mylib\bin\mylib.pdb
 D:\WCC\vs2013\Web\WebApplication1\bin\mylib.XML
 D:\WCC\vs2013\Web\mylib\obj\Debug\mylib.csprojResolveAssemblyReference.cache
+C:\Users\Vera\Documents\Visual Studio 2013\Projects\forgit\vs2013\Web\WebApplication1\bin\mylib.XML
+C:\Users\Vera\Documents\Visual Studio 2013\Projects\forgit\vs2013\Web\WebApplication1\bin\mylib.dll
+C:\Users\Vera\Documents\Visual Studio 2013\Projects\forgit\vs2013\Web\WebApplication1\bin\mylib.pdb
+C:\Users\Vera\Documents\Visual Studio 2013\Projects\forgit\vs2013\Web\mylib\obj\Debug\mylib.dll
+C:\Users\Vera\Documents\Visual Studio 2013\Projects\forgit\vs2013\Web\mylib\obj\Debug\mylib.pdb

@@ -8,6 +8,7 @@ using System.Web.UI.WebControls;
 using System.Data;
 using System.Data.SqlClient;
 using System.Web.Configuration;
+using mylib;
 
 namespace WebApplication1
 {
@@ -20,26 +21,13 @@ namespace WebApplication1
 
         protected void Button1_Click(object sender, EventArgs e)
         {
-            SqlConnection conn = new SqlConnection();
-            conn.ConnectionString = WebConfigurationManager.ConnectionStrings["dbconn"].ConnectionString;
-            conn.Open();
-
-            SqlCommand cmd = new SqlCommand();
-            cmd.Connection = conn;
-            cmd.CommandText = "SELECT mname FROM employee WHERE mno = @mno AND mpassword = @mpassword";
-            cmd.Parameters.Clear();
-            cmd.Parameters.AddWithValue("@mno", txt_userid.Text);
-            cmd.Parameters.AddWithValue("@mpassword", txt_password.Text);
-
-            SqlDataReader dr = cmd.ExecuteReader();
-            if (dr.HasRows)
+            userVerifier userChecker = new userVerifier();
+            userChecker.dbConnect("dbconn");
+            string dataReturn = userChecker.userDataCompare("mname",txt_userid.Text,txt_password.Text);
+            if (dataReturn != "")
             {
-                dr.Read();
                 Session["UserNo"] = txt_userid.Text;
-                Session["UserName"] = dr["mname"].ToString();
-
-                dr.Close();
-                conn.Close();
+                Session["UserName"] = dataReturn;
                 Response.Redirect("home.aspx");
             }
             else
@@ -48,8 +36,6 @@ namespace WebApplication1
                 txt_userid.Text = "";
                 txt_password.Text = "";
             }
-            dr.Close();
-            conn.Close();
         }
     }
 }
