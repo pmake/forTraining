@@ -1,0 +1,8 @@
+@media screen and (max-width:959px) and (min-width:481px) {
+    body {
+        background-color: goldenrod;
+    }
+    .photo {
+        width:100%;
+    }
+}

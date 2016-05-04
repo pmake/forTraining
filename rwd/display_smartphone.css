@@ -1,0 +1,8 @@
+@media screen and (max-width:480px) {
+    body {
+        background-color: brown;
+    }
+    .photo {
+        width:100%;
+    }
+}

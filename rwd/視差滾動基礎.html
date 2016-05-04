@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<!--寬度與高度的%單位依據都是相對於其容器高度，要注意的是body的容器是html，html的容器是視窗大小，而body與html元素高度預設是隨內容元素高度變動，因此若要將body內的元素高度設為100%，需先將html與body都設為100%(等於視窗高度)-->
+<!--background-attachment:fixed設定實際上的意義是讓圖片絕對座標變為bottom:其本身的高+前文其他元素高度和，向下滾動時看似重疊，實際上是該張圖顯示的部份一直在變，顯示高度一直在縮小，因為沒有重疊，所以其下方有透明度的元素在上滾時也不會有穿透效果-->
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <style>
+            html,body {
+                margin:0;
+                padding:0;
+                height:100%;
+            }
+            header {
+                background:url(images/wallpaper.jpg);
+                height:100%;
+                background-size: cover;
+                background-attachment: fixed;
+            }
+            .cblock {
+                width:100%;
+                height:600px;
+                /*驗證透明效果無效原因*/
+                /*position: absolute;
+                top:50px;
+                background-color: rgba(255,128,255,.5);
+                z-index: 10;*/
+            }
+            .gallery1 {
+                background-image: url(images/piece1.jpg);
+                height:100%;
+                background-size: cover;
+                background-attachment: fixed;
+            }
+            .gallery2 {
+                background-image: url(images/piece2.jpg);
+                height:100%;
+                background-size: cover;
+                background-attachment: fixed;
+            }
+        </style>
+    </head>
+    <body>
+        <header></header>
+        <div class="cblock"></div>
+        <div class="gallery1"></div>
+        <div class="cblock"></div>
+        <div class="gallery2"></div>
+    </body>
+</html>
