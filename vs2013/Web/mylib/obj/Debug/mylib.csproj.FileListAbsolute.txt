@@ -11,3 +11,4 @@ C:\Users\Vera\Documents\Visual Studio 2013\Projects\forgit\vs2013\Web\WebApplica
 C:\Users\Vera\Documents\Visual Studio 2013\Projects\forgit\vs2013\Web\WebApplication1\bin\mylib.pdb
 C:\Users\Vera\Documents\Visual Studio 2013\Projects\forgit\vs2013\Web\mylib\obj\Debug\mylib.dll
 C:\Users\Vera\Documents\Visual Studio 2013\Projects\forgit\vs2013\Web\mylib\obj\Debug\mylib.pdb
+C:\Users\Vera\Documents\Visual Studio 2013\Projects\forgit\vs2013\Web\mylib\obj\Debug\mylib.csprojResolveAssemblyReference.cache
