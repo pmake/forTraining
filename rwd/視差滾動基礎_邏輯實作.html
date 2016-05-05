@@ -13,16 +13,18 @@
             .fview {
                 width:500px;
                 height:500px;
-                background-image: url(http://pic.66rpg.com/ftp_pic/pic2386.png);
+                background-image: url(images/pic2386.png);
                 background-size: cover;
                 position: absolute;
+                left:0px;
             }
             .bview {
                 width:600px;
                 height:600px;
-                background-image: url(http://pic.66rpg.com/ftp_pic/pic2386.png);
+                background-image: url(images/pic2386.png);
                 background-size: cover;
                 position: absolute;
+                left:0px;
             }
             button {
                 width:80px;
@@ -39,8 +41,8 @@
         <script>
             $(document).ready(function(){
                 $('button').click(function(){
-                    $('.bview').css('left',-10); 
-                    $('.fview').css('left',parseInt($('.bview').css('left'))-5);
+                    $('.bview').css('left',parseInt($('.bview').css('left'))-10);
+                    $('.fview').css('left',parseInt($('.fview').css('left'))-5);
                 });
             });
         </script>
