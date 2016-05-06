@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">
@@ -39,9 +39,11 @@
             showPool($array);
             //抽球
             for ($j = 1; $j < $lotTimes + 1; $j++) {
-                //隨機抽球擺放位置
+
+                //隨機抽取球的擺放位置
                 $tempTail = count($array) - 1; //確認抽選範圍
                 $tempPos = rand(0, $tempTail); //在範圍內抽選
+
                 //顯示該位置球號
                 echo "第 $j 個號碼是 : " . $array[$tempPos] . "<br>";
 
@@ -54,7 +56,7 @@
                 //要套用此方式請將方法1的3行程式碼弄成註解或是刪除，然後把下面這行程式碼去除註解即可
                 //$array[$tempPos] = $array[$tempTail];
 
-                //清除多餘陣列尾端，縮小抽選範圍
+                //清除多餘陣列尾端，縮小抽選範圍，使機率分佈符合實際情況
                 unset($array[$tempTail]);
                 showPool($array);
             }
@@ -89,8 +91,10 @@
         $d4 = array("星期四的英文是", "Thursday");
         $d5 = array("星期五的英文是", "Friday");
         $d6 = array("星期六的英文是", "Saturday");
+
         //第二維區分各天
         $weekday = array($d0, $d1, $d2, $d3, $d4, $d5, $d6);
+
         //兩層foreach分別讀取一個維度值以輸出結果
         foreach ($weekday as $eleValue1) {
             $temp = "";
@@ -109,21 +113,28 @@
         /*
           這題可以宣告一個3維陣列$students[這是第三維][這是第二維][這是第一維]
           第一維區分屬性值，有2個維度(屬性名稱和屬性值)
-          第二維區分屬性，有5個維度(學號、姓名、姓別…)
+          第二維區分屬性，有5個維度(學號、姓名、性別…)
           第三維區分學生，有5個維度(有5個學生)
           等當宣告5*5*2=50個變數，有點浪費
-          因為屬性名稱是共用的，所以可以提取出來以一個1維陣列存放即可
-          所以就變成用一個2維陣列加一個1維陣列處理即可
+
+          因為屬性名稱是共用的，所以可以提取出來以一個1維陣列獨立存放
+          所以也可以用一個2維陣列加一個1維陣列來處理這一題，這個方式的陣列架構如下:
+
           2維陣列:
           第一維區分屬性值，有5個維度
           第二維區分學生，有5個維度
+
           1維陣列:
           區分屬性名稱，有5個維度
+
           2維陣列部份等當宣告5*5=25個變數，1維陣列部份等當宣告5*1=5個變數
           總共30個變數，比3維的方式節省20個變數，應該是比較好的選擇
+
           以下實作上述兩種方式
-         */
+        */
+
         //3維方式
+
         //第一維
         $sno1 = array('學號 : ', '101，');
         $sname1 = array('姓名 : ', '李雪毓，');
@@ -154,14 +165,17 @@
         $sgender5 = array('性別 : ', '男，');
         $sbirth5 = array('生日 : ', '2000/12/24，');
         $sphone5 = array('電話 : ', '(02)2740-8965。');
+
         //第二維
         $st1 = array($sno1, $sname1, $sgender1, $sbirth1, $sphone1);
         $st2 = array($sno2, $sname2, $sgender2, $sbirth2, $sphone2);
         $st3 = array($sno3, $sname3, $sgender3, $sbirth3, $sphone3);
         $st4 = array($sno4, $sname4, $sgender4, $sbirth4, $sphone4);
         $st5 = array($sno5, $sname5, $sgender5, $sbirth5, $sphone5);
+
         //第三維
         $sts = array($st1, $st2, $st3, $st4, $st5);
+
         //顯示結果
         foreach ($sts as $st) {
             $combiner = "";
@@ -176,17 +190,22 @@
         echo "<br>";
 
         echo "q4-2:<br><br>";
-        //2維+1維方式減少變數及程式行數
+
+        //2維+1維方式(減少變數數量、程式行數並避免在畫面上重複顯示屬性名稱)
+
         //宣告屬性名稱陣列
         $attName = array("學號", "姓名", "性別", "生日", "電話");
+
         //宣告2維陣列的第一維
         $attSet1 = array('101', '李雲毓', '女', '2000/3/14', '(02)2704-2762');
         $attSet2 = array('102', '黃冠妮', '女', '2000/6/6', '(02)2093-8123');
         $attSet3 = array('103', '韋國書', '男', '2000/7/15', '(02)2502-1314');
         $attSet4 = array('104', '劉子芸', '女', '2000/8/7', '(02)2530-7996');
         $attSet5 = array('105', '李政昀', '男', '2000/12/24', '(02)2740-8965');
+
         //宣告2維陣列的第二維
         $students = array($attSet1, $attSet2, $attSet3, $attSet4, $attSet5);
+
         //顯示結果
         echo "<table><tr>";
         foreach ($attName as $eleValue3) {
@@ -201,8 +220,10 @@
             echo "</tr>";
         }
         echo "</table>";
+
         //表格美化
         echo "<style>table,td {border:1px solid;} td {text-align:center; width:150px;}</style>"
+
         ?>
     </body>
 </html>
