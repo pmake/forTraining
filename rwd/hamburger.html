@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<!--position:absolute的元素要使其置中的方法為將top,bottom,left,right四個屬性都設成一樣，之後此元素就能使用margin:auto等指令使其置中-->
+<!--':'為虛擬類別，用以指定元素的特定狀態，例如p:hover滑鼠滑過-->
+<!--'::'為虛擬元素，指定元素的特定部位，例如p::first-letter第1個字，P::selection被使用者選取的內容部份-->
+<!--transition過場動畫效果可指定先後順序語法如以下內容範例-->
+<!--transition指的是從別的CSS設定改至transition所在的css設定時給予過場效果，而用指定延遲時間產生的先後順序意義是套用transition所在的css設定之順序-->
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+        <style>
+            .hamburger {
+                width:50px;
+                height:50px;
+                background-color:#b17575;
+                position:relative;
+            }
+            .hamburger span {
+                position: absolute;
+                display:block;
+                width:35px;
+                height:6px;
+                background-color: #896363;
+                margin:auto;
+                top:0;
+                bottom:0;
+                left:0;
+                right:0;
+                transition: .3s;/*底下另一組CSS不用設定，因為值一樣就不用改*/
+            }
+            .hamburger span::before {
+                content:'';
+                position: absolute;
+                display:block;
+                width:35px;
+                height:6px;
+                background-color: #896363;
+                top:-10px;
+                transition: transform .3s, top .3s .3s;/*先變形，再位移，位移的第二個秒數是設定和前一個過場的時間差*/
+            }
+            .hamburger span::after {
+                content:'';
+                position: absolute;
+                display:block;
+                
+                width:35px;
+                height:6px;
+                background-color: #896363;
+                bottom:-10px;
+                transition: transform .3s, bottom .3s .3s;
+            }
+            .hamburger_x span {
+                position: absolute;
+                display:block;
+                width:35px;
+                height:6px;
+                background-color: rgba(0,0,0,0);
+                margin:auto;
+                top:0;
+                bottom:0;
+                left:0;
+                right:0;
+            }
+            .hamburger_x span::before {
+                content:'';
+                position: absolute;
+                display:block;
+                width:35px;
+                height:6px;
+                background-color: #896363;
+                top:0;
+                transform: rotate(45deg);
+                transition: top .3s, transform .3s .3s;
+            }
+            .hamburger_x span::after {
+                content:'';
+                position: absolute;
+                display:block;
+                width:35px;
+                height:6px;
+                background-color: #896363;
+                bottom:0;
+                transform: rotate(-45deg);
+                transition: bottom .3s, transform .3s .3s;
+            }
+            .test {
+                width:60px;
+                height:60px;
+                background-color: #e07d7d;
+                transition: width .3s, height .3s .3s;
+            }
+            .test:hover {
+                width:120px;
+                height:120px;
+                transition: width .3s .3s, height .3s;
+            }
+        </style>
+        <script>
+            $(document).ready(function(){
+                $(".hamburger").click(function(){
+                    $(".hamburger").toggleClass("hamburger_x");
+                });
+                
+            });
+        </script>
+    </head>
+    <body>
+        <div class="hamburger"><span></span></div>
+        <br>
+        <div class="test"></div>
+    </body>
+</html>
