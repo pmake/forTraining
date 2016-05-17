@@ -58,7 +58,7 @@
     <body> 
         <div id="wrapper">
             <div id="menu">
-                <div>
+                <div id="settings">
                     線條寬:
                     <select id="size">
                         <option value="1">1</option>
@@ -69,8 +69,7 @@
                         <option value="10">10</option>
                         <option value="20">20</option>
                     </select>
-
-                    &nbsp;畫筆<input type="radio" name="drawmode" id="draw">
+                    &nbsp;畫筆<input type="radio" name="drawmode" id="draw" checked>
                     擦子<input type="radio" name="drawmode" id="era">
                     <input type="button" id="cleaner" value="清空畫布">
                 </div> 
@@ -98,7 +97,18 @@
             var msgLastNum = 0, msgFirstNum=1;
             //建立socket連線 
             var socket = io();
-
+            //預留要求歷史資料事件handler
+            //imageData不能直接傳遞，待解
+//            socket.('history request',function(data){
+//                //傳回歷史
+//                socket.emit('response history',ctx.getImageData(0,0,c.width,c.height));
+//            });
+            //取得歷史資料
+            socket.on('www',function(data){
+                ctx.putImageData(data,50,50);
+                alert('done');
+                
+            });
             //將輸入名稱傳到後端 node.js server 來通知其他人您已上線的訊息 
             socket.emit('login', userName); 
 
@@ -117,11 +127,6 @@
 
             //別人畫布上的動作，呈現在我們自己的頁面上 
             socket.on('show', function(data){ 
-                //設定筆尖大小 
-                $('#size').val( data.size ); 
-                ctx.lineWidth = data.size; 
-                //設定顏色
-                //ctx.strokeStyle = data.color;
                 //繪圖 
                 ctx.beginPath();  
                 ctx.moveTo(data.x, data.y);  
@@ -129,8 +134,6 @@
                 ctx.closePath();  
                 ctx.stroke(); 
             }); 
-
-
 
             /* 繪圖相關設定 */ 
             //宣告 canvas 元素 
@@ -158,7 +161,7 @@
 
             //滑鼠在畫布按下時的事件處理 
             $(document).on('mousedown', '#whiteboard', function(e){
-                //e.preventDefault(); 
+                e.preventDefault(); 
 
                 //打開可供畫圖的機制 
                 drawing = true; 
@@ -172,7 +175,7 @@
 
             //滑鼠在畫布上按下左右時，移動的情況 
             $(document).on('mousemove', '#whiteboard', function(e){ 
-                //e.preventDefault(); 
+                e.preventDefault(); 
 
                 //是否開啟畫圖機制 
                 if( drawing ) 
@@ -194,15 +197,22 @@
                 drawing = false; 
             }); 
 
-            //選擇筆尖大小 
-            $(document).on('change', '#size', function(e){ 
-                ctx.lineWidth = $(this).val(); 
+            //設定變更處理
+            $('#settings').on('change',function(){
+                ctx.lineWidth = $('#size').val();
+                ($('#draw').prop('checked'))? ctx.strokeStyle='#000000':ctx.strokeStyle='#ffffff';
+                var settings = {};
+                settings.size = ctx.lineWidth;
+                settings.color = ctx.strokeStyle;
+                socket.emit('settings changed',settings);
             });
-            //設定繪圖模式
-//            $(document).on('change', 'name', function(e){ 
-//                ctx.lineWidth = $(this).val();
-//                ($('#era').prop('checked'))?obj.color = '#ffffff' : obj.color = '#000000';
-//            }); 
+
+            socket.on('settings changed',function(settings){
+                $('#size').val(settings.size);
+                ctx.lineWidth = settings.size;
+                ctx.strokeStyle = settings.color;
+                (settings.color=='#ffffff')?$('#era').prop('checked',true):$('#draw').prop('checked',true);
+            });
             //畫圖，並將繪畫座標傳給網頁上的其他使用者 
             function drawLine(x, y, new_x, new_y) 
             {  
@@ -214,12 +224,11 @@
                 ctx.stroke(); 
 
                 //將繪畫座標透過 node.js 傳給使用者 
-                var obj = new Object; 
+                var obj = {}; 
                 obj.x = x; 
                 obj.y = y; 
                 obj.new_x = new_x; 
                 obj.new_y = new_y; 
-                obj.size = $('#size').val(); 
                 socket.emit('draw', obj); 
             }
             //聊天功能
@@ -248,6 +257,7 @@
                     $('#member_msg').append($('<li id='+ msgLastNum + '>').text(msg));
                 }
             });
+
 
         </script> 
     </body> 
