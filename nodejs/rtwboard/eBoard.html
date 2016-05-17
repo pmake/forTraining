@@ -7,7 +7,7 @@
         <!-- 自訂 css --> 
         <style> 
             <!-- 
-            *{ 
+            html, body, div{ 
                 margin: 0 auto; 
                 padding: 0; 
                 font-family: "微軟正黑體", "Oswald", sans-serif; 
@@ -19,6 +19,7 @@
                 width: 1000px; 
                 height: 800px; 
                 border: 2px solid; 
+                position:relative;
             }
 
             #menu{ 
@@ -40,6 +41,15 @@
             .clear{ 
                 clear: left; 
             } 
+            form {
+                position: absolute;
+                top:750px;
+                left:50px;
+            }
+            ul {
+                list-style-type: none;
+                margin-top:-5px;
+            }
             --> 
         </style>
 
@@ -48,7 +58,8 @@
     <body> 
         <div id="wrapper">
             <div id="menu">
-                <div> 
+                <div>
+                    線條寬:
                     <select id="size">
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -57,15 +68,22 @@
                         <option value="5">5</option>
                         <option value="10">10</option>
                         <option value="20">20</option>
-                    </select> 
+                    </select>
+
+                    &nbsp;畫筆<input type="radio" name="drawmode" id="draw">
+                    擦子<input type="radio" name="drawmode" id="era">
+                    <input type="button" id="cleaner" value="清空畫布">
                 </div> 
                 <hr />
-                <div id="member_msg"></div>
+                <ul id="member_msg"></ul>
             </div> 
             <div id="content">
                 <canvas id="whiteboard"></canvas>
             </div> 
             <div class="clear"></div>
+            <form action="">
+                <input id="m" autocomplete="off" /><button>Send</button>
+            </form>
         </div> 
         <!-- 外部 javascript --> 
         <script src="/socket.io/socket.io.js"></script>
@@ -76,15 +94,25 @@
 
             var userName = prompt('尊姓大名？'); //socket連線建立後使用prompt會額外建立socket，所以要在連線建立之前使用
 
+            //紀錄訊息筆數
+            var msgLastNum = 0, msgFirstNum=1;
             //建立socket連線 
             var socket = io();
-            
+
             //將輸入名稱傳到後端 node.js server 來通知其他人您已上線的訊息 
             socket.emit('login', userName); 
 
             //上線通知 
             socket.on('msg', function(data){ 
-                $('#member_msg').append('<div>' + data + '</div>'); 
+                if ((msgLastNum - msgFirstNum) < 32) {
+                    msgLastNum+=1;
+                    $('#member_msg').append($('<li id='+ msgLastNum + '>').text(data));
+                }else {
+                    $('#' + msgFirstNum).remove();
+                    msgFirstNum+=1;
+                    msgLastNum+=1;
+                    $('#member_msg').append($('<li id='+ msgLastNum + '>').text(data));
+                }
             }); 
 
             //別人畫布上的動作，呈現在我們自己的頁面上 
@@ -92,7 +120,8 @@
                 //設定筆尖大小 
                 $('#size').val( data.size ); 
                 ctx.lineWidth = data.size; 
-
+                //設定顏色
+                //ctx.strokeStyle = data.color;
                 //繪圖 
                 ctx.beginPath();  
                 ctx.moveTo(data.x, data.y);  
@@ -128,8 +157,8 @@
             var offset, x, y, new_x, new_y; 
 
             //滑鼠在畫布按下時的事件處理 
-            $(document).on('mousedown', '#whiteboard', function(e){ 
-                e.preventDefault(); 
+            $(document).on('mousedown', '#whiteboard', function(e){
+                //e.preventDefault(); 
 
                 //打開可供畫圖的機制 
                 drawing = true; 
@@ -143,7 +172,7 @@
 
             //滑鼠在畫布上按下左右時，移動的情況 
             $(document).on('mousemove', '#whiteboard', function(e){ 
-                e.preventDefault(); 
+                //e.preventDefault(); 
 
                 //是否開啟畫圖機制 
                 if( drawing ) 
@@ -168,8 +197,12 @@
             //選擇筆尖大小 
             $(document).on('change', '#size', function(e){ 
                 ctx.lineWidth = $(this).val(); 
-            }); 
-
+            });
+            //設定繪圖模式
+//            $(document).on('change', 'name', function(e){ 
+//                ctx.lineWidth = $(this).val();
+//                ($('#era').prop('checked'))?obj.color = '#ffffff' : obj.color = '#000000';
+//            }); 
             //畫圖，並將繪畫座標傳給網頁上的其他使用者 
             function drawLine(x, y, new_x, new_y) 
             {  
@@ -189,6 +222,32 @@
                 obj.size = $('#size').val(); 
                 socket.emit('draw', obj); 
             }
+            //聊天功能
+            $('form').submit(function(){
+                socket.emit('chat message', $('#m').val());
+                $('#m').val('');
+                return false;//避免重新導向(載入)
+            });
+            //清除畫布
+            $('#cleaner').click(function(){
+                ctx.clearRect(0,0,c.width,c.height);
+                socket.emit('clear canvas');
+            });
+            socket.on('clear canvas', function(){
+                ctx.clearRect(0,0,c.width,c.height);
+            });
+
+            socket.on('chat message',function(msg){
+                if ((msgLastNum - msgFirstNum) < 32) {
+                    msgLastNum+=1;
+                    $('#member_msg').append($('<li id='+ msgLastNum + '>').text(msg));
+                }else {
+                    $('#' + msgFirstNum).remove();
+                    msgFirstNum+=1;
+                    msgLastNum+=1;
+                    $('#member_msg').append($('<li id='+ msgLastNum + '>').text(msg));
+                }
+            });
 
         </script> 
     </body> 
