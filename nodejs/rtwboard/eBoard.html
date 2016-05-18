@@ -90,38 +90,48 @@
 
         <!-- 自訂 javascript --> 
         <script> 
-
+            //尚有在既存連線在更改設定後按清除畫布(會清空server的設定記錄)，新連線連線後設定不一致問題，此問題在限定主畫者功能時再解
             var userName = prompt('尊姓大名？'); //socket連線建立後使用prompt會額外建立socket，所以要在連線建立之前使用
 
             //紀錄訊息筆數
-            var msgLastNum = 0, msgFirstNum=1;
+            var msgNum = 0;
             //建立socket連線 
             var socket = io();
-            //預留要求歷史資料事件handler
-            //imageData不能直接傳遞，待解
-//            socket.('history request',function(data){
-//                //傳回歷史
-//                socket.emit('response history',ctx.getImageData(0,0,c.width,c.height));
-//            });
-            //取得歷史資料
-            socket.on('www',function(data){
-                ctx.putImageData(data,50,50);
-                alert('done');
-                
-            });
+
+
             //將輸入名稱傳到後端 node.js server 來通知其他人您已上線的訊息 
             socket.emit('login', userName); 
-
+            //接收歷史資料並載入
+            socket.on('transport history',function(data1,data2){
+                //載入既存圖畫
+                data1.forEach(function(value){
+                    if(value[0]==='s'){
+                        $('#size').val(value[1]);
+                        (value[2]=='#ffffff')?$('#era').prop('checked',true):$('#draw').prop('checked',true);
+                        ctx.lineWidth = value[1];
+                        ctx.strokeStyle = value[2];
+                    }else if(value[0]==='d'){
+                        ctx.beginPath();  
+                        ctx.moveTo(value[1], value[2]);  
+                        ctx.lineTo(value[3], value[4]);  
+                        ctx.closePath();  
+                        ctx.stroke();   
+                    }
+                })
+                //載入既存聊天訊息
+                data2.forEach(function(value){
+                    $('#member_msg').append($('<li>').text(value));
+                    msgNum+=1;
+                })
+            });
             //上線通知 
             socket.on('msg', function(data){ 
-                if ((msgLastNum - msgFirstNum) < 32) {
-                    msgLastNum+=1;
-                    $('#member_msg').append($('<li id='+ msgLastNum + '>').text(data));
+                if (msgNum > 32) {
+                    $('li:first-child').remove();
+                    $('#member_msg').append($('<li>').text(data));
                 }else {
-                    $('#' + msgFirstNum).remove();
-                    msgFirstNum+=1;
-                    msgLastNum+=1;
-                    $('#member_msg').append($('<li id='+ msgLastNum + '>').text(data));
+                    $('#member_msg').append($('<li>').text(data));
+                    msgNum+=1;
                 }
             }); 
 
@@ -233,7 +243,7 @@
             }
             //聊天功能
             $('form').submit(function(){
-                socket.emit('chat message', $('#m').val());
+                if ($('#m').val() !== '') socket.emit('chat message', $('#m').val());
                 $('#m').val('');
                 return false;//避免重新導向(載入)
             });
@@ -247,18 +257,14 @@
             });
 
             socket.on('chat message',function(msg){
-                if ((msgLastNum - msgFirstNum) < 32) {
-                    msgLastNum+=1;
-                    $('#member_msg').append($('<li id='+ msgLastNum + '>').text(msg));
+                if (msgNum > 32) {
+                    $('li:first-child').remove();
+                    $('#member_msg').append($('<li>').text(msg));
                 }else {
-                    $('#' + msgFirstNum).remove();
-                    msgFirstNum+=1;
-                    msgLastNum+=1;
-                    $('#member_msg').append($('<li id='+ msgLastNum + '>').text(msg));
+                    $('#member_msg').append($('<li>').text(msg));
+                    msgNum+=1;
                 }
             });
-
-
         </script> 
     </body> 
 </html>
