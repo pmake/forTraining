@@ -1,10 +1,13 @@
-var app = require('express')();
+var express = require('express');
+var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 //drawHistory[]=[switch,x or lineWidth,y or color,new_x,new_y]
-//用pixelNum當做時間序列紀錄各個動作的先後順序，包含設定變更，這樣就不用每筆都記錄設定選項值
+//用pixelNum當做時間序列，紀錄各個動作的先後順序，包含設定變更，這樣就不用每筆都記錄設定選項值
 //由首個元素判定是設定還是座標組
 var msgHistory = [], drawHistory = [], msgNum=0, pixelNum=0;
+//experss的靜態檔案服務
+app.use(express.static('static_files'));
 
 app.get('/', function(req, res){
     res.sendFile(__dirname + '/eBoard.html');
@@ -13,8 +16,12 @@ app.get('/', function(req, res){
 http.listen(3000, function(){
     console.log('listening on *:3000');
 });
+
 //內建的connection事件在客戶端搭建socket連線時觸發
 //每組socket連線都是獨立的個體，有各自的event和event handler
+
+//記錄繪圖軌跡以及訊息的動作是程式執行期間即時且持續進行的，所以相關程式碼效率影響很大
+//因此雖然同樣的程式碼多處重複，仍不以函數簡化，以提高運行效率
 io.on('connection', function(socket) {
     console.log('someone build a socket.');
     //登入初始化，傳送歷史資料予客戶端
@@ -45,19 +52,22 @@ io.on('connection', function(socket) {
     socket.on('draw', function(data){ 
         //將畫布作業訊息傳給其他連線 
         socket.broadcast.emit('show', data);
-        //紀錄歷史
+        //紀錄繪圖軌跡
         drawHistory[pixelNum] = ['d',data.x,data.y,data.new_x,data.new_y];
         pixelNum+=1;
     });
-    socket.on('clear canvas',function(){
+    socket.on('clear canvas',function(settings){
         socket.broadcast.emit('clear canvas');
         //重置drawHistory和pixelNum
         drawHistory=[];
         pixelNum=0;
+        //紀錄設定
+        drawHistory[pixelNum] = ['s',settings.size,settings.color];
+        pixelNum+=1;
     });
     socket.on('settings changed',function(settings){
         socket.broadcast.emit('settings changed',settings);
-        //紀錄歷史
+        //紀錄設定
         drawHistory[pixelNum] = ['s',settings.size,settings.color];
         pixelNum+=1;
     });
@@ -80,7 +90,7 @@ io.on('connection', function(socket) {
     socket.on('chat message',function(msg){
         var temp = socket.name + ' : ' + msg;
         io.emit('chat message',temp);
-        //記錄聊天訊息
+        //記錄訊息
         if(msgNum>32){
             msgHistory.shift();
             msgHistory[msgNum-1] = temp;

@@ -1,0 +1,185 @@
+//加入ctrl_z,ctrl_y功能，在繪圖設定紀錄加入前次紀錄欄位
+var userName = prompt('尊姓大名？'); //socket連線建立後使用prompt會額外建立socket，所以要在連線建立之前使用
+
+//紀錄訊息筆數
+var msgNum = 0;
+
+function msgShow(msg){
+    if (msgNum > 32) {
+        $('li:first-child').remove();
+        $('#member_msg').append($('<li>').text(msg));
+    }else {
+        $('#member_msg').append($('<li>').text(msg));
+        msgNum+=1;
+    }
+}
+
+function drawLine(x,y,new_x,new_y){
+    ctx.beginPath();  
+    ctx.moveTo(x, y);  
+    ctx.lineTo(new_x, new_y);  
+    ctx.closePath();  
+    ctx.stroke();
+}
+
+//建立socket連線 
+var socket = io();
+
+//將輸入名稱傳到後端 node.js server 來通知其他人您已上線的訊息 
+socket.emit('login', userName); 
+//接收歷史資料並載入
+socket.on('transport history',function(data1,data2){
+    //載入既存圖畫
+    data1.forEach(function(value){
+        if(value[0]==='s'){
+            $('#size').val(value[1]);
+            (value[2]=='#ffffff')?$('#era').prop('checked',true):$('#draw').prop('checked',true);
+            ctx.lineWidth = value[1];
+            ctx.strokeStyle = value[2];
+        }else if(value[0]==='d'){
+            drawLine(value[1], value[2], value[3], value[4]);
+        }
+    })
+    //載入既存聊天訊息
+    data2.forEach(function(value){
+        $('#member_msg').append($('<li>').text(value));
+        msgNum+=1;
+    })
+});
+//上線通知 
+socket.on('msg', function(data){ 
+    msgShow(data);
+}); 
+
+//別人畫布上的動作，呈現在我們自己的頁面上 
+socket.on('show', function(data){ 
+    //繪圖 
+    drawLine(data.x, data.y, data.new_x, data.new_y); 
+}); 
+
+/* 繪圖相關設定 */ 
+//宣告 canvas 元素 
+var c = document.getElementsByTagName('canvas')[0]; 
+
+//設定 canvas 寬與高 
+c.width  = 648; 
+c.height = 770; 
+
+//判斷畫布是否有動作的布林變數 
+var drawing = false; 
+
+//canvas 元素本身沒有畫作能力，僅為圖形容器，需用 javascript 來操作畫布 
+//必須透過 getContext() 來取得一個提供在 canvas 上畫圖的方法與屬性之「物件」 
+var ctx = c.getContext('2d'); 
+
+//繪圖物件初始設定 
+ctx.lineCap = 'round'; 
+ctx.lineJoin = 'round'; 
+ctx.strokeStyle = '#000000'; 
+ctx.lineWidth = 1; 
+
+//座標相關變數 
+var offset={}, x=0, y=0, new_x=0, new_y=0; 
+//offset = $('#whiteboard').offset();
+//$(window).resize(function (){
+//    offset = $('#whiteboard').offset();
+//});
+
+//滑鼠在畫布按下時的事件處理 
+$(document).on('mousedown', '#whiteboard', function(e){
+    e.preventDefault(); 
+
+    //打開可供畫圖的機制 
+    drawing = true; 
+
+    //計算相對的畫布範圍（這很重要） 
+    offset = $(e.currentTarget).offset(); 
+    x = e.pageX - offset.left;  
+    y = e.pageY - offset.top; 
+    draw(x, y, x-1, y-1); 
+}); 
+
+//滑鼠在畫布上按下左右時，移動的情況 
+$(document).on('mousemove', '#whiteboard', function(e){ 
+    e.preventDefault(); 
+
+    //是否開啟畫圖機制 
+    if( drawing ) 
+    { 
+        //計算移動後的新座標，再進行畫圖作業 
+        new_x = e.pageX - offset.left; 
+        new_y = e.pageY - offset.top; 
+        draw(x, y, new_x, new_y); 
+        x = new_x; 
+        y = new_y; 
+    } 
+}); 
+
+//放開滑鼠鍵 
+$(document).on('mouseup', '#whiteboard', function(e){ 
+    e.preventDefault(); 
+
+    //關閉繪圖機制 
+    drawing = false; 
+}); 
+
+//設定變更處理，用js做的變更不會觸發change事件
+$('#settings').on('change',function(){
+    ctx.lineWidth = $('#size').val();
+    ($('#draw').prop('checked'))? ctx.strokeStyle='#000000':ctx.strokeStyle='#ffffff';
+    var settings = {};
+    settings.size = ctx.lineWidth;
+    settings.color = ctx.strokeStyle;
+    socket.emit('settings changed',settings);
+});
+
+socket.on('settings changed',function(settings){
+    $('#size').val(settings.size);
+    ctx.lineWidth = settings.size;
+    ctx.strokeStyle = settings.color;
+    (settings.color=='#ffffff')?$('#era').prop('checked',true):$('#draw').prop('checked',true);
+});
+
+//畫圖，並將繪畫座標傳給網頁上的其他使用者 
+function draw(x, y, new_x, new_y) 
+{  
+    //繪圖 
+    drawLine(x,y,new_x,new_y)
+
+    //將繪畫座標透過 node.js 傳給使用者 
+    var obj = {}; 
+    obj.x = x; 
+    obj.y = y; 
+    obj.new_x = new_x; 
+    obj.new_y = new_y; 
+    socket.emit('draw', obj); 
+}
+
+//聊天功能
+$('form').submit(function(){
+    if ($('#m').val() !== '') socket.emit('chat message', $('#m').val());
+    $('#m').val('');
+    return false;//避免重新導向(載入)
+});
+
+//清除畫布
+$('#cleaner').click(function(){
+    ctx.clearRect(0,0,c.width,c.height);
+    //清除完自動設定成繪圖模式
+    ctx.strokeStyle = '#000';
+    $('#draw').prop('checked',true);
+    var settings = {};
+    settings.size = ctx.lineWidth;
+    settings.color = ctx.strokeStyle;
+    socket.emit('clear canvas',settings);
+});
+
+socket.on('clear canvas', function(){
+    ctx.clearRect(0,0,c.width,c.height);
+    ctx.strokeStyle = '#000';
+    $('#draw').prop('checked',true);
+});
+
+socket.on('chat message',function(msg){
+    msgShow(msg);
+});
