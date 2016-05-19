@@ -1,6 +1,4 @@
 //加入ctrl_z,ctrl_y功能，在繪圖設定紀錄加入前次紀錄欄位
-//從界外進入界內時，不應和出界點連結，而應從進入點開始畫，需修改
-//測試舊版本快整畫出界時是否會有留空，以及進入邊緣時是否有間隔
 var userName = prompt('尊姓大名？'); //socket連線建立後使用prompt會額外建立socket，所以要在連線建立之前使用
 
 //紀錄訊息筆數
@@ -14,14 +12,6 @@ function msgShow(msg){
         $('#member_msg').append($('<li>').text(msg));
         msgNum+=1;
     }
-}
-
-function drawLine(x,y,new_x,new_y){
-    ctx.beginPath();  
-    ctx.moveTo(x, y);  
-    ctx.lineTo(new_x, new_y);  
-    ctx.closePath();  
-    ctx.stroke();
 }
 
 //建立socket連線 
@@ -39,7 +29,11 @@ socket.on('transport history',function(data1,data2){
             ctx.lineWidth = value[1];
             ctx.strokeStyle = value[2];
         }else if(value[0]==='d'){
-            drawLine(value[1], value[2], value[3], value[4]);
+            ctx.beginPath();  
+            ctx.moveTo(value[1], value[2]);  
+            ctx.lineTo(value[3],value[4]);  
+            ctx.closePath();  
+            ctx.stroke();
         }
     })
     //載入既存聊天訊息
@@ -56,7 +50,11 @@ socket.on('msg', function(data){
 //別人畫布上的動作，呈現在我們自己的頁面上 
 socket.on('show', function(data){ 
     //繪圖 
-    drawLine(data.x, data.y, data.new_x, data.new_y); 
+    ctx.beginPath();  
+    ctx.moveTo(data.x, data.y);  
+    ctx.lineTo(data.new_x, data.new_y);  
+    ctx.closePath();  
+    ctx.stroke(); 
 }); 
 
 /* 繪圖相關設定 */ 
@@ -88,7 +86,7 @@ $(window).resize(function (){
     offset = $('#whiteboard').offset();
 });
 
-//滑鼠在畫布按下、移動、釋放時的事件處理  
+//滑鼠在畫布按下、移動、釋放時的事件處理，on方法可一次指定多事件，多handler
 $('#whiteboard').on({
     mousedown: function(e){
         e.preventDefault();//關閉滑鼠左鍵按下時預設的拖曳選取功能
@@ -100,24 +98,25 @@ $('#whiteboard').on({
         x = e.pageX - offset.left;  
         y = e.pageY - offset.top; 
         draw(x, y, x-1, y-1); 
-    },
-    mousemove: function(e){ 
-        e.preventDefault();//關閉滑鼠左鍵按下移動時預設的遊標變化功能
+    }
+});
+//on方法對本身及子元素，既存和未來新增的元素都會產生效果，理論上效率應會較差，因此此處採用一般方法掛載handler
+$('#whiteboard').mousemove(function(e){ 
+    e.preventDefault();//關閉滑鼠左鍵按下移動時預設的遊標變化功能
 
-        //是否開啟畫圖機制 
-        if( drawing ) 
-        { 
-            //計算移動後的新座標，再進行畫圖作業 
-            new_x = e.pageX - offset.left; 
-            new_y = e.pageY - offset.top; 
-            draw(x, y, new_x, new_y); 
-            x = new_x; 
-            y = new_y; 
-        } 
+    //是否開啟畫圖機制 
+    if( drawing ) 
+    { 
+        //計算移動後的新座標，再進行畫圖作業 
+        new_x = e.pageX - offset.left; 
+        new_y = e.pageY - offset.top; 
+        draw(x, y, new_x, new_y);
+        x = new_x; 
+        y = new_y; 
     }
 });
 
-$(document).on('mouseup', function(e){ 
+$(document).mouseup(function(e){ 
     e.preventDefault(); 
 
     //關閉繪圖機制，即使不是在畫布上釋放按鍵 
@@ -145,7 +144,11 @@ socket.on('settings changed',function(settings){
 function draw(x, y, new_x, new_y) 
 {  
     //繪圖 
-    drawLine(x,y,new_x,new_y)
+    ctx.beginPath();  
+    ctx.moveTo(x, y);  
+    ctx.lineTo(new_x, new_y);  
+    ctx.closePath();  
+    ctx.stroke();
 
     //將繪畫座標透過 node.js 傳給使用者 
     var obj = {}; 
