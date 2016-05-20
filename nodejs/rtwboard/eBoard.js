@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-//drawHistory[]=[switch,x or lineWidth,y or color,new_x,new_y]
+//drawHistory[]=[switch,x or color,y or lineWidth,new_x or ex_color,new_y or ex_lineWidth]
 //用pixelNum當做時間序列，紀錄各個動作的先後順序，包含設定變更，這樣就不用每筆都記錄設定選項值
 //由首個元素判定是設定還是座標組
 var msgHistory = [], drawHistory = [], msgNum=0, pixelNum=0;
@@ -62,13 +62,13 @@ io.on('connection', function(socket) {
         drawHistory=[];
         pixelNum=0;
         //紀錄設定
-        drawHistory[pixelNum] = ['s',settings.size,settings.color];
+        drawHistory[pixelNum] = ['s',settings.color,settings.size];
         pixelNum+=1;
     });
     socket.on('settings changed',function(settings){
         socket.broadcast.emit('settings changed',settings);
         //紀錄設定
-        drawHistory[pixelNum] = ['s',settings.size,settings.color];
+        drawHistory[pixelNum] = ['s', settings.color, settings.size, settings.ex_color, settings.ex_size];
         pixelNum+=1;
     });
     //離線 
@@ -98,5 +98,11 @@ io.on('connection', function(socket) {
             msgHistory[msgNum] = temp;
             msgNum+=1;
         }
+    });
+
+    //取消筆畫
+    socket.on('cancel',function(){
+        //以原色彩判定是否為擦子或清空後的設定紀錄
+        
     });
 });

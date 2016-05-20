@@ -1,6 +1,6 @@
 //加入回溯功能，在繪圖設定紀錄加入前次紀錄欄位
 //1次數點，執行以擦子重畫，並直接刪除紀錄，只能回溯畫筆數據，遇到擦子紀錄則使回溯無效化
-var userName = prompt('尊姓大名？'); //socket連線建立後使用prompt會額外建立socket，所以要在連線建立之前使用
+var userName = prompt('請輸入暱稱'); //socket連線建立後使用prompt會額外建立socket，所以要在連線建立之前使用
 
 //紀錄訊息筆數
 var msgNum = 0;
@@ -25,10 +25,10 @@ socket.on('transport history',function(data1,data2){
     //載入既存圖畫
     data1.forEach(function(value){
         if(value[0]==='s'){
-            $('#size').val(value[1]);
-            (value[2]=='#ffffff')?$('#era').prop('checked',true):$('#draw').prop('checked',true);
-            ctx.lineWidth = value[1];
-            ctx.strokeStyle = value[2];
+            (value[1]=='#ffffff')?$('#era').prop('checked',true):$('#draw').prop('checked',true);
+            $('#size').val(value[2]);
+            ctx.strokeStyle = value[1];
+            ctx.lineWidth = value[2];
         }else if(value[0]==='d'){
             ctx.beginPath();  
             ctx.moveTo(value[1], value[2]);  
@@ -126,19 +126,23 @@ $(document).mouseup(function(e){
 
 //設定變更處理，用js做的變更不會觸發change事件
 $('#settings').on('change',function(){
+    //改變之前先記錄原設定
+    var settings = {};
+    settings.ex_color = ctx.strokeStyle;
+    settings.ex_size = ctx.lineWidth;
+    //套用變更
     ctx.lineWidth = $('#size').val();
     ($('#draw').prop('checked'))? ctx.strokeStyle='#000000':ctx.strokeStyle='#ffffff';
-    var settings = {};
-    settings.size = ctx.lineWidth;
     settings.color = ctx.strokeStyle;
+    settings.size = ctx.lineWidth;
     socket.emit('settings changed',settings);
 });
 
 socket.on('settings changed',function(settings){
-    $('#size').val(settings.size);
-    ctx.lineWidth = settings.size;
     ctx.strokeStyle = settings.color;
     (settings.color=='#ffffff')?$('#era').prop('checked',true):$('#draw').prop('checked',true);
+    $('#size').val(settings.size);
+    ctx.lineWidth = settings.size;
 });
 
 //畫圖，並將繪畫座標傳給網頁上的其他使用者 
@@ -174,8 +178,8 @@ $('#cleaner').click(function(){
     ctx.strokeStyle = '#000';
     $('#draw').prop('checked',true);
     var settings = {};
-    settings.size = ctx.lineWidth;
     settings.color = ctx.strokeStyle;
+    settings.size = ctx.lineWidth;
     socket.emit('clear canvas',settings);
 });
 
@@ -188,3 +192,18 @@ socket.on('clear canvas', function(){
 socket.on('chat message',function(msg){
     msgShow(msg);
 });
+
+//取消筆畫
+document.getElementById("btn_cancel").onclick = function (
+
+){
+    socket.emit('cancel');
+};
+
+
+
+
+
+
+
+
