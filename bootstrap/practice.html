@@ -4,6 +4,8 @@
     <head>
         <meta charset="UTF-8">
         <title>Document</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+        <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
         <!-- Optional theme -->
@@ -13,14 +15,82 @@
         <!-- Latest compiled and minified JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
         <style>
-            img {
-                width:100%;
+            .header {
+                background-image: url(images/intro-bg.jpg);
+                background-size: cover;
+                height:500px;
+            }
+            a[class="navbar-brand"], .navbar-right li a{
+                color:#5E5E5E!important;
+            }
+            ul li a {
+                letter-spacing: 3px!important;
+            }
+            .container h1,.container h3 {
+                color:#F8F8F8;
+            }
+            .intromsg {
+                height:500px;
+                padding-top:100px;
+            }
+            .header .middler1 {
+                height:300px;
+                padding-top:10px;
+            }
+            .header .middler1 .middler2 {
+                height:280px;
+            }
+            .intromsg h1 {
+                font-size:38px;
+            }
+/*
+            .middlize {
+                height:600px;
+                background-color: aqua;
+                margin-bottom: 20px;
+                                margin-top:20px;
+            }
+*/
+            .underp {
+                background-color: #eda256;
+            }
+            .testp {
+                /*                display:block;*/
+                /*                height:100px;*/
+                /*                                margin-top:20px;*/
+                padding-top:20px;
+                border-top:solid;
+                border-top-width:15px;
+                /*                padding-bottom:20px;*/
+                background-color: #999;
+            }
+            .test1 {
+                height:200px;
+                background-color: #417171;
+                /*                margin-top:20px;*/
+                /*                margin-top:15px;*/
+            }
+            .test11 {
+                height:200px;
+                background-color: #d2db8f;
+                padding-top:200px;
+            }
+            .test2 {
+                height:150px;
+                background-color: #cb88c8;
+                padding-top:15px;
+            }
+            .test3 {
+                height:100px;
+                background-color: #353b6d;
+                padding-bottom: 20px;
+                margin-bottom: 30px;
             }
         </style>
     </head>
     <body>
-        <div class="container">
-            <nav class="navbar navbar-default" role="navigation">
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="container">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
@@ -36,12 +106,88 @@
                 <div class="collapse navbar-collapse navbar-ex1-collapse">
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="#">About</a></li>
-                        <li><a href="#">Services</a></li>
+                        <li><a href="#">Service</a></li>
                         <li><a href="#">Contact</a></li>
+
                     </ul>
                 </div><!-- /.navbar-collapse -->
-            </nav>
+            </div>
+        </nav>
+        <div class="header">
+            <div class="container">
+                <div class="intromsg">
+                    <div class="middler1">
+                        <div class="col-lg-6 col-lg-offset-3 middler2 middlize">
+                            <h1>Landing Page</h1>
+                            <h3>A Template by Start Bootstrap</h3>
+                            <hr>
+                            <ul class="list-inline">
+                                <li><a href="" class="btn btn-default btn-lg"><i class="fa fa-twitter fa-fw"></i>Twitter</a></li>
+                                <li><a href="" class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i>Github</a></li>
+                                <li><a href="" class="btn btn-default btn-lg"><i class="fa fa-linkedin fa-fw"></i>Linkedin</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <img src="http://lorempicsum.com/up/1200/300/1" alt="">
+        <div class="amiddlize">
+            <p class='testp'>123456</p>
+            <div class="test1"><div class="test11"></div></div>
+            <div class="test2"></div>
+            <div class="test3">12313123</div>
+        </div>
+        <p class="underp">dafafaf</p>
+        <script>
+            //容器中有多個block子元素時，使最上與最底的子元素與容器間距相同
+            function middlizer(){
+                var eleTtlHeight=0, conTtlHeight=0, firChiTop=0, lasChiBot=0, ttlDiff=0, diff=0, styleEle={}, styleCon={};
+                //取得容器元素
+                var container = document.getElementsByClassName('middlize')[0];
+                styleCon = window.getComputedStyle(container);
+                //取得容器子元素
+                var eles = container.children;
+                //統計子元素總高度
+                for(var i=0;i<eles.length;i++){
+                    //取得計算後的css屬性值
+                    styleEle = window.getComputedStyle(eles[i]);
+                    //上部
+                    if (i!=0){
+                        eleTtlHeight+=parseInt(styleEle.getPropertyValue('margin-top'));
+                    }else if (i==0){
+                        if(parseInt(styleCon.getPropertyValue('paddiing-top'))!=0){
+                            eleTtlHeight+=parseInt(styleEle.getPropertyValue('margin-top'));
+                            firChiTop+=parseInt(styleEle.getPropertyValue('margin-top'));
+                        }
+                        firChiTop+=parseInt(styleEle.getPropertyValue('border-top-width'));
+                        firChiTop+=parseInt(styleEle.getPropertyValue('padding-top'));
+                    }
+                    //內容
+                    eleTtlHeight+=parseInt(styleEle.getPropertyValue('height'));
+                    //下部
+                    if(i!=eles.length-1){
+                        eleTtlHeight+=parseInt(styleEle.getPropertyValue('margin-bottom'));
+                    }else if (i==eles.length-1){
+                        lasChiBot+=parseInt(styleEle.getPropertyValue('padding-bottom'));
+                        lasChiBot+=parseInt(styleEle.getPropertyValue('border-bottom-width'));
+                    }
+
+                }
+                //統計容器高度(不含margin與border)
+                conTtlHeight+=parseInt(styleCon.getPropertyValue('height'));
+                conTtlHeight-=parseInt(styleCon.getPropertyValue('border-top-width'));
+                conTtlHeight-=parseInt(styleCon.getPropertyValue('border-bottom-width'));
+                //計算容器與子元素高度差
+                ttlDiff = conTtlHeight-eleTtlHeight;
+                //計算首子元素內容上部高與尾子元素內容下部高差
+                diff = firChiTop-lasChiBot;
+                //計算容器上部padding值並設定
+                container.style.paddingTop = (ttlDiff-diff)/2 + 'px';
+                //計算容器下部padding值並設定
+                container.style.paddingBottom = (ttlDiff+diff)/2 + 'px';
+                //當容器的padding-top為0時首子元素的margin-top不用計，否則要計，height含padding和border
+            }
+            middlizer();
+        </script>
     </body>
 </html>
