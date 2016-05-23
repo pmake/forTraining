@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+        <style>
+            html, body {
+                margin:0;
+                padding:0;
+            }
+            .middlize {
+                height:400px;
+                background-color: aqua;
+                background-image: url(images/intro-bg.jpg);
+                padding-top:100px;
+                padding-bottom: 100px;
+            }
+            h1 {
+/*                margin-top:10px;*/
+                border-top:35px solid;
+                padding-top:135px;
+                /*                height:37px;*/
+                padding-bottom:0px;
+                /*                border-bottom:35px solid;*/
+                margin-bottom:5px;
+            }
+            h3 {
+                margin-top:10px;
+                /*                border-top:35px solid;
+                /*                padding-top:35px;*/
+                /*                height:22px;*/
+                /*                padding-bottom:35px;*/
+                /*                border-bottom:35px solid;*/
+                margin-bottom:10px;
+            }
+            hr {
+                margin-top:5px;
+                /*                border-top:35px solid;*/
+                /*                padding-top:35px;*/
+                /*                height:37px;*/
+                /*                padding-bottom:35px;*/
+                /*                border-bottom:35px solid;*/
+                margin-bottom:10px;
+            }
+            ul {
+                margin-top:15px;
+                /*                border-top:35px solid;*/
+                /*                padding-top:35px;*/
+                /*                height:0px;*/
+                /*                padding-bottom:3500px;*/
+                /*                border-bottom:350px solid;*/
+                margin-bottom:50px;
+            }
+            .comparer {
+                position: absolute;
+                top:0px;
+                left:0px;
+                height:225px;
+                width:100%;
+                background-color: rgba(100,100,100,0.6);
+                z-index: 50;
+            }
+        </style>
+    </head>
+    <body>
+       <div class="comparer"></div>
+        <div class="middler1">
+            <div class="middlize">
+                <h1>Landing Page</h1>
+                <h3>A Template by Start Bootstrap</h3>
+                <hr>
+                <ul class="list-inline">
+                    <li><a href="" class="btn btn-default btn-lg"><i class="fa fa-twitter fa-fw"></i>Twitter</a></li>
+                    <li><a href="" class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i>Github</a></li>
+                    <li><a href="" class="btn btn-default btn-lg"><i class="fa fa-linkedin fa-fw"></i>Linkedin</a></li>
+                </ul>
+            </div>
+        </div>
+        <script>
+            //容器中有多個block子元素時，使最上與最底的子元素與容器間距相同
+            //容器padding-top+height+padding-bottom為視覺高度
+            //上下元素間若有margin交錯，取大者生效
+            //首元素margin-top不影響，除非容器有padding-top
+            function middlizer(){
+                var eleTtlHeight=0, conTtlHeight=0, firChiTop=0, styleEle={}, styleCon={}, firChiEle={}, conPadTop=0, firPadTop=0, marginArr=[], modifyVol=0;
+                //取得容器元素
+                var container = document.getElementsByClassName('middlize')[0];
+                styleCon = window.getComputedStyle(container);
+                //計算容器視覺高度
+                conPadTop=parseInt(styleCon.getPropertyValue('padding-top'));
+                conTtlHeight=conPadTop;
+                conTtlHeight+=parseInt(styleCon.getPropertyValue('height'));
+                conTtlHeight+=parseInt(styleCon.getPropertyValue('padding-bottom'));
+                //取得容器子元素
+                var eles = container.children;
+                //統計子元素高度
+                for(var i=0;i<eles.length;i++){
+                    //取得計算後的css屬性值
+                    styleEle = window.getComputedStyle(eles[i]);
+                    if(i==0){
+                        firChiEle=eles[i];
+                        //計算首元素內容上方高度firChiTop與至尾元素height為止的高度
+                        if(conPadTop!=0) {
+                            firChiTop+=parseInt(styleEle.getPropertyValue('margin-top'));
+                        }
+                        firChiTop+=parseInt(styleEle.getPropertyValue('border-top-width'));
+                        firPadTop=parseInt(styleEle.getPropertyValue('padding-top'));
+                        firChiTop+=firPadTop;
+                        eleTtlHeight+=parseInt(styleEle.getPropertyValue('height'));
+                        if(i!=eles.length-1){
+                            eleTtlHeight+=parseInt(styleEle.getPropertyValue('padding-bottom'));
+                            eleTtlHeight+=parseInt(styleEle.getPropertyValue('border-bottom-width'));
+                        }
+                    }else if(i!=eles.length-1){
+                        eleTtlHeight+=parseInt(styleEle.getPropertyValue('border-top-width'));
+                        eleTtlHeight+=parseInt(styleEle.getPropertyValue('padding-top'));
+                        eleTtlHeight+=parseInt(styleEle.getPropertyValue('height'));
+                        eleTtlHeight+=parseInt(styleEle.getPropertyValue('padding-bottom'));
+                        eleTtlHeight+=parseInt(styleEle.getPropertyValue('border-bottom-width'));
+                    }else if(i==eles.length-1){
+                        eleTtlHeight+=parseInt(styleEle.getPropertyValue('border-top-width'));
+                        eleTtlHeight+=parseInt(styleEle.getPropertyValue('padding-top'));
+                        eleTtlHeight+=parseInt(styleEle.getPropertyValue('height'));
+                    }
+                    //margin用max另外處理
+                    marginArr[i]= [parseInt(styleEle.getPropertyValue('margin-top')),parseInt(styleEle.getPropertyValue('margin-bottom'))];
+                    if(i!=0){
+                        eleTtlHeight+=Math.max(marginArr[i-1][1],marginArr[i][0]);
+                    }
+                }
+                //上部高conPadTop+firChiTop
+                //底部餘高conTtlHeight-conPadTop-firChiTop-eleTtlHeight
+                //上部padding調整值
+                modifyVol = (conPadTop*2+firChiTop*2-conTtlHeight+eleTtlHeight)/2;
+                //調整後的padding-top值
+                firPadTop-=modifyVol;
+                firChiEle.style.paddingTop = firPadTop + 'px';
+                alert(conTtlHeight);
+                alert(eleTtlHeight);
+            }
+            middlizer();
+        </script>
+    </body>
+</html>
