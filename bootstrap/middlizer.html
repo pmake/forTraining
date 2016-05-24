@@ -18,46 +18,55 @@
                 padding-bottom: 100px;
             }
             h1 {
-/*                margin-top:10px;*/
-                border-top:35px solid;
+                                margin-top:10px;
+                border-top:0px solid;
                 padding-top:135px;
-                /*                height:37px;*/
+                                height:37px;
                 padding-bottom:0px;
-                /*                border-bottom:35px solid;*/
+                                border-bottom:0px solid;
                 margin-bottom:5px;
             }
             h3 {
                 margin-top:10px;
                 /*                border-top:35px solid;
                 /*                padding-top:35px;*/
-                /*                height:22px;*/
+                                height:22px;
                 /*                padding-bottom:35px;*/
                 /*                border-bottom:35px solid;*/
                 margin-bottom:10px;
             }
             hr {
                 margin-top:5px;
-                /*                border-top:35px solid;*/
+/*                                border-top:0px solid;*/
                 /*                padding-top:35px;*/
                 /*                height:37px;*/
                 /*                padding-bottom:35px;*/
-                /*                border-bottom:35px solid;*/
+/*                                border-bottom:0px solid;*/
                 margin-bottom:10px;
             }
             ul {
                 margin-top:15px;
                 /*                border-top:35px solid;*/
                 /*                padding-top:35px;*/
-                /*                height:0px;*/
+                                height:55px;
                 /*                padding-bottom:3500px;*/
                 /*                border-bottom:350px solid;*/
                 margin-bottom:50px;
             }
-            .comparer {
+            .comparer1 {
                 position: absolute;
                 top:0px;
                 left:0px;
-                height:225px;
+                height:224.928571px;
+                width:100%;
+                background-color: rgba(100,100,100,0.6);
+                z-index: 50;
+            }
+            .comparer2 {
+                position: absolute;
+                top:375.0714px;
+                left:0px;
+                height:224.928571px;
                 width:100%;
                 background-color: rgba(100,100,100,0.6);
                 z-index: 50;
@@ -65,7 +74,8 @@
         </style>
     </head>
     <body>
-       <div class="comparer"></div>
+        <div class="comparer1"></div>
+        <div class="comparer2"></div>
         <div class="middler1">
             <div class="middlize">
                 <h1>Landing Page</h1>
@@ -79,6 +89,8 @@
             </div>
         </div>
         <script>
+
+
             //容器中有多個block子元素時，使最上與最底的子元素與容器間距相同
             //容器padding-top+height+padding-bottom為視覺高度
             //上下元素間若有margin交錯，取大者生效
@@ -89,10 +101,10 @@
                 var container = document.getElementsByClassName('middlize')[0];
                 styleCon = window.getComputedStyle(container);
                 //計算容器視覺高度
-                conPadTop=parseInt(styleCon.getPropertyValue('padding-top'));
+                conPadTop=parseFloat(styleCon.getPropertyValue('padding-top'));
                 conTtlHeight=conPadTop;
-                conTtlHeight+=parseInt(styleCon.getPropertyValue('height'));
-                conTtlHeight+=parseInt(styleCon.getPropertyValue('padding-bottom'));
+                conTtlHeight+=parseFloat(styleCon.getPropertyValue('height'));
+                conTtlHeight+=parseFloat(styleCon.getPropertyValue('padding-bottom'));
                 //取得容器子元素
                 var eles = container.children;
                 //統計子元素高度
@@ -103,29 +115,29 @@
                         firChiEle=eles[i];
                         //計算首元素內容上方高度firChiTop與至尾元素height為止的高度
                         if(conPadTop!=0) {
-                            firChiTop+=parseInt(styleEle.getPropertyValue('margin-top'));
+                            firChiTop+=parseFloat(styleEle.getPropertyValue('margin-top'));
                         }
-                        firChiTop+=parseInt(styleEle.getPropertyValue('border-top-width'));
-                        firPadTop=parseInt(styleEle.getPropertyValue('padding-top'));
+                        firChiTop+=parseFloat(styleEle.getPropertyValue('border-top-width'));
+                        firPadTop=parseFloat(styleEle.getPropertyValue('padding-top'));
                         firChiTop+=firPadTop;
-                        eleTtlHeight+=parseInt(styleEle.getPropertyValue('height'));
+                        eleTtlHeight+=parseFloat(styleEle.getPropertyValue('height'));
                         if(i!=eles.length-1){
-                            eleTtlHeight+=parseInt(styleEle.getPropertyValue('padding-bottom'));
-                            eleTtlHeight+=parseInt(styleEle.getPropertyValue('border-bottom-width'));
+                            eleTtlHeight+=parseFloat(styleEle.getPropertyValue('padding-bottom'));
+                            eleTtlHeight+=parseFloat(styleEle.getPropertyValue('border-bottom-width'));
                         }
                     }else if(i!=eles.length-1){
-                        eleTtlHeight+=parseInt(styleEle.getPropertyValue('border-top-width'));
-                        eleTtlHeight+=parseInt(styleEle.getPropertyValue('padding-top'));
-                        eleTtlHeight+=parseInt(styleEle.getPropertyValue('height'));
-                        eleTtlHeight+=parseInt(styleEle.getPropertyValue('padding-bottom'));
-                        eleTtlHeight+=parseInt(styleEle.getPropertyValue('border-bottom-width'));
+                        eleTtlHeight+=parseFloat(styleEle.getPropertyValue('border-top-width'));
+                        eleTtlHeight+=parseFloat(styleEle.getPropertyValue('padding-top'));
+                        eleTtlHeight+=parseFloat(styleEle.getPropertyValue('height'));
+                        eleTtlHeight+=parseFloat(styleEle.getPropertyValue('padding-bottom'));
+                        eleTtlHeight+=parseFloat(styleEle.getPropertyValue('border-bottom-width'));
                     }else if(i==eles.length-1){
-                        eleTtlHeight+=parseInt(styleEle.getPropertyValue('border-top-width'));
-                        eleTtlHeight+=parseInt(styleEle.getPropertyValue('padding-top'));
-                        eleTtlHeight+=parseInt(styleEle.getPropertyValue('height'));
+                        eleTtlHeight+=parseFloat(styleEle.getPropertyValue('border-top-width'));
+                        eleTtlHeight+=parseFloat(styleEle.getPropertyValue('padding-top'));
+                        eleTtlHeight+=parseFloat(styleEle.getPropertyValue('height'));
                     }
                     //margin用max另外處理
-                    marginArr[i]= [parseInt(styleEle.getPropertyValue('margin-top')),parseInt(styleEle.getPropertyValue('margin-bottom'))];
+                    marginArr[i]= [parseFloat(styleEle.getPropertyValue('margin-top')),parseFloat(styleEle.getPropertyValue('margin-bottom'))];
                     if(i!=0){
                         eleTtlHeight+=Math.max(marginArr[i-1][1],marginArr[i][0]);
                     }
@@ -137,10 +149,49 @@
                 //調整後的padding-top值
                 firPadTop-=modifyVol;
                 firChiEle.style.paddingTop = firPadTop + 'px';
-                alert(conTtlHeight);
-                alert(eleTtlHeight);
+                console.log('middlizer result');
+                console.log('===================================');
+                console.log('conTtlHeight: ' + conTtlHeight);
+                console.log('eleTtlHeight: ' + eleTtlHeight);
+                console.log('firChiTop: ' + firChiTop);
+                console.log('ori_firPadTop: ' + (firPadTop + modifyVol));
+                console.log('modifyVol: ' + modifyVol);
+                console.log('mod_firPadTop: ' + firPadTop);
             }
+            properViewer();
             middlizer();
+            
+            function properViewer(){
+                var container = document.getElementsByClassName('middlize')[0], 
+                    eles = container.children, computedStyle={};
+                //show容器屬性
+                computedStyle = window.getComputedStyle(container);
+                console.log('container properties');
+                console.log('===================================');
+                console.log('margin-top: ' + computedStyle.getPropertyValue('margin-top'));
+                console.log('border-top-width: ' + computedStyle.getPropertyValue('border-top-width'));
+                console.log('padding-top: ' + computedStyle.getPropertyValue('padding-top'));
+                console.log('height: ' + computedStyle.getPropertyValue('height'));
+                console.log('padding-bottom: ' + computedStyle.getPropertyValue('padding-bottom'));
+                console.log('border-bottom-width: ' + computedStyle.getPropertyValue('border-bottom-width'));
+                console.log('margin-bottom: ' + computedStyle.getPropertyValue('margin-bottom'));
+
+                //show子元素屬性
+                for(var i=0;i<eles.length;i++){
+                    computedStyle = window.getComputedStyle(eles[i]);
+                    console.log('child ' + i + ' properties');
+                    console.log('===================================');
+                    console.log('margin-top: ' + computedStyle.getPropertyValue('margin-top'));
+                    console.log('border-top-width: ' + computedStyle.getPropertyValue('border-top-width'));
+                    console.log('padding-top: ' + computedStyle.getPropertyValue('padding-top'));
+                    console.log('height: ' + computedStyle.getPropertyValue('height'));
+                    console.log('padding-bottom: ' + computedStyle.getPropertyValue('padding-bottom'));
+                    console.log('border-bottom-width: ' + computedStyle.getPropertyValue('border-bottom-width'));
+                    console.log('margin-bottom: ' + computedStyle.getPropertyValue('margin-bottom'));
+
+                }
+            }
+            properViewer();
         </script>
     </body>
 </html>
