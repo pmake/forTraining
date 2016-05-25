@@ -4,8 +4,8 @@
 //middlize, showProperty(在console秀出目標的全部屬性)
 
 var ast = {};
-ast.users ={};
-ast.services={};
+ast.users = {};
+ast.services= {};
 
 //指定物件方法不是宣告，不會hoist，所以要先定義
 //置中
