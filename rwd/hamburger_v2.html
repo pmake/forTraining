@@ -1,5 +1,5 @@
 <!--用media判斷套用的css，在視窗大小改變時，套用不同的css，是覆蓋的概念，當視窗經過多次調整，且前次套用的某css屬性優先權高於本次套用，本次套用的該屬性即會無效而是使用前次的該屬性值-->
-
+<!--js的setAttribute方法是操作元素上的style屬性，而不是css，style直接與元素結合，優先度很高-->
 <!--解決優先權問題-->
 <!DOCTYPE html>
 <html lang="en">
@@ -29,7 +29,7 @@
                     color:rgb(248,248,248);
                     padding:15px;
                 }
-                nav ul {
+                #test {
                     display:block!important;
                     float:right;
                     margin:0;
@@ -96,7 +96,8 @@
             $(document).ready(function(){
                 $(".hamburger").click(function(){
                     $(".hamburger").toggleClass("hamburger_x");
-                    $(".pri").slideToggle();
+                    var test = document.getElementById("test");
+                    $('#test').css('display', 'block!important');
                 });
             });
         </script>
@@ -105,13 +106,13 @@
         <nav>
             <div class="logo">Logo</div>
             <div class="hamburger"><span></span></div>
-            <ul class="pri">
+            <ul class="ast spt" id="test">
                 <a href="javascript:;"><li>About</li></a>
                 <a href="javascript:;"><li>Service</li></a>
                 <a href="javascript:;"><li>Product</li></a>
                 <a href="javascript:;"><li>Contact</li></a>
             </ul>
         </nav>
-
+        <script src='../bootstrap/assistant.js'></script>
     </body>
 </html>

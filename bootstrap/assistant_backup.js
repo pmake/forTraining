@@ -75,9 +75,11 @@ ast.services.middlize = function (user){
     //調整後的padding-top值
     firPadTop-=modifyVol;
     firChiEle.style.paddingTop = firPadTop + 'px';
+    console.log('=======================================');
+    console.log('You should set padding-top of first child to [ ' + firPadTop + ' ] px for middlize.');
     //debug用
     //    console.log('middlizer result');
-    //    console.log('=================================');
+    //    console.log('=======================================');
     //    console.log('conTtlHeight: ' + conTtlHeight);
     //    console.log('eleTtlHeight: ' + eleTtlHeight);
     //    console.log('distance: ' + (conTtlHeight-eleTtlHeight)/2);
@@ -91,6 +93,7 @@ ast.services.middlize = function (user){
 //揭露元素所有css屬性
 ast.services.showProperty = function (user){
     var userPpt = window.getComputedStyle(user);
+    console.log('=======================================');
     for(var i=0;i<userPpt.length;i++){
         console.log(userPpt[i] + ': ' + userPpt.getPropertyValue(userPpt[i]));
     }
@@ -124,7 +127,7 @@ function properViewer(user){
     //show容器屬性
     computedStyle = window.getComputedStyle(user);
     console.log('container properties');
-    console.log('=================================');
+    console.log('=======================================');
     console.log('margin-top: ' + computedStyle.getPropertyValue('margin-top'));
     console.log('border-top-width: ' + computedStyle.getPropertyValue('border-top-width'));
     console.log('padding-top: ' + computedStyle.getPropertyValue('padding-top'));
@@ -136,7 +139,7 @@ function properViewer(user){
     for(var i=0;i<eles.length;i++){
         computedStyle = window.getComputedStyle(eles[i]);
         console.log('child ' + i + ' properties');
-        console.log('=================================');
+        console.log('=======================================');
         console.log('margin-top: ' + computedStyle.getPropertyValue('margin-top'));
         console.log('border-top-width: ' + computedStyle.getPropertyValue('border-top-width'));
         console.log('padding-top: ' + computedStyle.getPropertyValue('padding-top'));
