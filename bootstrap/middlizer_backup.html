@@ -1,139 +1,121 @@
 <!DOCTYPE html>
-<!--http://blackrockdigital.github.io/startbootstrap-landing-page/-->
 <html lang="en">
     <head>
         <meta charset="UTF-8">
         <title>Document</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
-        <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-
-        <!-- Optional theme -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
-        <!--Jquery，因下段js內容有使用到jquery，需在其之前導入才能正常運作-->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-        <!-- Latest compiled and minified JavaScript -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
         <style>
-            html, body{
+            html, body {
+                margin:0;
                 padding:0;
             }
-            .header {
-                background-image: url(images/intro-bg.jpg);
-                background-size: cover;
-                height:500px;
-            }
-            a[class="navbar-brand"], .navbar-right li a{
-                color:#5E5E5E!important;
-            }
-            ul li a {
-                letter-spacing: 3px!important;
-            }
-            .container h1,.container h3 {
-                color:#F8F8F8;
-            }
-            .intromsg {
-                height:500px;
-                /*                padding-top:100px;*/
-            }
-            .header .middler1 {
-                height:300px;
-                position: relative;
-                /*                padding-top:10px;*/
-            }
-            .header .middler1 .middler2 {
-                height:280px;
-            }
-            .intromsg h1 {
-                font-size:38px;
-            }
             .middlize {
-                height:600px;
+/*                height:800px;*/
                 background-color: aqua;
-                /*                float:none;*/
-
+                background-image: url(images/intro-bg.jpg);
+                padding-top:100px;
+                padding-bottom: 100px;
             }
-            .t1 {
+            h1 {
+                margin-top:10px;
+                border-top:35px solid;
+                padding-top:135px;
+                height:37px;
+                padding-bottom:0px;
+                border-bottom:35px solid;
+                margin-bottom:5px;
+            }
+            h3 {
+                margin-top:10px;
+                border-top:35px solid;
+                padding-top:35px;
+                height:22px;
+                padding-bottom:35px;
+                border-bottom:35px solid;
+                margin-bottom:10px;
+            }
+            hr {
+                margin-top:5px;
+                border-top:35px solid;
+                padding-top:35px;
+                height:37px;
+                padding-bottom:35px;
+                border-bottom:35px solid;
+                margin-bottom:10px;
+            }
+            ul {
+                margin-top:15px;
+                border-top:35px solid;
+                padding-top:35px;
+                height:50px;
+                padding-bottom:100px;
+                border-bottom:350px solid;
+                margin-bottom:50px;
+            }
+            .comparer1 {
                 position: absolute;
                 top:0px;
                 left:0px;
-                height:53px;
+                height:440px;
                 width:100%;
-                background-color: rgba(100,100,100,0.4);
+                background-color: rgba(100,100,100,0.6);
                 z-index: 50;
             }
-            .t2 {
+            .comparer2 {
                 position: absolute;
-                top:53px;
+                top:440px;
                 left:0px;
-                height:174px;
+                height:566px;
                 width:100%;
-                background-color: rgba(100,100,100,0.4);
+                background-color: rgba(100,100,100,0.6);
                 z-index: 50;
             }
-            .t3 {
+            .comparer3 {
                 position: absolute;
-                top:227px;
+                top:1006px;
                 left:0px;
-                height:53px;
+                height:440px;
                 width:100%;
-                background-color: rgba(100,100,100,0.4);
+                background-color: rgba(100,100,100,0.6);
                 z-index: 50;
             }
-
+            .middliz {
+                height:800px;
+            }
         </style>
     </head>
     <body>
-        <nav class="navbar navbar-default" role="navigation">
-            <div class="container">
-                <!-- Brand and toggle get grouped for better mobile display -->
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="#">Start Bootstrap</a>
-                </div>
-
-                <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse navbar-ex1-collapse">
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#">About</a></li>
-                        <li><a href="#">Service</a></li>
-                        <li><a href="#">Contact</a></li>
-
-                    </ul>
-                </div><!-- /.navbar-collapse -->
-            </div>
-        </nav>
-        <div class="header">
-            <div class="container">
-                <div class="intromsg">
-                    <div class="middler1">
-                        <div class="t1"></div>
-                        <div class="t2"></div>
-                        <div class="t3"></div>
-                        <div class="col-lg-6 col-lg-offset-3 middler2 middlize">
-                            <h1>Landing Page</h1>
-                            <h3>A Template by Start Bootstrap</h3>
-                            <hr>
-                            <ul class="list-inline">
-                                <li><a href="" class="btn btn-default btn-lg"><i class="fa fa-twitter fa-fw"></i>Twitter</a></li>
-                                <li><a href="" class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i>Github</a></li>
-                                <li><a href="" class="btn btn-default btn-lg"><i class="fa fa-linkedin fa-fw"></i>Linkedin</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="comparer1"></div>
+        <div class="comparer2"></div>
+        <div class="comparer3"></div>
+        <div class="middlize">
+            <h1>Landing Page</h1>
+            <h3>A Template by Start Bootstrap</h3>
+            <hr>
+            <ul class="list-inline">
+                <li><a href="" class="btn btn-default btn-lg"><i class="fa fa-twitter fa-fw"></i>Twitter</a></li>
+                <li><a href="" class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i>Github</a></li>
+                <li><a href="" class="btn btn-default btn-lg"><i class="fa fa-linkedin fa-fw"></i>Linkedin</a></li>
+            </ul>
         </div>
+<!--
+        <div class="middlize">
+            <h1>Landing Page</h1>
+            <h3>A Template by Start Bootstrap</h3>
+            <hr>
+            <ul class="list-inline">
+                <li><a href="" class="btn btn-default btn-lg"><i class="fa fa-twitter fa-fw"></i>Twitter</a></li>
+                <li><a href="" class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i>Github</a></li>
+                <li><a href="" class="btn btn-default btn-lg"><i class="fa fa-linkedin fa-fw"></i>Linkedin</a></li>
+            </ul>
+        </div>
+-->
         <script>
             function middlizer(){
                 //容器中有多個block子元素時，使最上與最底的子元素與容器間距相同, 一般使用情境是設定一個給定高度的div，定義此div類別為middlize，即可使其內部子元素置中
                 //容器未給定高度的情境不適用，此部份視需求決定是否加入自動置中
-
+                
                 //容器padding-top+height+padding-bottom為視覺高度
                 //上下元素間若有margin交錯，取大者生效
                 //首元素margin-top不影響，除非容器有padding-top或是容器本身有float
@@ -144,7 +126,7 @@
                 for(var c=0;c<cons.length;c++){
                     //初始化
                     eleTtlHeight=0; conTtlHeight=0; firChiTop=0; styleEle={}; styleCon={}; firChiEle={}; conPadTop=0; firPadTop=0; marginArr=[]; modifyVol=0; isFloat=0; container={};
-
+                    
                     //開始運算
                     container = cons[c];
                     styleCon = window.getComputedStyle(container);
