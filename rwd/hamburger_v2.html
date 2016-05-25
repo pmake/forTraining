@@ -1,0 +1,117 @@
+<!--用media判斷套用的css，在視窗大小改變時，套用不同的css，是覆蓋的概念，當視窗經過多次調整，且前次套用的某css屬性優先權高於本次套用，本次套用的該屬性即會無效而是使用前次的該屬性值-->
+
+<!--解決優先權問題-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Hamburger</title>
+        <link rel="stylesheet" href="hamburger.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+        <style>
+            html, body {
+                margin:0;
+                padding:0;
+            }
+            @media screen and (min-width:40em){
+                .hamburger{
+                    display:none;
+                }
+                nav {
+                    margin:0;
+                    padding:0;
+                    background-color: #5e5e5e;
+                    overflow:auto;
+                }
+                .logo {
+                    float:left;
+                    font-size:14px;
+                    color:rgb(248,248,248);
+                    padding:15px;
+                }
+                nav ul {
+                    display:block!important;
+                    float:right;
+                    margin:0;
+                    padding:15px;
+                    width:auto;
+                    clear:none;
+                }
+                nav li {
+                    float:left;
+                    color:rgb(248,248,248);
+                    padding-left:15px;
+                    padding-right:15px;
+                    font-size:14px;
+                    transition: all .3s;
+                    padding-top:0px;
+                    padding-bottom: 0px;
+                }
+                nav a {
+                    text-decoration: none;
+                    list-style: none;
+                }
+            }
+
+            @media screen and (max-width:40em){
+                .hamburger {
+                    float:right;
+                }
+                nav {
+                    margin:0;
+                    padding:0;
+                    background-color: #5e5e5e;
+                    text-align: center;
+                    overflow:auto;
+                }
+                .logo {
+                    float:left;
+                    font-size:14px;
+                    color:rgb(248,248,248);
+                    padding:15px;
+                }
+                nav ul {
+                    display:none!important;
+                    margin:0;
+                    padding:0;
+                    width:100%;
+                    clear:both;
+                }
+                nav li {
+                    display:block;
+                    color:rgb(248,248,248);
+                    font-size:14px;
+                    transition: all .3s;
+                    padding:5px;
+                }
+                nav a {
+                    text-decoration: none;
+                }
+            }
+            nav li:hover {
+                background-color: #333;
+            }
+        </style>
+        <script>
+            $(document).ready(function(){
+                $(".hamburger").click(function(){
+                    $(".hamburger").toggleClass("hamburger_x");
+                    $(".pri").slideToggle();
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <nav>
+            <div class="logo">Logo</div>
+            <div class="hamburger"><span></span></div>
+            <ul class="pri">
+                <a href="javascript:;"><li>About</li></a>
+                <a href="javascript:;"><li>Service</li></a>
+                <a href="javascript:;"><li>Product</li></a>
+                <a href="javascript:;"><li>Contact</li></a>
+            </ul>
+        </nav>
+
+    </body>
+</html>

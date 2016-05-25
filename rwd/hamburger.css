@@ -1,0 +1,74 @@
+.hamburger {
+    width:50px;
+    height:50px;
+    background-color:#b17575;
+    position:relative;
+}
+.hamburger span {
+    position: absolute;
+    display:block;
+    width:35px;
+    height:6px;
+    background-color: #896363;
+    margin:auto;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    transition: .3s;/*底下另一組CSS不用設定，因為值一樣就不用改*/
+}
+.hamburger span::before {
+    content:'';
+    position: absolute;
+    display:block;
+    width:35px;
+    height:6px;
+    background-color: #896363;
+    top:-10px;
+    transition: transform .3s, top .3s .3s;/*先變形，再位移，位移的第二個秒數是設定和前一個過場的時間差*/
+}
+.hamburger span::after {
+    content:'';
+    position: absolute;
+    display:block;
+
+    width:35px;
+    height:6px;
+    background-color: #896363;
+    bottom:-10px;
+    transition: transform .3s, bottom .3s .3s;
+}
+.hamburger_x span {
+    position: absolute;
+    display:block;
+    width:35px;
+    height:6px;
+    background-color: rgba(0,0,0,0);
+    margin:auto;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+}
+.hamburger_x span::before {
+    content:'';
+    position: absolute;
+    display:block;
+    width:35px;
+    height:6px;
+    background-color: #896363;
+    top:0;
+    transform: rotate(45deg);
+    transition: top .3s, transform .3s .3s;
+}
+.hamburger_x span::after {
+    content:'';
+    position: absolute;
+    display:block;
+    width:35px;
+    height:6px;
+    background-color: #896363;
+    bottom:0;
+    transform: rotate(-45deg);
+    transition: bottom .3s, transform .3s .3s;
+}
