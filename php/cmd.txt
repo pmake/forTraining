@@ -1,0 +1,30 @@
+//login to db
+C:\xampp\mysql\bin mysql -u -p
+//enter
+pasword:xxxxxxx
+//enter, into db console
+show databases;
+//enter
+use <db name>;
+//enter
+show tables;
+//enter, now can use sql syntax to query data
+select * from <table name>
+//enter, to show results
+quit;
+//enter, to exit db
+
+//start db in safe mode, 
+C:\xampp\mysql\bin mysqld --skip-grant-tables
+//enter, starting db in safe mode.
+
+//overwrite passowrd
+C:\xampp\mysql\bin mysql
+//enter, into db console
+use mysql;
+//enter
+update user set password=PASSWORD('new password you want') where user='target user name';
+//enter
+flush privileges;
+//enter
+quit;

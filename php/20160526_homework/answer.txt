@@ -1,0 +1,23 @@
+q3:
+select 膟嘿,基 from books;
+
+q4:
+select 膟嘿 as Title,基 as Price from books;
+
+q5:
+select 膟嘿 as Title,基*0.8 as Price from books;
+
+q6:
+select * from employee where ┦ = '';
+ 
+q7:
+select * from books where 基 <360 or 基 >=500;
+
+q8:
+select * from books order by 基 desc;
+
+q9:
+select * from books order by 基 desc limit 5;
+
+q10:
+select * from books inner join employee on 璽砫絪腹 = 絪腹;

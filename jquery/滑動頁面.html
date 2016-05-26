@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+        <style>
+            .box1 {
+                height:980px;
+                background-color: #4f9d9d;
+            }
+            .box2 {
+                height:980px;
+                background-color: #a79ac9;
+            }
+            .box3 {
+                height:980px;
+                background-color: #d199cf;
+            }
+        </style>
+    </head>
+    <body>
+        <ul>
+            <a href="javascript:;"><li>Box1</li></a>
+            <a href="javascript:;"><li>Box2</li></a>
+            <a href="javascript:;"><li>Box3</li></a>
+        </ul>
+        <div class="box1"></div>
+        <div class="box2"></div>
+        <div class="box3"></div>
+        <script>
+            var offset_b1 = $('.box1').offset().top;
+            var offset_b2 = $('.box2').offset().top;
+            var offset_b3 = $('.box3').offset().top;
+            
+            $('ul a:first-child').click(function(){
+               $('html,body').animate({
+                   scrollTop:offset_b1
+               }); 
+            });
+            $('ul a:nth-child(2)').click(function(){
+               $('html,body').animate({
+                   scrollTop:offset_b2
+               }); 
+            });
+            $('ul a:last-child').click(function(){
+               $('html,body').animate({
+                   scrollTop:offset_b3
+               }); 
+            });
+        </script>
+    </body>
+</html>
