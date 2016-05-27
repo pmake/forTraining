@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+        <style>
+            .hide {
+                display:none;
+            }
+        </style>
+    </head>
+    <body>
+        <input type="text" data-team="hint1">
+        <div class='hide' id="hint1">請輸入帳號</div>
+        <br>
+        <input type="text" data-team="hint2">
+        <div class='hide' id="hint2">請輸入密碼</div>
+        <script>
+            //最少化DOM查詢動作
+            var dom_input, dom_div;
+            $('input').focus(function(){
+                dom_input = $(this);
+                dom_div = $('#' + dom_input.data('team'));
+                dom_div.show();
+            });
+            $('input').blur(function(){
+                if(dom_input.val()=="") dom_div.css('color','red');
+                else dom_div.css('color','black');
+            });
+
+        </script>
+    </body>
+</html>

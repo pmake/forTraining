@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+        <style>
+            ul {
+                list-style: none; 
+            }
+        </style>
+    </head>
+    <body>
+        <button id='add'>新增</button>
+        <button id='clear'>清除</button>
+        <ul></ul>
+        <script>
+            //最少化查詢
+            var add = $('#add'), clear = $('#clear'), ul = $('ul');
+            add.click(function (){
+                ul.append('<li>####</li>');
+            });
+            clear.click(function (){
+                ul.empty();
+            });
+        </script>
+    </body>
+</html>

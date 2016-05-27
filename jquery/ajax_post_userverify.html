@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    </head>
+    <body>
+        帳號:<input id="usn"type="text">
+        <br>
+        密碼:<input id="pw"type="password">
+        <button>ajax to post</button>
+        <br>
+        <p></p>
+        <script>
+            var dom_p = $('p'), dom_usn = $('#usn'), dom_pw = $('#pw'), dom_btn = $('button'), postData = {};
+            dom_btn.click(function (){
+                postData.usn = dom_usn.val();
+                postData.pw = dom_pw.val();
+                getData(postData);
+            });
+
+            function getData(data){
+                $.post("http://api.0x427567.com:8080/", data, function(response, status){
+                    dom_p.append(response.usn + '<br>' + response.pw);
+                });
+            }
+        </script>
+    </body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    </head>
+    <body>
+        <textarea maxlength=10></textarea>
+        <p>remains:<span class="initial" id="current"></span>/<span class="initial" id="max"></span></p>
+        <script>
+            //最少化DOM查詢動作
+            const dom = $('textarea');
+            const max = dom.attr('maxlength');
+            $('.initial').text(max);
+            dom.keyup(function(){
+                $('#current').text(max - dom.val().length);
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    </head>
+    <body>
+        <button>ajax to post</button>
+        <p></p>
+        <script>
+            var dom_p = $('p'), postData = {"name":"Archi", "nickname":"chi"};
+            function getData(){
+                $.post("http://api.0x427567.com:8080/", postData, function(response, status){
+                    dom_p.append(response.name + '<br>' + response.nickname);
+                });
+            }
+            $('button').click(function(){
+                getData();
+            });
+        </script>
+    </body>
+</html>

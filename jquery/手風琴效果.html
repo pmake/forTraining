@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+        <style>
+            div {
+                text-align:center;
+                width:500px;
+            }
+            .trigger {
+                background-color: #ddb1db;
+                cursor:pointer;
+            }
+            .hider {
+                height:100px;
+                background-color: aqua;
+                display:none;
+            }
+        </style>
+    </head>
+    <body>
+        <div class='trigger'>#1</div>
+        <div class="hider" id="d1"></div>
+        <div class='trigger'>#2</div>
+        <div class="hider" id="d2"></div>
+        <div class='trigger'>#3</div>
+        <div class="hider" id="d3"></div>
+        <div class='trigger'>#4</div>
+        <div class="hider" id="d4"></div>
+        <script>
+            $('.trigger').click(function(){
+                $(this).next('.hider').slideToggle();
+            });
+        </script>
+    </body>
+</html>

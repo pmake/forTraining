@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    </head>
+    <body>
+        <button>ajax to get</button>
+        <p></p>
+        <script>
+            var dom_p = $('p');
+            function getData(){
+                $.get("http://api.0x427567.com:8080/",function(data){
+                    dom_p.text(data.message);
+                });
+            }
+            $('button').click(function(){
+                getData();
+            });
+        </script>
+    </body>
+</html>
