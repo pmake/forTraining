@@ -1,0 +1,61 @@
+<!--單行內容用line-hight即可，將容器的line-hight設定成與容器height相同即可-->
+<!--vertical-align用途是使行內的各個元素互相垂直置中(想像一下串燒的樣子)，當其中某個元素高度和容器相同時，就可以使所有元素在容器內置中，所以設定display為inline-block，vertical-align為middle，然後加入一個偽元素比照辦理並設定其高為100%即可達到在容器中垂直置中的目的，再視需要微調內部頭尾元素的頂部和底部padding和margin-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Navigation Practice</title>
+        <style>
+            .header {
+                background-color: aqua;
+                height:500px;
+                text-align: center;
+            }
+/*            加入偽元素，將display設為inline-block，高度設為100%，即可利用vertical-align做垂直置中*/
+            .header::before {
+                content:'';
+                width:0;
+                height:100%;
+                display: inline-block;
+                vertical-align: middle;
+            }
+            hr {
+                width:45%;
+            }
+            .insider {
+                text-align: center;
+                display:inline-block;
+                vertical-align: middle;
+            }
+            
+            /*                內容容器頂部元素的底歸0*/
+            .insider h1 {
+                padding-top:0;
+                margin-top:0;
+            }
+            /*                內容容器底部元素的底歸0*/
+            .insider ul,.insider ul ul li:last-child {
+                padding-bottom:0;
+                margin-bottom:0;
+            }
+            ul {
+                list-style: none;
+                padding-left:0;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <div class='insider'>
+                <h1>Landing Page</h1>
+                <h3>A Template by Start Bootstrap</h3>
+                <hr>
+                <ul>
+                    <li><a href="">Twitter</a></li>
+                    <li><a href="">Github</a></li>
+                    <li><a href="">Linkedin</a></li>
+                </ul>
+            </div>
+        </div>
+    </body>
+</html>

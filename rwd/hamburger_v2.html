@@ -1,13 +1,11 @@
-<!--用media判斷套用的css，在視窗大小改變時，套用不同的css，是覆蓋的概念，當視窗經過多次調整，且前次套用的某css屬性優先權高於本次套用，本次套用的該屬性即會無效而是使用前次的該屬性值-->
-<!--js的setAttribute方法是操作元素上的style屬性，而不是css，style直接與元素結合，優先度很高-->
-<!--解決優先權問題-->
+<!--js的setAttribute方法是操作元素上的style屬性，而不是css，直接寫在元素上面，在其他優先度相同的情況下，寫在元素style attribute 上的屬性值優先度更高-->
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
     <head>
-        <meta charset="UTF-8">
+        <meta charset='UTF-8'>
         <title>Hamburger</title>
-        <link rel="stylesheet" href="hamburger.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+        <link rel='stylesheet' href='hamburger.css'>
+        <script src='https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
         <style>
             html, body {
                 margin:0;
@@ -21,38 +19,38 @@
                     margin:0;
                     padding:0;
                     background-color: #5e5e5e;
-                    overflow:auto;
+                    height:50px;
+                    line-height: 50px;
                 }
                 .logo {
                     float:left;
                     font-size:14px;
                     color:rgb(248,248,248);
-                    padding:15px;
+                    line-height: 50px;
+                    padding-left:30px;
+                    height:50px;
                 }
-                #test {
+                nav ul {
                     display:block!important;
                     float:right;
-                    margin:0;
-                    padding:15px;
                     width:auto;
                     clear:none;
+                    margin:0;
+                    padding-right:15px;
                 }
                 nav li {
                     float:left;
                     color:rgb(248,248,248);
-                    padding-left:15px;
-                    padding-right:15px;
                     font-size:14px;
-                    transition: all .3s;
-                    padding-top:0px;
-                    padding-bottom: 0px;
+                    padding-top:0;
+                    padding-bottom:0;
+                    padding-right:15px;
+                    padding-left:15px;
+                    text-align: center;
+                    width:50px;
                 }
-                nav a {
-                    text-decoration: none;
-                    list-style: none;
-                }
-            }
 
+            }
             @media screen and (max-width:40em){
                 .hamburger {
                     float:right;
@@ -62,16 +60,17 @@
                     padding:0;
                     background-color: #5e5e5e;
                     text-align: center;
-                    overflow:auto;
+                    overflow: auto;
                 }
                 .logo {
                     float:left;
                     font-size:14px;
                     color:rgb(248,248,248);
-                    padding:15px;
+                    line-height: 50px;
+                    padding-left:30px;
                 }
                 nav ul {
-                    display:none!important;
+                    display:none;
                     margin:0;
                     padding:0;
                     width:100%;
@@ -81,38 +80,49 @@
                     display:block;
                     color:rgb(248,248,248);
                     font-size:14px;
-                    transition: all .3s;
                     padding:5px;
                 }
-                nav a {
-                    text-decoration: none;
-                }
+            }
+            nav a {
+                text-decoration: none;
+                list-style: none;
             }
             nav li:hover {
                 background-color: #333;
+                transition: all .3s;
             }
         </style>
         <script>
             $(document).ready(function(){
-                $(".hamburger").click(function(){
-                    $(".hamburger").toggleClass("hamburger_x");
-                    var test = document.getElementById("test");
-                    $('#test').css('display', 'block!important');
+                $('.hamburger').click(function(){
+                    $('.hamburger').toggleClass('hamburger_x');
+                    $('nav ul').slideToggle();
+                });
+                $(window).resize(function (){
+                    var w = window.innerWidth;
+                    if(w > '640'){
+                        $('nav ul').css('display','block');
+                        $('.hamburger').removeClass('hamburger_x');
+                    }else {
+                        if ($('.hamburger').hasClass('hamburger_x')){
+                            $('nav ul').css('display','block');
+                        }else {$('nav ul').css('display','none'); }
+                    }
                 });
             });
         </script>
     </head>
     <body>
         <nav>
-            <div class="logo">Logo</div>
-            <div class="hamburger"><span></span></div>
-            <ul class="ast spt" id="test">
-                <a href="javascript:;"><li>About</li></a>
-                <a href="javascript:;"><li>Service</li></a>
-                <a href="javascript:;"><li>Product</li></a>
-                <a href="javascript:;"><li>Contact</li></a>
+            <div class='logo'>Logo</div>
+            <div class='hamburger'><span></span></div>
+            <ul>
+                <a href='javascript:;'><li>About</li></a>
+                <a href='javascript:;'><li>Service</li></a>
+                <a href='javascript:;'><li>Product</li></a>
+                <a href='javascript:;'><li>Contact</li></a>
             </ul>
         </nav>
-        <script src='../bootstrap/assistant.js'></script>
+        <script src='../bootstrap/da.js'></script>
     </body>
 </html>
