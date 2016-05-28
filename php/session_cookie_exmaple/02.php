@@ -6,9 +6,15 @@ if(!isset($_SESSION['usrName'])) header('Location:01.php');
 if (isset($_GET['level'])){
     if($_GET['level']==6){
         setcookie('progress', '', -10);
+        //清空隨機排序
+        for($i=0;$i<5;$i++){
+            setcookie('q' . ($i+1),'',-10);
+        }
     }
 }
-
+//for($i=0;$i<5;$i++){
+//    setcookie('q' . ($i+1),'',-10);
+//}
 $counter = 1;
 
 if (isset($_COOKIE['times'])) {
