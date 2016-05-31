@@ -17,7 +17,6 @@ nav .container a.navbar-brand, nav .container .collapse ul li a{
     padding-bottom:51px;
     text-align: center;
     height:800px;
-    
 }
 .header::before {
     content:'';
@@ -29,12 +28,60 @@ nav .container a.navbar-brand, nav .container .collapse ul li a{
     display: inline-block;
     vertical-align: middle;
     color:rgb(248,248,248);
-    font-size:50px!important;
+    text-shadow: 12px 12px 5px rgba(0,0,0,.6);
 }
 .introMsg h1 {
     margin-top:0;
+    font-size:5em;
 }
 .introMsg ul {
     margin-bottom: 0;
     margin-left: 0;
+}
+.introMsg hr {
+    width:80%;
+}
+.rowImg {
+    width:100%;
+}
+.row  {
+    margin-top:50px;
+    margin-bottom:50px;
+}
+.text-header {
+    border-top: 3px solid #e5e5e5;
+    width:200px;
+    float:left;
+}
+h2 {
+    margin-bottom:30px;
+}
+.lead {
+    font-size:18px;
+    font-weight: 400;
+}
+.section-a {
+    background-color: rgb(243,243,243);
+}
+.section-b {
+    border-top:1px solid #e7e7e7;
+    border-bottom:1px solid #e7e7e7;
+}
+.banner {
+    background:url(images/banner-bg.jpg) no-repeat center center;
+    height:250px;
+    background-size: cover;
+}
+.banner .container::before {
+    content: '';
+    height:100%;
+    display: inline-block;
+    vertical-align: middle;
+}
+.banner .container {
+    height:250px;
+}
+.banner .cotainer div {
+    display: inline-block;
+    vertical-align: middle;
 }
