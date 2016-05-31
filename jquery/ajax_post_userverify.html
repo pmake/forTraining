@@ -1,15 +1,34 @@
+<!--ajax預設是不能跨網域交流，除非server端設定有修改-->
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
         <title>Document</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+        <!--Jquery，因下段js內容有使用到jquery，需在其之前導入才能正常運作-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
     </head>
     <body>
-        帳號:<input id="usn"type="text">
-        <br>
-        密碼:<input id="pw"type="password">
-        <button>ajax to post</button>
+        <div class="input-group input-group-lg">
+            <span class="input-group-addon" id="sizing-addon1">帳號</span>
+            <input id="usn" type="text" class="form-control" placeholder="type your username here." aria-describedby="sizing-addon1">
+        </div>
+        <div class="input-group input-group-lg">
+            <span class="input-group-addon" id="sizing-addon2">密碼</span>
+            <input id="pw" type="text" class="form-control" placeholder="type your passwrod here." aria-describedby="sizing-addon2">
+        </div>
+        <!--
+帳號:<input class="input-group" id="usn"type="text">
+<br>
+密碼:<input id="pw"type="password">
+-->
+        <button class="btn btn-default">ajax to post</button>
         <br>
         <p></p>
         <script>

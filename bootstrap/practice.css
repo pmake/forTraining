@@ -2,18 +2,12 @@ html, body{
     height:100%;
     width:100%;
 }
-body,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+body, h1, h2, h3, h4, h5, h6 {
     font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
     font-weight: 700;
 }
-nav a{
-    color:rgb(125,125,125)!important;
+nav .container a.navbar-brand, nav .container .collapse ul li a{
+    color:rgb(125,125,125);
 }
 .header {
     background: url(

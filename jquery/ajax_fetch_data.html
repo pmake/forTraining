@@ -1,0 +1,52 @@
+<!--ajax預設是不能跨網域交流，除非server端設定有修改-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+        <!--Jquery，因下段js內容有使用到jquery，需在其之前導入才能正常運作-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    </head>
+    <body>
+        <div class="btn-group" role="group" aria-label="...">
+            <button id='p1' name="http://api.0x427567.com:8080/book?page=1" type="button" class="btn btn-default">1</button>
+            <button id='p2' name="http://api.0x427567.com:8080/book?page=2" type="button" class="btn btn-default">2</button>
+        </div>
+        <ul class="list-group">
+        </ul>
+
+        <!-- script -->
+        <script>
+            //減少DOM查詢
+            var dom_btn1 = $('#p1'), dom_btn2 = $('#p2'), dom_d = $('#dataArea'), dom_ul = $('.list-group'), uri ={};
+
+            uri.page1 = dom_btn1.attr('name');
+            uri.page2 = dom_btn2.attr('name');
+
+            dom_btn1.click(function (){
+                getData(uri.page1);
+            });
+
+            dom_btn2.click(function (){
+                getData(uri.page2);
+            });
+
+            function getData(uri){
+                $.get(uri, function(response, status){
+                    dom_ul.empty();//因為是異步，清除資料要在資料取回後進行，否則若使用者點擊按鈕多次，後續傳送回來的資料不會清除
+                    response.forEach(function (curVal,index,err){
+                        if(index % 2)dom_ul.append('<li class="list-group-item list-group-item-success">' + curVal.book + ' ($' + curVal.price + ')</li>'); 
+                        else dom_ul.append('<li class="list-group-item list-group-item-info">' + curVal.book + ' ($' + curVal.price + ')</li>'); 
+                    });
+                });
+            }
+        </script>
+    </body>
+</html>
