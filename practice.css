@@ -1,0 +1,130 @@
+html, body{
+    height:100%;
+    width:100%;
+}
+body, h1, h2, h3, h4, h5, h6 {
+    font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight: 700;
+}
+nav .container a.navbar-brand, nav .container .collapse ul li a{
+    color:rgb(125,125,125);
+}
+.header {
+    background: url(
+        images/intro-bg.jpg) no-repeat center center;
+    background-size: cover;
+    padding-top:102px;
+    padding-bottom:51px;
+    text-align: center;
+}
+.header::before {
+    content:'';
+    height:100%;
+    display: inline-block;
+    vertical-align: middle;
+}
+.introMsg {
+    padding-top:16%;
+    padding-bottom:16%;
+    display: inline-block;
+    vertical-align: middle;
+    color:rgb(248,248,248);
+    text-shadow: 12px 12px 5px rgba(0,0,0,.6);
+}
+.introMsg h1 {
+    margin-top:0;
+    font-size:5em;
+}
+.introMsg ul {
+    margin-bottom: 0;
+    margin-left: 0;
+}
+.introMsg hr {
+    width:80%;
+}
+ul.socialName {
+    letter-spacing: 2px;
+}
+.rowImg {
+    width:100%;
+}
+.row  {
+    margin-top:50px;
+    margin-bottom:50px;
+}
+.text-header {
+    border-top: 3px solid #e5e5e5;
+    width:200px;
+    float:left;
+}
+h2 {
+    margin-bottom:30px;
+}
+.lead {
+    font-size:18px;
+    font-weight: 400;
+}
+.section-a {
+    background-color: rgb(243,243,243);
+}
+.section-b {
+    border-top:1px solid #e7e7e7;
+    border-bottom:1px solid #e7e7e7;
+}
+.banner {
+    padding:100px 0;
+    color:#f8f8f8;
+    background:url(images/banner-bg.jpg) no-repeat center center;
+    background-size: cover;
+}
+.banner h2 {
+    margin:0;
+    font-size:3em;
+    text-shadow: 12px 12px 5px rgba(0,0,0,.6);
+}
+.banner ul {
+    margin:0;
+    float:right;
+}
+.banner li:last-child {
+    padding-right:0;
+}
+footer {
+    padding:50px 0;
+    background-color: #f8f8f8;
+}
+.col-lg-6, .col-lg-12 {
+    padding:0;
+}
+p.copyright {
+    margin:15px 0 0;
+}
+@media(max-width:1199px) {
+    .banner ul {
+        float:none;
+        margin-top:20px;
+    }
+    ul.socialName li {
+        padding-left:0;
+    }
+}
+@media(max-width:480px) {
+    .introMsg h1 {
+        font-size:3em;
+    }
+    .introMsg hr {
+        width:100%;
+    }
+    ul.socialName li {
+        display:block;
+        margin-top: 20px;
+        padding-left:0;
+        padding-right:0;
+    }
+    .banner ul {
+        float:none;
+    }
+    .introMsg {
+        padding-top:25%;
+        padding-bottom:25%;
+    }
