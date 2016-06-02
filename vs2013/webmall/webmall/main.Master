@@ -1,0 +1,169 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="main.master.cs" Inherits="webmall.main" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body style="background-image: url('/images/Apps/Background.png')">
+    <form id="form1" runat="server">
+        <div>
+            <div style="margin: auto; width: 1220px;background-color: #FFFFFF">
+                <table style="width: 100%; border-collapse: collapse; border-spacing: 0px;">
+                    <tr>
+                        <td style="background-color: #FFFFFF">
+                            <table style="width: 100%; border-collapse: collapse; border-spacing: 0px;">
+                                <tr>
+                                    <td>
+                                        <asp:Image ID="img_banner" runat="server" ImageUrl="~/images/Apps/banner.png" />
+                                    </td>
+                                    <td style="width: 140px; vertical-align: top; text-align: left;"></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table>
+                                <tr>
+                                    <td style="vertical-align: top; text-align: left">
+                                        <asp:ImageButton ID="imb_home" runat="server" ImageUrl="~/images/Apps/home.png" PostBackUrl="~/home.aspx" />
+                                    </td>
+                                    <td style="vertical-align: middle; text-align: left; width: 20px;"></td>
+                                    <td style="vertical-align: middle; text-align: left">
+                                        <dx:ASPxTextBox ID="txt_search" runat="server" Theme="SoftOrange" Width="170px" Font-Size="Medium">
+                                            <Border BorderColor="#FF9900" BorderStyle="Solid" BorderWidth="2px" />
+                                        </dx:ASPxTextBox>
+                                    </td>
+                                    <td style="vertical-align: middle; text-align: left; width: 20px;"></td>
+                                    <td style="vertical-align: middle; text-align: left">
+                                        <dx:ASPxButton ID="btn_search" runat="server" Font-Size="Medium" Text="商品查詢" Theme="SoftOrange">
+                                        </dx:ASPxButton>
+                                    </td>
+                                    <td style="vertical-align: middle; text-align: left; width: 40px;"></td>
+                                    <td>
+                                        <asp:Image ID="img_top1" runat="server" ImageUrl="~/images/Apps/top1.png" />
+                                    </td>
+                                    <td>
+                                        <asp:Image ID="img_top2" runat="server" ImageUrl="~/images/Apps/top2.png" />
+                                    </td>
+                                    <td>
+                                        <asp:Image ID="img_top3" runat="server" ImageUrl="~/images/Apps/top3.png" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="background-color: #808080">
+                            <asp:Label ID="Label1" runat="server" ForeColor="White" Text="xxxxxxxxxx"></asp:Label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table style="width: 100%">
+                                <tr>
+                                    <td style="width: 140px; vertical-align: top; text-align: left;">
+                                        <dx:ASPxMenu ID="mnu_tree" runat="server" EnableTheming="True" Font-Size="Medium" Orientation="Vertical" Theme="Youthful">
+                                            <Items>
+                                                <dx:MenuItem Text="女裝、男裝、大尺碼" Name="01">
+                                                    <Items>
+                                                        <dx:MenuItem Text="女裝">
+                                                        </dx:MenuItem>
+                                                        <dx:MenuItem Text="男裝">
+                                                        </dx:MenuItem>
+                                                        <dx:MenuItem Text="大尺碼">
+                                                        </dx:MenuItem>
+                                                    </Items>
+                                                    <Image IconID="actions_add_32x32">
+                                                    </Image>
+                                                </dx:MenuItem>
+                                                <dx:MenuItem Text="內衣、塑身衣、睡衣" Name="02">
+                                                    <Items>
+                                                        <dx:MenuItem Text="內衣">
+                                                        </dx:MenuItem>
+                                                        <dx:MenuItem Text="塑身衣">
+                                                        </dx:MenuItem>
+                                                        <dx:MenuItem Text="睡衣">
+                                                        </dx:MenuItem>
+                                                    </Items>
+                                                </dx:MenuItem>
+                                                <dx:MenuItem Text="鞋包、錶、精品珠寶" Name="03">
+                                                    <Items>
+                                                        <dx:MenuItem Text="鞋包">
+                                                        </dx:MenuItem>
+                                                        <dx:MenuItem Text="錶">
+                                                        </dx:MenuItem>
+                                                        <dx:MenuItem Text="精品珠寶">
+                                                        </dx:MenuItem>
+                                                    </Items>
+                                                </dx:MenuItem>
+                                                <dx:MenuItem Text="美妝、髮品、香水">
+                                                    <Items>
+                                                        <dx:MenuItem Text="美妝">
+                                                        </dx:MenuItem>
+                                                        <dx:MenuItem Text="髮品">
+                                                        </dx:MenuItem>
+                                                        <dx:MenuItem Text="香水">
+                                                        </dx:MenuItem>
+                                                    </Items>
+                                                </dx:MenuItem>
+                                                <dx:MenuItem Text="鍋具、日用、衛生紙">
+                                                    <Items>
+                                                        <dx:MenuItem Text="鍋具">
+                                                        </dx:MenuItem>
+                                                        <dx:MenuItem Text="日用">
+                                                        </dx:MenuItem>
+                                                        <dx:MenuItem Text="衛生紙">
+                                                        </dx:MenuItem>
+                                                    </Items>
+                                                </dx:MenuItem>
+                                            </Items>
+                                            <ItemStyle Font-Size="Medium" />
+                                            <SubMenuItemStyle Font-Size="Medium">
+                                            </SubMenuItemStyle>
+                                            <SubMenuStyle Font-Size="Medium" />
+                                            <SubMenuTemplate>
+                                                <div style="background-color: #FF9933">
+                                                    <dx:ASPxLabel ID="ASPxLabel1" runat="server" Text="<%# Container.Item.Name %>" Visible="False"></dx:ASPxLabel>
+                                                    <dx:ASPxGridView ID="ASPxGridView1" runat="server" AutoGenerateColumns="False" DataSourceID="SqlDataSource1" EnableTheming="True" Theme="Aqua" Font-Size="Medium" Width="300px">
+                                                        <SettingsPager Visible="False">
+                                                        </SettingsPager>
+                                                        <Settings ShowColumnHeaders="False" />
+                                                        <Columns>
+                                                            <dx:GridViewDataTextColumn FieldName="mname" VisibleIndex="0" Width="100%">
+                                                            </dx:GridViewDataTextColumn>
+                                                            <dx:GridViewDataTextColumn FieldName="murl" VisibleIndex="1" Visible="False">
+                                                            </dx:GridViewDataTextColumn>
+                                                        </Columns>
+                                                    </dx:ASPxGridView>
+                                                </div>
+                                                <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:dbconn %>" SelectCommand="SELECT [mname], [murl] FROM [z_bas_item] WHERE ([code_no] = @code_no)">
+                                                    <SelectParameters>
+                                                        <asp:ControlParameter ControlID="ASPxLabel1" DefaultValue="" Name="code_no" PropertyName="Text" Type="String" />
+                                                    </SelectParameters>
+                                                </asp:SqlDataSource>
+                                            </SubMenuTemplate>
+                                        </dx:ASPxMenu>
+                                    </td>
+                                    <td style="vertical-align: top; text-align: left">
+                                        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                                        </asp:ContentPlaceHolder>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </form>
+</body>
+</html>

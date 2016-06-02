@@ -1,0 +1,17 @@
+Install-Package AspNet.ScriptManager.jQuery
+Install-Package Microsoft.AspNet.Razor
+Install-Package Microsoft.AspNet.WebPages
+Install-Package Microsoft.AspNet.WebPages.Data
+Install-Package Microsoft.AspNet.WebPages.WebData
+install-package Microsoft.AspNet.WebHelpers
+Install-Package knockoutjs
+Install-Package jquery.mobile
+Install-Package jQuery.UI.Combined
+Install-Package jquery-globalize
+Install-Package SharpZipLib
+Install-Package Newtonsoft.Json
+Install-Package DotNetZip
+Install-Package HtmlAgilityPack
+Install-Package Facebook
+Install-Package Twitter.Bootstrap
+Install-Package log4net

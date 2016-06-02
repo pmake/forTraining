@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <link rel="stylesheet" href="./frameWorks/jquery/plugins/bxslider/jquery.bxslider.css">
+        <script src="./frameWorks/jquery/jquery-1.12.4.min.js"></script>
+        <script src="./frameWorks/jquery/plugins/bxslider/jquery.bxslider.min.js"></script>
+        <style>
+            .slider img {
+                width:100%;
+            }
+            #pager {
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <ul class='slider'>
+            <li><img src="./images/slider/hill_fence.jpg" alt=""></li>
+            <li><img src="./images/slider/houses.jpg" alt=""></li>
+            <li><img src="./images/slider/tree_root.jpg" alt=""></li>
+        </ul>
+        <div id='pager'>
+            <a href="" data-slide-index='0'><img src="./images/slider/hill_fence_th.jpg" alt=""></a>
+            <a href="" data-slide-index='1'><img src="./images/slider/houses_th.jpg" alt=""></a>
+            <a href="" data-slide-index='2'><img src="./images/slider/tree_root_th.jpg" alt=""></a>
+        </div>
+        <script>
+            $('.slider').bxSlider({
+                auto: true,
+                autoControls: true,
+                pagerCustom: '#pager'
+            });
+        </script>
+    </body>
+</html>

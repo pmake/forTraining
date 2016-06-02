@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <link rel="stylesheet" href="animate.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+        <style>
+            body {
+                margin:0;
+                padding:0;
+            }
+            a {
+                text-decoration: none;
+            }
+            ul {
+                position: fixed;
+            }
+            .box1 {
+                height:980px;
+                background-color: #b1eded;
+            }
+            .box2 {
+                height:980px;
+                background-color: #d7ceef;
+            }
+            .box3 {
+                height:980px;
+                background-color: #e5cee4;
+            }
+            #goTop {
+                display:none;
+                width:50px;
+                height:50px;
+                position: fixed;
+                background-color: #aaafed;
+                text-align: center;
+                line-height: 50px;
+                right:30px;
+                bottom:30px;
+                color:#333;
+            }
+        </style>
+    </head>
+    <body>
+        <ul>
+            <a href="javascript:;" data-link="box1"><li>Box1</li></a>
+            <a href="javascript:;" data-link="box2"><li>Box2</li></a>
+            <a href="javascript:;" data-link="box3"><li>Box3</li></a>
+        </ul>
+        <div class="box1"></div>
+        <div class="box2"></div>
+        <div class="box3"></div>
+        <a href="javascript:;" id="goTop" class="animated">Top</a>
+        <!-- script -->
+        <script>
+
+            var domHtmlBody = $('html,body'), domGoTop = $('#goTop'), parentWindow = $(window), scroller = function(distance){
+                domHtmlBody.animate({
+                    scrollTop:distance
+                });
+            };
+
+            parentWindow.scroll(function (){
+                //parentWindow.scrollTop()取得與捲軸頂部距離
+                //animated的flipInX沒有改變display屬性的功能，所以需要先show()
+                if (parentWindow.scrollTop() > 100) domGoTop.show().removeClass('flipOutX').addClass('flipInX');
+                else domGoTop.removeClass('flipInX').addClass('flipOutX');
+            });
+
+            $('ul a').click(function(){
+                scroller($('.' + $(this).data('link')).offset().top);
+            });
+
+            domGoTop.click(function(){
+                scroller(0);
+            });
+
+        </script>
+        <script src="da.js"></script>
+    </body>
+</html>

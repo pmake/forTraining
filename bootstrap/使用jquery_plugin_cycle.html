@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+        <!-- jquery cycle plugin 用到的easing方法需搭配jqueryui才能正確運作 -->
+        <script src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js'></script>
+        <script src="./frameWorks/jquery/plugins/cycle/cycle.js"></script>
+        <style>
+            #slideShow {
+                margin-left:500px;
+                margin-top:200px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="slideShow">
+            <img src="./images/slider/hill_fence.jpg" alt="">
+            <img src="./images/slider/houses.jpg" alt="">
+            <img src="./images/slider/tree_root.jpg" alt="">
+        </div>
+        <script>
+            $('#slideShow').cycle({
+                fx: 'shuffle',
+                easing: 'easeOutBack',
+                delay: -4000
+            });
+        </script>
+    </body>
+</html>

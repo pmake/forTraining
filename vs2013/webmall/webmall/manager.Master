@@ -1,0 +1,82 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="manager.master.cs" Inherits="webmall.manager" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body style="background-image: url('/images/Apps/Background.png')">
+    <form id="form1" runat="server">
+        <div>
+            <div style="margin: auto; width: 1220px; background-color: #FFFFFF">
+                <table style="width: 100%; border-collapse: collapse; border-spacing: 0px;">
+                    <tr>
+                        <td style="background-color: #FFFFFF">
+                            <table style="width: 100%; border-collapse: collapse; border-spacing: 0px; background-image: url('/images/Apps/banner.png'); background-repeat: no-repeat;">
+                                <tr>
+                                    <td style="height: 66px"></td>
+                                    <td style="width: 150px; text-align: right; vertical-align: middle;">
+                                        <asp:Label ID="lbl_user" runat="server" Font-Size="Medium" ForeColor="Black"></asp:Label>
+                                    </td>
+                                    <td style="width: 34px">
+                                        <asp:ImageButton ID="imb_tree" runat="server" ImageUrl="~/Images/Icons/Tree32.png" ToolTip="顯示或不顯示程式清單" OnClick="imb_tree_Click" />
+                                    </td>
+                                    <td style="width: 34px">
+                                        <asp:ImageButton ID="imb_home" runat="server" ImageUrl="~/Images/Icons/home32.png" PostBackUrl="~/home.aspx" ToolTip="返回首頁" />
+                                    </td>
+                                    <td style="width: 34px">
+                                        <asp:ImageButton ID="imb_logout" runat="server" ImageUrl="~/Images/Icons/logout32.png" ToolTip="登出系統" OnClick="imb_logout_Click" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table style="width: 100%">
+                                <tr>
+                                    <td style="width: 0px; vertical-align: top; text-align: left; white-space: nowrap;">
+                                        <dx:ASPxPanel ID="pnl_prg" runat="server" Width="240px" BackColor="#FFCC99" Height="800px" ScrollBars="Auto" Theme="BlackGlass">
+                                            <PanelCollection>
+                                                <dx:PanelContent runat="server">
+                                                    <dx:ASPxNavBar ID="nvb_prg" runat="server" Theme="Youthful" Width="100%" OnItemClick="nvb_prg_ItemClick1">
+                                                        <GroupHeaderStyle Font-Size="Medium">
+                                                        </GroupHeaderStyle>
+                                                        <ItemStyle Font-Size="Small" />
+                                                    </dx:ASPxNavBar>
+                                                </dx:PanelContent>
+                                            </PanelCollection>
+                                        </dx:ASPxPanel>
+                                    </td>
+                                    <td style="vertical-align: top; text-align: left; background-color: #FFFFCC;">
+                                        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                                        </asp:ContentPlaceHolder>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div>
+            <asp:SqlDataSource ID="sds_z_sys_module" runat="server" ConnectionString="<%$ ConnectionStrings:dbconn %>" SelectCommand="SELECT [no_module], [name_module] FROM [z_sys_module] WHERE ([isenabled] = @isenabled)  ORDER BY [sort_module], [no_module]">
+                <SelectParameters>
+                    <asp:Parameter DefaultValue="1" Name="isenabled" Type="Int32" />
+                </SelectParameters>
+            </asp:SqlDataSource>
+            <asp:SqlDataSource ID="sds_z_sys_prg" runat="server" ConnectionString="<%$ ConnectionStrings:dbconn %>" SelectCommand="SELECT [no_prg], [name_prg], [ispublic] FROM [z_sys_prg] WHERE (([module_no] = @module_no) AND ([isenabled] = @isenabled) AND ([isvisible] = @isvisible)) ORDER BY [sort_prg], [no_prg]">
+                <SelectParameters>
+                    <asp:Parameter Name="module_no" Type="String" />
+                    <asp:Parameter DefaultValue="1" Name="isenabled" Type="Int32" />
+                    <asp:Parameter DefaultValue="1" Name="isvisible" Type="Int32" />
+                </SelectParameters>
+            </asp:SqlDataSource>
+        </div>
+    </form>
+</body>
+</html>

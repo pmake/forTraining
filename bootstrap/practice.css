@@ -41,6 +41,9 @@ nav .container a.navbar-brand, nav .container .collapse ul li a{
 .introMsg hr {
     width:80%;
 }
+ul.socialName {
+    letter-spacing: 2px;
+}
 .rowImg {
     width:100%;
 }
@@ -68,20 +71,30 @@ h2 {
     border-bottom:1px solid #e7e7e7;
 }
 .banner {
+    padding:100px 0;
+    color:#f8f8f8;
     background:url(images/banner-bg.jpg) no-repeat center center;
-    height:250px;
     background-size: cover;
 }
-.banner .container::before {
-    content: '';
-    height:100%;
-    display: inline-block;
-    vertical-align: middle;
+.banner h2 {
+    margin:0;
+    font-size:3em;
+    text-shadow: 12px 12px 5px rgba(0,0,0,.6);
 }
-.banner .container {
-    height:250px;
+.banner ul {
+    margin:0;
+    float:right;
 }
-.banner .cotainer div {
-    display: inline-block;
-    vertical-align: middle;
+.banner li:last-child {
+    padding-right:0;
+}
+footer {
+    padding:50px 0;
+    background-color: #f8f8f8;
+}
+.col-lg-6, .col-lg-12 {
+    padding:0;
+}
+p.copyright {
+    margin:15px 0 0;
 }
