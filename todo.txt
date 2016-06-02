@@ -1,5 +1,4 @@
-1、bootstrap landing page.
-2、履歷
-3、C#
-4、UML
-5、圖說文字
+1、履歷
+2、C#
+3、UML
+4、圖說文字
