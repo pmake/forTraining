@@ -1,5 +1,4 @@
-//加入ctrl_z,ctrl_y功能，在繪圖設定紀錄加入前次紀錄欄位
-var userName = prompt('尊姓大名？'); //socket連線建立後使用prompt會額外建立socket，所以要在連線建立之前使用
+var userName = prompt('請輸入暱稱'); //socket連線建立後使用prompt會額外建立socket，所以要在連線建立之前使用
 
 //紀錄訊息筆數
 var msgNum = 0;
@@ -14,14 +13,6 @@ function msgShow(msg){
     }
 }
 
-function drawLine(x,y,new_x,new_y){
-    ctx.beginPath();  
-    ctx.moveTo(x, y);  
-    ctx.lineTo(new_x, new_y);  
-    ctx.closePath();  
-    ctx.stroke();
-}
-
 //建立socket連線 
 var socket = io();
 
@@ -32,12 +23,16 @@ socket.on('transport history',function(data1,data2){
     //載入既存圖畫
     data1.forEach(function(value){
         if(value[0]==='s'){
-            $('#size').val(value[1]);
-            (value[2]=='#ffffff')?$('#era').prop('checked',true):$('#draw').prop('checked',true);
-            ctx.lineWidth = value[1];
-            ctx.strokeStyle = value[2];
+            (value[1]=='#ffffff')?$('#era').prop('checked',true):$('#draw').prop('checked',true);
+            $('#size').val(value[2]);
+            ctx.strokeStyle = value[1];
+            ctx.lineWidth = value[2];
         }else if(value[0]==='d'){
-            drawLine(value[1], value[2], value[3], value[4]);
+            ctx.beginPath();  
+            ctx.moveTo(value[1], value[2]);  
+            ctx.lineTo(value[3],value[4]);  
+            ctx.closePath();  
+            ctx.stroke();
         }
     })
     //載入既存聊天訊息
@@ -54,7 +49,11 @@ socket.on('msg', function(data){
 //別人畫布上的動作，呈現在我們自己的頁面上 
 socket.on('show', function(data){ 
     //繪圖 
-    drawLine(data.x, data.y, data.new_x, data.new_y); 
+    ctx.beginPath();  
+    ctx.moveTo(data.x, data.y);  
+    ctx.lineTo(data.new_x, data.new_y);  
+    ctx.closePath();  
+    ctx.stroke(); 
 }); 
 
 /* 繪圖相關設定 */ 
@@ -79,29 +78,30 @@ ctx.strokeStyle = '#000000';
 ctx.lineWidth = 1; 
 
 //座標相關變數 
-var offset={}, x=0, y=0, new_x=0, new_y=0; 
-//offset = $('#whiteboard').offset();
-//$(window).resize(function (){
-//    offset = $('#whiteboard').offset();
-//});
+var offset={}, x=0, y=0, new_x=0, new_y=0;
+//取得畫布相對位置
+offset = $('#whiteboard').offset();
+$(window).resize(function (){
+    offset = $('#whiteboard').offset();
+});
 
-//滑鼠在畫布按下時的事件處理 
-$(document).on('mousedown', '#whiteboard', function(e){
-    e.preventDefault(); 
+//滑鼠在畫布按下、移動、釋放時的事件處理，on方法可一次指定多事件，多handler
+$('#whiteboard').on({
+    mousedown: function(e){
+        e.preventDefault();//關閉滑鼠左鍵按下時預設的拖曳選取功能
 
-    //打開可供畫圖的機制 
-    drawing = true; 
+        //打開可供畫圖的機制 
+        drawing = true; 
 
-    //計算相對的畫布範圍（這很重要） 
-    offset = $(e.currentTarget).offset(); 
-    x = e.pageX - offset.left;  
-    y = e.pageY - offset.top; 
-    draw(x, y, x-1, y-1); 
-}); 
-
-//滑鼠在畫布上按下左右時，移動的情況 
-$(document).on('mousemove', '#whiteboard', function(e){ 
-    e.preventDefault(); 
+        //計算相對座標 
+        x = e.pageX - offset.left;  
+        y = e.pageY - offset.top; 
+        draw(x, y, x-1, y-1); 
+    }
+});
+//on方法對本身及子元素，既存和未來新增的元素都會產生效果，理論上效率應會較差，因此此處採用一般方法掛載handler
+$('#whiteboard').mousemove(function(e){ 
+    e.preventDefault();//關閉滑鼠左鍵按下移動時預設的遊標變化功能
 
     //是否開啟畫圖機制 
     if( drawing ) 
@@ -109,42 +109,49 @@ $(document).on('mousemove', '#whiteboard', function(e){
         //計算移動後的新座標，再進行畫圖作業 
         new_x = e.pageX - offset.left; 
         new_y = e.pageY - offset.top; 
-        draw(x, y, new_x, new_y); 
+        draw(x, y, new_x, new_y);
         x = new_x; 
         y = new_y; 
-    } 
-}); 
+    }
+});
 
-//放開滑鼠鍵 
-$(document).on('mouseup', '#whiteboard', function(e){ 
+$(document).mouseup(function(e){ 
     e.preventDefault(); 
 
-    //關閉繪圖機制 
+    //關閉繪圖機制，即使不是在畫布上釋放按鍵 
     drawing = false; 
 }); 
 
 //設定變更處理，用js做的變更不會觸發change事件
 $('#settings').on('change',function(){
+    //改變之前先記錄原設定
+    var settings = {};
+    settings.ex_color = ctx.strokeStyle;
+    settings.ex_size = ctx.lineWidth;
+    //套用變更
     ctx.lineWidth = $('#size').val();
     ($('#draw').prop('checked'))? ctx.strokeStyle='#000000':ctx.strokeStyle='#ffffff';
-    var settings = {};
-    settings.size = ctx.lineWidth;
     settings.color = ctx.strokeStyle;
+    settings.size = ctx.lineWidth;
     socket.emit('settings changed',settings);
 });
 
 socket.on('settings changed',function(settings){
-    $('#size').val(settings.size);
-    ctx.lineWidth = settings.size;
     ctx.strokeStyle = settings.color;
     (settings.color=='#ffffff')?$('#era').prop('checked',true):$('#draw').prop('checked',true);
+    $('#size').val(settings.size);
+    ctx.lineWidth = settings.size;
 });
 
 //畫圖，並將繪畫座標傳給網頁上的其他使用者 
 function draw(x, y, new_x, new_y) 
 {  
     //繪圖 
-    drawLine(x,y,new_x,new_y)
+    ctx.beginPath();  
+    ctx.moveTo(x, y);  
+    ctx.lineTo(new_x, new_y);  
+    ctx.closePath();  
+    ctx.stroke();
 
     //將繪畫座標透過 node.js 傳給使用者 
     var obj = {}; 
@@ -169,8 +176,8 @@ $('#cleaner').click(function(){
     ctx.strokeStyle = '#000';
     $('#draw').prop('checked',true);
     var settings = {};
-    settings.size = ctx.lineWidth;
     settings.color = ctx.strokeStyle;
+    settings.size = ctx.lineWidth;
     socket.emit('clear canvas',settings);
 });
 
@@ -183,3 +190,11 @@ socket.on('clear canvas', function(){
 socket.on('chat message',function(msg){
     msgShow(msg);
 });
+
+
+
+
+
+
+
+

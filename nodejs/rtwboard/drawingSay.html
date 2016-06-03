@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html> 
+    <head> 
+        <meta charset="UTF-8">
+        <title>drawingSay</title>
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+        <!-- href未打網址預設是向提供html檔案的server提出需求，-->
+        <!-- server端有express.static middleware提供靜態檔案服務，-->
+        <!-- 使用該服務在URL中不需含內容資料夾名稱，服務自會解析-->
+        <link rel="stylesheet" href="1200.css">
+    </head> 
+    <body> 
+        <button id='btnDrawMode'><i class='fa fa-pencil fa-2x'></i></button>
+        <button id='btnSayMode'></button>
+        <script src="/socket.io/socket.io.js"></script><!--內部module-->
+        <script src="http://code.jquery.com/jquery-1.11.1.js"></script><!--外部js-->
+        <script src="browside.js"></script><!--內部js-->
+    </body> 
+</html>

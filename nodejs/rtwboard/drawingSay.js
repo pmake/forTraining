@@ -10,7 +10,7 @@ var msgHistory = [], drawHistory = [], msgNum=0, pixelNum=0;
 app.use(express.static('static_files'));
 
 app.get('/', function(req, res){
-    res.sendFile(__dirname + '/eBoard.html');
+    res.sendFile(__dirname + '/drawingSay.html');
 });
 
 http.listen(3000, function(){
@@ -98,11 +98,5 @@ io.on('connection', function(socket) {
             msgHistory[msgNum] = temp;
             msgNum+=1;
         }
-    });
-
-    //取消筆畫
-    socket.on('cancel',function(){
-        //以原色彩判定是否為擦子或清空後的設定紀錄
-        
     });
 });

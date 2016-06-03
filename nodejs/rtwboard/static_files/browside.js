@@ -1,5 +1,3 @@
-//加入回溯功能，在繪圖設定紀錄加入前次紀錄欄位
-//1次數點，執行以擦子重畫，並直接刪除紀錄，只能回溯畫筆數據，遇到擦子紀錄則使回溯無效化
 var userName = prompt('請輸入暱稱'); //socket連線建立後使用prompt會額外建立socket，所以要在連線建立之前使用
 
 //紀錄訊息筆數
@@ -8,9 +6,9 @@ var msgNum = 0;
 function msgShow(msg){
     if (msgNum > 32) {
         $('li:first-child').remove();
-        $('#member_msg').append($('<li>').text(msg));
+        $('#memberMsg').append($('<li>').text(msg));
     }else {
-        $('#member_msg').append($('<li>').text(msg));
+        $('#memberMsg').append($('<li>').text(msg));
         msgNum+=1;
     }
 }
@@ -39,7 +37,7 @@ socket.on('transport history',function(data1,data2){
     })
     //載入既存聊天訊息
     data2.forEach(function(value){
-        $('#member_msg').append($('<li>').text(value));
+        $('#memberMsg').append($('<li>').text(value));
         msgNum+=1;
     })
 });
@@ -192,13 +190,6 @@ socket.on('clear canvas', function(){
 socket.on('chat message',function(msg){
     msgShow(msg);
 });
-
-//取消筆畫
-document.getElementById("btn_cancel").onclick = function (
-
-){
-    socket.emit('cancel');
-};
 
 
 
