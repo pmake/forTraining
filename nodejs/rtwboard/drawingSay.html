@@ -11,13 +11,46 @@
         <!-- href未打網址預設是向提供html檔案的server提出需求，-->
         <!-- server端有express.static middleware提供靜態檔案服務，-->
         <!-- 使用該服務在URL中不需含內容資料夾名稱，服務自會解析-->
-        <link rel="stylesheet" href="1200.css">
+        <link rel="stylesheet" href="drawingSay.css">
+
+        <style>
+            .switchBtn {
+                width:60px;
+            }
+            .input-group input.form-control {
+                height:100%!important;
+            }
+        </style>
+
     </head> 
     <body> 
-        <button id='btnDrawMode'><i class='fa fa-pencil fa-2x'></i></button>
-        <button id='btnSayMode'></button>
+        <button class='switchBtn btn btn-default' id='btnDrawMode'><i id='iDrawModeIcon' class='fa fa-pencil fa-2x'></i></button>
+
+        <div class="input-group">
+            <span class="input-group-btn">
+                <button class='switchBtn btn btn-default' id='btnSayMode'>
+                    <i id='iSayModeIcon' class='fa fa-comments fa-2x'></i>
+                </button>
+            </span>
+            <input type="text" class='form-control' placeholder='點擊左側聊天切換鈕可切換答題模式'>
+            <span class="input-group-btn">
+                <button class='btn btn-default'>送出</button>
+            </span>
+        </div>
         <script src="/socket.io/socket.io.js"></script><!--內部module-->
         <script src="http://code.jquery.com/jquery-1.11.1.js"></script><!--外部js-->
-        <script src="browside.js"></script><!--內部js-->
+        <script src="drawingSay.js"></script><!--內部js-->
+        <script>
+            var jqBtnDrawMode = $('#btnDrawMode'), jqBtnSayMode = $('#btnSayMode'), 
+                jqIDrawModeIcon = $('#iDrawModeIcon'), jqISayModeIcon = $('#iSayModeIcon');
+
+            jqBtnDrawMode.click(function() {
+                jqIDrawModeIcon.toggleClass('fa-pencil fa-eraser');
+            });
+            jqBtnSayMode.click(function() {
+                jqISayModeIcon.toggleClass('fa-comments fa-key');
+            });
+
+        </script>
     </body> 
 </html>

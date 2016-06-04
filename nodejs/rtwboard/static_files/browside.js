@@ -6,9 +6,9 @@ var msgNum = 0;
 function msgShow(msg){
     if (msgNum > 32) {
         $('li:first-child').remove();
-        $('#memberMsg').append($('<li>').text(msg));
+        $('#member_msg').append($('<li>').text(msg));
     }else {
-        $('#memberMsg').append($('<li>').text(msg));
+        $('#member_msg').append($('<li>').text(msg));
         msgNum+=1;
     }
 }
@@ -37,7 +37,7 @@ socket.on('transport history',function(data1,data2){
     })
     //載入既存聊天訊息
     data2.forEach(function(value){
-        $('#memberMsg').append($('<li>').text(value));
+        $('#member_msg').append($('<li>').text(value));
         msgNum+=1;
     })
 });

@@ -3,12 +3,13 @@ var userName = prompt('請輸入暱稱'); //socket連線建立後使用prompt會
 //紀錄訊息筆數
 var msgNum = 0;
 
+//
 function msgShow(msg){
     if (msgNum > 32) {
         $('li:first-child').remove();
-        $('#member_msg').append($('<li>').text(msg));
+        $('#memberMsg').append($('<li>').text(msg));
     }else {
-        $('#member_msg').append($('<li>').text(msg));
+        $('#memberMsg').append($('<li>').text(msg));
         msgNum+=1;
     }
 }
@@ -18,6 +19,7 @@ var socket = io();
 
 //將輸入名稱傳到後端 node.js server 來通知其他人您已上線的訊息 
 socket.emit('login', userName); 
+
 //接收歷史資料並載入
 socket.on('transport history',function(data1,data2){
     //載入既存圖畫
@@ -37,10 +39,11 @@ socket.on('transport history',function(data1,data2){
     })
     //載入既存聊天訊息
     data2.forEach(function(value){
-        $('#member_msg').append($('<li>').text(value));
+        $('#memberMsg').append($('<li>').text(value));
         msgNum+=1;
     })
 });
+
 //上線通知 
 socket.on('msg', function(data){ 
     msgShow(data);
