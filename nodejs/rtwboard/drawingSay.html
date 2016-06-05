@@ -17,32 +17,72 @@
             .switchBtn {
                 width:60px;
             }
-            .input-group input.form-control {
-                height:100%!important;
+            .input-group input.form-control, .input-group button {
+                height:42px;
+            }
+            #divLineWidthShow, ul.lineWidthGroup div {
+                width:34px;
+                height:2px;
+                background-color: rgb(51,51,51);
+            }
+            div.btn-group button.btn {
+                height:43px;
+            }
+            .lineWidthGroup {
+                min-width:0;
+                width:60px;
+            }
+
+            ul.lineWidthGroup a {
+                padding-left:12px;
+                height:26px;
+                line-height: 26px;
             }
         </style>
 
     </head> 
     <body> 
-        <button class='switchBtn btn btn-default' id='btnDrawMode'><i id='iDrawModeIcon' class='fa fa-pencil fa-2x'></i></button>
+        <button id='btnDrawMode' class='switchBtn btn btn-default'><i id='iDrawModeIcon' class='fa fa-pencil fa-2x'></i></button>
+
+
 
         <div class="input-group">
             <span class="input-group-btn">
-                <button class='switchBtn btn btn-default' id='btnSayMode'>
+                <button id='btnSayMode' class='switchBtn btn btn-default'>
                     <i id='iSayModeIcon' class='fa fa-comments fa-2x'></i>
                 </button>
             </span>
-            <input type="text" class='form-control' placeholder='點擊左側聊天切換鈕可切換答題模式'>
+            <input id='inpUserInp' type="text" class='form-control' placeholder='點擊左側按鈕可切換成聊天或答題模式'>
             <span class="input-group-btn">
                 <button class='btn btn-default'>送出</button>
             </span>
         </div>
+        
+        <div class="btn-group">
+            <button type="button" class="btn btn-default lineWidthGroup"><div id="divLineWidthShow"></div></button>
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu lineWidthGroup">
+                <li><a href="#"><div id="divLineWidth2" style="height:2px;"></div></a></li>
+                <li><a href="#"><div id="divLineWidth3" style="height:3px;"></div></a></li>
+                <li><a href="#"><div id="divLineWidth4" style="height:4px;"></div></a></li>
+                <li><a href="#"><div id="divLineWidth5" style="height:5px;"></div></a></li>
+                <li><a href="#"><div id="divLineWidth6" style="height:6px;"></div></a></li>
+                <li><a href="#"><div id="divLineWidth10" style="height:10px;"></div></a></li>
+                <li><a href="#"><div id="divLineWidth20" style="height:20px;"></div></a></li>
+            </ul>
+        </div>
+
         <script src="/socket.io/socket.io.js"></script><!--內部module-->
         <script src="http://code.jquery.com/jquery-1.11.1.js"></script><!--外部js-->
         <script src="drawingSay.js"></script><!--內部js-->
+
         <script>
             var jqBtnDrawMode = $('#btnDrawMode'), jqBtnSayMode = $('#btnSayMode'), 
-                jqIDrawModeIcon = $('#iDrawModeIcon'), jqISayModeIcon = $('#iSayModeIcon');
+                jqIDrawModeIcon = $('#iDrawModeIcon'), jqISayModeIcon = $('#iSayModeIcon'), 
+                jqInpUserInp = $('#inpUserInp');
 
             jqBtnDrawMode.click(function() {
                 jqIDrawModeIcon.toggleClass('fa-pencil fa-eraser');
@@ -50,7 +90,8 @@
             jqBtnSayMode.click(function() {
                 jqISayModeIcon.toggleClass('fa-comments fa-key');
             });
-
         </script>
+        <script src="../../frameWorks/da_byMySelf/da.js"></script>
+
     </body> 
 </html>

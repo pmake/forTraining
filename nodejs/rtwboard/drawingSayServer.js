@@ -10,7 +10,7 @@ var msgHistory = [], drawHistory = [], msgNum=0, pixelNum=0;
 app.use(express.static('static_files'));
 
 app.get('/', function(req, res){
-    res.sendFile(__dirname + '/drawingSay.html');
+    res.sendFile(__dirname + '/eBoard.html');
 });
 
 http.listen(3000, function(){
