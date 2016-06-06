@@ -14,11 +14,16 @@
         <link rel="stylesheet" href="drawingSay.css">
 
         <style>
+            html, body {
+                padding:0;
+                margin:0;
+                height:100%;
+            }
             .switchBtn {
                 width:60px;
             }
             .input-group input.form-control, .input-group button {
-                height:42px;
+                height:43px;
             }
             div.input-group span:first-child {
                 z-index: 3;/*以正常顯示右邊界點擊特效*/
@@ -59,95 +64,146 @@
                 display: inline-block;
                 vertical-align: middle;
             }
+            .jumbotron {
+                margin-bottom:0;
+                height:400px;
+            }
+            .col-lg-3, .col-lg-9 {
+                padding:5px;
+            }
+            #btnDrawMode {
+                position: absolute;
+            }
+            div.btn-group {
+                position: absolute;
+                left:65px;
+            }
+            #divAnswerSquares {
+                text-align: center;
+            }
+            #divAnswerSquares button{
+                height:43px;
+                width:38px;
+                padding:0;
+            }
+            @media(min-width:1200px){
+                .input-group {
+                    margin-right:-1px;
+                }
+            }
         </style>
-
     </head> 
-    <body> 
-        <div class="row">
-            <div class="jumbotron col-lg-9">
-                <canvas></canvas>
-            </div>
-            <div class="col-lg-3">
-                <button id='btnDrawMode' class='switchBtn btn btn-default da spt'><i id='iDrawModeIcon' class='fa fa-pencil fa-2x'></i></button>
-                <div class="btn-group">
-                    <button id="btnLineWidthShow" type="button" class="btn btn-default lineWidthGroup" data-toggle="dropdown"><div id="divLineWidthShow"></div></button>
-                    <ul class="dropdown-menu lineWidthGroup">
-                        <li><a href="javascript:;"><div id="divLineWidth2" style="height:2px;"></div></a></li>
-                        <li><a href="javascript:;"><div id="divLineWidth3" style="height:3px;"></div></a></li>
-                        <li><a href="javascript:;"><div id="divLineWidth4" style="height:4px;"></div></a></li>
-                        <li><a href="javascript:;"><div id="divLineWidth5" style="height:5px;"></div></a></li>
-                        <li><a href="javascript:;"><div id="divLineWidth6" style="height:6px;"></div></a></li>
-                        <li><a href="javascript:;"><div id="divLineWidth10" style="height:10px;"></div></a></li>
-                        <li><a href="javascript:;"><div id="divLineWidth20" style="height:20px;"></div></a></li>
-                    </ul>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-xs-3">
+                    <div class="jumbotron">
+                        <canvas></canvas>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <button id='btnSayMode' class='switchBtn btn btn-default'>
+                                <i id='iSayModeIcon' class='fa fa-comments fa-2x'></i>
+                            </button>
+                        </span>
+                        <input id='inpUserInp' type="text" class='form-control' placeholder='聊天模式(按鈕切換)'>
+                        <span class="input-group-btn">
+                            <button class='btn btn-default'>送出</button>
+                        </span>
+                    </div>
                 </div>
-                <div class="input-group">
-                    <span class="input-group-btn">
-                        <button id='btnSayMode' class='switchBtn btn btn-default'>
-                            <i id='iSayModeIcon' class='fa fa-comments fa-2x'></i>
-                        </button>
-                    </span>
-                    <input id='inpUserInp' type="text" class='form-control' placeholder='點擊左側按鈕可切換成聊天或答題模式'>
-                    <span class="input-group-btn">
-                        <button class='btn btn-default'>送出</button>
-                    </span>
+                <div class="col-lg-9 col-xs-9">
+                    <div class="jumbotron">
+                        <canvas></canvas>
+                    </div>
+                    <div id='divCanvasFooter'>
+                        <button id='btnDrawMode' class='switchBtn btn btn-default'><i id='iDrawModeIcon' class='fa fa-pencil fa-2x'></i></button>
+                        <div class="btn-group">
+                            <button id="btnLineWidthShow" type="button" class="btn btn-default lineWidthGroup" data-toggle="dropdown"><div id="divLineWidthShow"></div></button>
+                            <ul class="dropdown-menu lineWidthGroup">
+                                <li><a href="javascript:;"><div id="divLineWidth2" style="height:2px;"></div></a></li>
+                                <li><a href="javascript:;"><div id="divLineWidth3" style="height:3px;"></div></a></li>
+                                <li><a href="javascript:;"><div id="divLineWidth4" style="height:4px;"></div></a></li>
+                                <li><a href="javascript:;"><div id="divLineWidth5" style="height:5px;"></div></a></li>
+                                <li><a href="javascript:;"><div id="divLineWidth6" style="height:6px;"></div></a></li>
+                                <li><a href="javascript:;"><div id="divLineWidth10" style="height:10px;"></div></a></li>
+                                <li><a href="javascript:;"><div id="divLineWidth20" style="height:20px;"></div></a></li>
+                            </ul>
+                        </div>
+                        <div id="divAnswerSquares">
+                            <button type="button" class="btn btn-default">?</button>
+                            <button type="button" class="btn btn-default">?</button>
+                            <button type="button" class="btn btn-default">?</button>
+                            <button type="button" class="btn btn-default">?</button>
+                            <button type="button" class="btn btn-default">?</button>
+                            <button type="button" class="btn btn-default">?</button>
+                            <button type="button" class="btn btn-default">?</button>
+                            <button type="button" class="btn btn-default">?</button>
+                            <button type="button" class="btn btn-default">?</button>
+                            <button type="button" class="btn btn-default">?</button>
+                            <button type="button" class="btn btn-default">?</button>
+                            <button type="button" class="btn btn-default">?</button>
+                            <button type="button" class="btn btn-default">?</button>
+                            <button type="button" class="btn btn-default">?</button>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-6 col-md-1">
-            </div>
-            <div class="col-xs-6 col-md-1">
-                <a href="javascript:;" class="thumbnail">
-                    <img src="panda.jpg" alt="...">
-                </a>
-            </div>
-            <div class="col-xs-6 col-md-1">
-                <a href="javascript:;" class="thumbnail">
-                    <img src="panda.jpg" alt="...">
-                </a>
-            </div>
-            <div class="col-xs-6 col-md-1">
-                <a href="javascript:;" class="thumbnail">
-                    <img src="panda.jpg" alt="...">
-                </a>
-            </div>
-            <div class="col-xs-6 col-md-1">
-                <a href="javascript:;" class="thumbnail">
-                    <img src="panda.jpg" alt="...">
-                </a>
-            </div>
-            <div class="col-xs-6 col-md-1">
-                <a href="javascript:;" class="thumbnail">
-                    <img src="panda.jpg" alt="...">
-                </a>
-            </div>
-            <div class="col-xs-6 col-md-1">
-                <a href="javascript:;" class="thumbnail">
-                    <img src="panda.jpg" alt="...">
-                </a>
-            </div>
-            <div class="col-xs-6 col-md-1">
-                <a href="javascript:;" class="thumbnail">
-                    <img src="panda.jpg" alt="...">
-                </a>
-            </div>
-            <div class="col-xs-6 col-md-1">
-                <a href="javascript:;" class="thumbnail">
-                    <img src="panda.jpg" alt="...">
-                </a>
-            </div>
-            <div class="col-xs-6 col-md-1">
-                <a href="javascript:;" class="thumbnail">
-                    <img src="panda.jpg" alt="...">
-                </a>
-            </div>
-            <div class="col-xs-6 col-md-1">
-                <a href="javascript:;" class="thumbnail">
-                    <img src="panda.jpg" alt="...">
-                </a>
-            </div>
-            <div class="col-xs-6 col-md-1">
+            <div class="row">
+                <div class="col-xs-6 col-md-1">
+                </div>
+                <div class="col-xs-6 col-md-1">
+                    <a href="javascript:;" class="thumbnail">
+                        <img src="panda.jpg" alt="...">
+                    </a>
+                </div>
+                <div class="col-xs-6 col-md-1">
+                    <a href="javascript:;" class="thumbnail">
+                        <img src="panda.jpg" alt="...">
+                    </a>
+                </div>
+                <div class="col-xs-6 col-md-1">
+                    <a href="javascript:;" class="thumbnail">
+                        <img src="panda.jpg" alt="...">
+                    </a>
+                </div>
+                <div class="col-xs-6 col-md-1">
+                    <a href="javascript:;" class="thumbnail">
+                        <img src="panda.jpg" alt="...">
+                    </a>
+                </div>
+                <div class="col-xs-6 col-md-1">
+                    <a href="javascript:;" class="thumbnail">
+                        <img src="panda.jpg" alt="...">
+                    </a>
+                </div>
+                <div class="col-xs-6 col-md-1">
+                    <a href="javascript:;" class="thumbnail">
+                        <img src="panda.jpg" alt="...">
+                    </a>
+                </div>
+                <div class="col-xs-6 col-md-1">
+                    <a href="javascript:;" class="thumbnail">
+                        <img src="panda.jpg" alt="...">
+                    </a>
+                </div>
+                <div class="col-xs-6 col-md-1">
+                    <a href="javascript:;" class="thumbnail">
+                        <img src="panda.jpg" alt="...">
+                    </a>
+                </div>
+                <div class="col-xs-6 col-md-1">
+                    <a href="javascript:;" class="thumbnail">
+                        <img src="panda.jpg" alt="...">
+                    </a>
+                </div>
+                <div class="col-xs-6 col-md-1">
+                    <a href="javascript:;" class="thumbnail">
+                        <img src="panda.jpg" alt="...">
+                    </a>
+                </div>
+                <div class="col-xs-6 col-md-1">
+                </div>
             </div>
         </div>
 
@@ -158,13 +214,18 @@
         <script>
             //答題模式input依題目字數秀等數格子，已答對部分秀字
             var jqBtnDrawMode = $('#btnDrawMode'), jqBtnSayMode = $('#btnSayMode'), 
-                jqIDrawModeIcon = $('#iDrawModeIcon'), jqISayModeIcon = $('#iSayModeIcon'), jqALineWidthGroup = $('ul.lineWidthGroup li a'), divLineWidthShow = document.getElementById('divLineWidthShow'); 
+                jqIDrawModeIcon = $('#iDrawModeIcon'), jqISayModeIcon = $('#iSayModeIcon'), jqALineWidthGroup = $('ul.lineWidthGroup li a'), divLineWidthShow = document.getElementById('divLineWidthShow'), inpUserInp = document.getElementById('inpUserInp'); 
 
             jqBtnDrawMode.click(function() {
                 jqIDrawModeIcon.toggleClass('fa-pencil fa-eraser');
             });
             jqBtnSayMode.click(function() {
                 jqISayModeIcon.toggleClass('fa-comments fa-key');
+                if (jqISayModeIcon.hasClass('fa-key')){
+                    inpUserInp.setAttribute('placeholder','猜題模式(按鈕切換)');
+                }else{
+                    inpUserInp.setAttribute('placeholder','聊天模式(按鈕切換)');
+                }
             });
             jqALineWidthGroup.click(function(){
                 divLineWidthShow.style.height = this.firstChild.style.height;
