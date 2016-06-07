@@ -25,7 +25,7 @@ and open the template in the editor.
         if ($errMsg)
             echo 'Connecting failed with: ' . $errMsg;
         else
-            echo 'Connecting successaaa';
+            echo 'Connecting success';
 
         echo '<br>';
 
@@ -35,15 +35,13 @@ and open the template in the editor.
         $queryString = "select * from price where category = '主機板';";
         $result = $conn->query($queryString);
         if ($result) {
-            //呈現欄位資訊
-            echo '<table><tr><td>欄位名稱</td><td>最大內容長度</td><tr>';
-            //每呼叫一次 'mysqli_fetch_field($result)'就往下取得一筆欄資料，直到取完則傳回false
-            $meta = mysqli_fetch_field($result);
-            while ($meta) {
-                echo '<tr><td>' . $meta->name . '</td><td>' . $meta->max_length . '</td></tr>';
-                $meta = mysqli_fetch_field($result);
+            //以關聯式陣列方式取row資料(以欄名稱為陣列索引)
+            $rowData = mysqli_fetch_assoc($result);
+            while ($rowData) {
+                //輸出陣列內容
+                print_r($rowData);
+                $rowData = mysqli_fetch_assoc($result);
             }
-            echo '</table>';
             //清除查詢結果物件內容，釋放記憶體
             mysqli_free_result($result);
         } else

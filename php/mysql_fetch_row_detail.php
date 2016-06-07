@@ -39,8 +39,9 @@ and open the template in the editor.
             $rowData = mysqli_fetch_row($result);
             while ($rowData) {
                 //輸出陣列內容
-                print_r($rowData);
+                //print_r($rowData);
                 echo '<hr>';
+                echo "類別: $rowData[1] 型號: $rowData[3] 製造商: $rowData[2]";
                 $rowData = mysqli_fetch_row($result);
             }
             //清除查詢結果物件內容，釋放記憶體
