@@ -20,21 +20,16 @@
                 margin: 0;
                 height: 100%;
             }
-
             .switchBtn {
                 width: 60px;
             }
-
             .input-group input.form-control,
             .input-group button {
                 height: 43px;
             }
-
             div.input-group span:first-child {
-                z-index: 3;
-                /*以正常顯示右邊界點擊特效*/
+                z-index: 3;/*以正常顯示右邊界點擊特效*/
             }
-
             #divLineWidthShow,
             ul.lineWidthGroup div {
                 width: 34px;
@@ -46,84 +41,64 @@
                 left: 0;
                 right: 0;
             }
-
             #divLineWidthShow {
                 height: 2px;
             }
-
             #btnLineWidthShow {
                 height: 43px;
                 border-bottom-right-radius: 4px;
                 border-top-right-radius: 4px;
             }
-
             .lineWidthGroup {
                 min-width: 0;
                 width: 60px;
             }
-
             ul.lineWidthGroup a {
                 padding-left: 12px;
                 height: 26px;
-                position: relative;
+                position: relative;/*線條圖示div置中用*/
             }
-
             ul.lineWidthGroup a:hover {
                 background-color: rgba(225, 225, 225, .7);
             }
-
-            div.col-md-1::before {
-                content: '';
-                height: 100%;
-                display: inline-block;
-                vertical-align: middle;
-            }
-
-            .jumbotron {
-                margin-bottom: 0;
-                height: 480px;
-            }
-
-            #divCanvas {
-                width: 800px
-            }
-
-            .col-lg-3,
-            .col-lg-9 {
-                padding: 5px;
-            }
-
-            #btnDrawMode {
-                position: absolute;
-            }
-
-            div.btn-group {
-                position: absolute;
-                left: 65px;
-            }
-
             #divAnswerSquares {
                 text-align: center;
             }
-
             #divAnswerSquares button {
                 height: 43px;
                 width: 38px;
                 padding: 0;
             }
-
-            @media(min-width:1200px) {
-                .input-group {
-                    margin-right: -1px;
-                }
+            #divMsgArea {
+                width:295px;
+                height:595px;
+                float:left;
+                margin-right:5px;
+            }
+            #divCanvasArea {
+                width:660px;
+                height:595px;
+                float:left;
+            }
+            .jumbotron {
+                height:557px;
+                margin:0;
+                padding:0;
+            }
+            #row {
+                height:595px;
+                width:960px;
+                margin-left:auto;
+                margin-right:auto;
+                margin-top:5px;
             }
         </style>
     </head>
     <body>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-xs-3">
-                    <div id="divMsgArea" class="jumbotron">
+        <div id="divContainer">
+            <div id="row">
+                <div id="divMsgArea">
+                    <div class="jumbotron">
                     </div>
                     <div class="input-group">
                         <span class="input-group-btn">
@@ -137,52 +112,24 @@
                         </span>
                     </div>
                 </div>
-                <div class="col-lg-9 col-xs-9">
-                    <div id="divCanvas" class="jumbotron">
+                <div id="divCanvasArea">
+                    <div class="jumbotron">
                         <canvas></canvas>
                     </div>
                     <div id='divCanvasFooter'>
                         <button id='btnDrawMode' class='switchBtn btn btn-default'><i id='iDrawModeIcon' class='fa fa-pencil fa-2x'></i></button>
-                        <div class="btn-group">
+                        <div class="btn-group dropup">
                             <button id="btnLineWidthShow" type="button" class="btn btn-default lineWidthGroup" data-toggle="dropdown">
                                 <div id="divLineWidthShow"></div>
                             </button>
                             <ul class="dropdown-menu lineWidthGroup">
-                                <li>
-                                    <a href="javascript:;">
-                                        <div id="divLineWidth2" style="height:2px;"></div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:;">
-                                        <div id="divLineWidth3" style="height:3px;"></div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:;">
-                                        <div id="divLineWidth4" style="height:4px;"></div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:;">
-                                        <div id="divLineWidth5" style="height:5px;"></div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:;">
-                                        <div id="divLineWidth6" style="height:6px;"></div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:;">
-                                        <div id="divLineWidth10" style="height:10px;"></div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:;">
-                                        <div id="divLineWidth20" style="height:20px;"></div>
-                                    </a>
-                                </li>
+                                <li><a href="javascript:;"><div style="height:20px;"></div></a></li>
+                                <li><a href="javascript:;"><div style="height:10px;"></div></a></li>
+                                <li><a href="javascript:;"><div style="height:6px;"></div></a></li>
+                                <li><a href="javascript:;"><div style="height:5px;"></div></a></li>
+                                <li><a href="javascript:;"><div style="height:4px;"></div></a></li>
+                                <li><a href="javascript:;"><div style="height:3px;"></div></a></li>
+                                <li><a href="javascript:;"><div style="height:2px;"></div></a></li>
                             </ul>
                         </div>
                         <div id="divAnswerSquares">
@@ -204,7 +151,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div id="divUserArea">
                 <div class="col-xs-6 col-md-1">
                 </div>
                 <div class="col-xs-6 col-md-1">
@@ -264,8 +211,6 @@
 
         <script src="/socket.io/socket.io.js"></script>
         <!--內部module-->
-        <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
-        <!--外部js-->
         <script src="drawingSay.js"></script>
         <!--內部js-->
 
