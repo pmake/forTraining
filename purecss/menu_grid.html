@@ -1,0 +1,28 @@
+<!--建一個'pure-g'類別的div，裡面再建'pure-u-分子-分母'類別的div，分母代表viewport要分成幾等份，分子代表該div要佔幾份寬-->
+<!--responsive grid要另外link'grids-responsive.css'檔案，語法:'pure-u-等級-分子-分母'-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <link rel="stylesheet" href="../frameWorks/pure-release-0.6.0/pure-min.css">
+        <link rel="stylesheet" href="../frameWorks/pure-release-0.6.0/grids-responsive-min.css">
+    </head>
+    <body>
+        <!--水平選單-->
+        <div class="pure-menu pure-menu-horizontal">
+            <a href="javascript:;" class="pure-menu-heading pure-menu-link">BRAND</a>
+            <ul class="pure-menu-list">
+                <li class="pure-menu-item"><a href="javascript:;" class="pure-menu-link">News</a></li>
+                <li class="pure-menu-item"><a href="javascript:;" class="pure-menu-link">Sports</a></li>
+                <li class="pure-menu-item"><a href="javascript:;" class="pure-menu-link">Finance</a></li>
+            </ul>
+        </div>
+        <!--網格系統-->
+        <div class="pure-g">
+            <div class="pure-u-1-6 pure-u-md-1-12">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam quia cumque laborum recusandae perspiciatis, fugiat nihil temporibus eum sit, aspernatur sed ea porro iusto beatae, velit earum. Numquam, eligendi, nemo.</div>
+            <div class="pure-u-1-6 pure-u-md-1-12">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam quia cumque laborum recusandae perspiciatis, fugiat nihil temporibus eum sit, aspernatur sed ea porro iusto beatae, velit earum. Numquam, eligendi, nemo.</div>
+            <div class="pure-u-1-6 pure-u-md-1-12">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam quia cumque laborum recusandae perspiciatis, fugiat nihil temporibus eum sit, aspernatur sed ea porro iusto beatae, velit earum. Numquam, eligendi, nemo.</div>
+        </div>
+    </body>
+</html>

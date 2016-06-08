@@ -1,0 +1,203 @@
+<!--box-sizing:border-box設定讓在設定padding時不會影響總寬度，而是內部調整-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <link rel="stylesheet" href="../frameWorks/pure-release-0.6.0/pure-min.css">
+        <link rel="stylesheet" href="../frameWorks/pure-release-0.6.0/grids-responsive-min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+        <style>
+            html, body, h1, h2, h3 {
+                margin:0;
+                padding:0;
+            }
+            div.pure-menu {
+                background-color: rgb(45,62,80);
+                position: fixed;
+                line-height: 20px;
+                padding-top:15px;
+                padding-bottom:15px;
+                z-index:999;
+            }
+            ul.pure-menu-list li a {
+                color:rgb(105,179,229);
+            }
+            a.pure-menu-heading, ul.pure-menu-list li:first-child a {
+                color:#fff;
+            }
+            a.pure-menu-heading {
+                font-size:18px;
+            }
+            ul.pure-menu-list {
+                float:right;
+            }
+            #header {
+                background-color: rgb(31,141,214);
+                color:#fff;
+                letter-spacing: 1px;
+                padding-top:15%;
+                padding-bottom:15%;
+                position: fixed;
+                width:100%;
+            }
+            #header div {
+                margin:auto;
+                text-align: center;
+            }
+            div.pure-u-1-2 h1 {
+                height:130px;
+                padding:30px 0;
+                line-height: 130px;
+                border:3px solid #fff;
+                border-radius: 5px;
+                font-size:48px;
+                font-family:sans-serif;
+                font-weight: 300;
+                padding:0;
+                margin-top:50px;/*menu吃掉的高度調整*/
+                margin-bottom:30px;
+            }
+            div.pure-u-1-2 button {
+                color:rgb(31,141,214);
+                width:200px;
+                letter-spacing: 1px;
+            }
+            #mainContent h2 {
+                text-align: center;
+                color:rgb(52,73,94);
+                font-weight: 300;
+                margin:45px 0;
+            }
+            #mainContent div div {
+                box-sizing: border-box;
+                padding:0 25px;
+                margin:0;
+            }
+            #mainContent h3 {
+                color:rgb(31,141,214);
+            }
+            #mainContent p {
+                color:rgb(127,140,141);
+            }
+            #mainContent div.pure-g {
+                padding-top:0;
+                margin-top:0;
+                padding-bottom:50px;
+            }
+            #mainContent div div h2 {
+                text-align: left;
+                color:#fff;
+                margin-bottom:30px;
+                letter-spacing: 1px;
+            }
+            #mainContent img {
+                width:45%;
+            }
+            #mainContent div#laboris {
+                padding:45px 15px;
+                background-color: rgb(45,62,80);
+            }
+            #laboris div.pure-u-2-5 {
+                text-align: center;
+
+            }
+            label {
+                padding-bottom:5px;
+                font-weight: bold;
+            }
+            form.pure-form input {
+                margin-bottom:130px;
+                width:100%;
+                height:100%;
+            }
+            #userInputArea {
+                padding:0 15px;
+            }
+            #footer {
+                text-align: center;
+                background-color: rgb(17,17,17);
+                padding:10px 0;
+            }
+            #mainContent {
+                position: absolute;
+                top:860px;
+                background-color: #fff;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="pure-menu pure-menu-horizontal">
+            <a href="javascript:;" class="pure-menu-heading pure-menu-link">Your Site</a>
+            <ul class="pure-menu-list">
+                <li class="pure-menu-item"><a href="javascript:;" class="pure-menu-link">Home</a></li>
+                <li class="pure-menu-item"><a href="javascript:;" class="pure-menu-link">Tour</a></li>
+                <li class="pure-menu-item"><a href="javascript:;" class="pure-menu-link">Sign Up</a></li>
+            </ul>
+        </div>
+        <div id="header" class="pure-g">
+            <div class="pure-u-1-2">
+                <h1>BIG BOLD TEXT</h1>
+                <p>LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISICING ELIT.</p>
+                <button class="pure-button">GET STARTED</button>
+            </div>
+        </div>
+        <div id="mainContent">
+            <h2>EXCEPTEUR SINT OCCAECAT CUPIDATAT.</h2>
+            <div class="pure-g">
+                <div class="pure-u-1-4">
+                    <h3><i class="fa fa-rocket"></i>&nbsp;&nbsp;Get Started Quickly</h3>
+                    <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.</p>
+                </div>
+                <div class="pure-u-1-4">
+                    <h3><i class="fa fa-mobile-phone"></i>&nbsp;&nbsp;Responsive Layouts</h3>
+                    <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.</p>
+                </div>
+                <div class="pure-u-1-4">
+                    <h3><i class="fa fa-windows"></i>&nbsp;&nbsp;Modular</h3>
+                    <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.</p>
+                </div>
+                <div class="pure-u-1-4">
+                    <h3><i class="fa fa-check-square-o"></i>&nbsp;&nbsp;Plays Nice</h3>
+                    <p>Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.</p>
+                </div>
+            </div>
+            <div id="laboris" class="pure-g">
+                <div class="pure-u-2-5">
+                    <img src="./images/file-icons.png" alt="">
+                </div>
+                <div class="pure-u-3-5">
+                    <h2>LABORIS NISI UT ALIQUIP.</h2>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor.</p>
+                </div>
+            </div>
+            <h2>DOLORE MAGNA ALIQUA. UIS AUTE IRURE.</h2>
+            <div id="userInputArea" class="pure-g">
+                <div class="pure-u-2-5">
+                    <form class="pure-form pure-form-stacked">
+
+                        <label for="name">Your Name</label>
+                        <input id="name" type="text" placeholder="Your Name">
+
+                        <label for="email">Your Email</label>
+                        <input id="email" type="email" placeholder="Your Email">
+
+                        <label for="password">Your Password</label>
+                        <input id="password" type="password" placeholder="Your Password">
+
+                        <button type="submit" class="pure-button pure-button-primary">Sign Up</button>
+                    </form>
+                </div>
+                <div class="pure-u-3-5">
+                    <h4>Contact Us</h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                    <h4>More Information</h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                </div>
+            </div>
+            <div id="footer">
+                <p>View the source of this layout to learn more. Made with love by the YUI Team</p>
+            </div>
+        </div>
+    </body>
+</html>
