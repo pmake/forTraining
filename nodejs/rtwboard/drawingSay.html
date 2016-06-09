@@ -25,7 +25,7 @@
             }
             .input-group input.form-control,
             .input-group button {
-                height: 43px;
+                height: 45px;
             }
             div.input-group span:first-child {
                 z-index: 3;/*以正常顯示右邊界點擊特效*/
@@ -45,9 +45,10 @@
                 height: 2px;
             }
             #btnLineWidthShow {
-                height: 43px;
-                border-bottom-right-radius: 4px;
-                border-top-right-radius: 4px;
+                height: 45px;
+                border-radius: 0;
+                margin-top:-1px;
+                margin-bottom:-1px;
             }
             .lineWidthGroup {
                 min-width: 0;
@@ -61,52 +62,94 @@
             ul.lineWidthGroup a:hover {
                 background-color: rgba(225, 225, 225, .7);
             }
+            #btnDrawMode {
+                float:left;
+                border-top-right-radius: 0;
+                border-top-left-radius: 0;
+                border-bottom-right-radius: 0;
+                height: 45px;
+                margin-top:-1px;
+                margin-bottom:-1px;
+                margin-left:-1px;
+                margin-right:-1px;
+                position: relative;/*使z-index有效*/
+                /*                display: none;*/
+            }
+            #btnDrawMode:focus {
+                z-index: 3;/*在focus時拉高，使其框可見*/
+            }
+            #divCanvasFooter .btn-group {
+                float:left;
+                /*                display: none;*/
+            }
+            #divCanvasFooter {
+                height:45px;
+                border-bottom-left-radius: 4px; 
+                border-bottom-right-radius: 4px;
+                border:1px solid rgb(204,204,204);
+            }
             #divAnswerSquares {
                 text-align: center;
+                width:100%;
             }
-/*
-            .btn-group {
-                margin-left:0;
-            }
-*/
             #divAnswerSquares button {
-                height: 43px;
-                width: 38px;
+                margin-top:5px;
+                height: 33px;
+                width: 33px;
                 padding: 0;
             }
             #divMsgArea {
-                width:295px;
-                height:595px;
+                width:288px;
+                height:577px;
                 float:left;
                 margin-right:5px;
             }
             #divCanvasArea {
-                width:660px;
-                height:595px;
+                width:655px;
+                height:577px;
                 float:left;
             }
             .jumbotron {
-                height:552px;
+                height:532px;/*扣除按鈕高43px*/
                 margin:0;
                 padding:0;
+                background-color: rgb(85,85,85);
+                border-top-left-radius: 4px; 
+                border-top-right-radius: 4px;
+                border:1px solid rgb(204,204,204);
+                border-bottom: 0;
+            }
+            #divContainer {
+                width:960px;
+                padding:5px;
+                margin:0 auto;
                 background-color: rgb(125,125,125);
+                border:1px solid rgb(204,204,204);
+                border-radius: 4px;
             }
             #row {
-                height:595px;
-                width:960px;
-                margin-left:auto;
-                margin-right:auto;
-                margin-top:5px;
+                height:577px;
+                width:948px;
             }
             #divUserArea {
-                width: 960px;
-                margin:0 auto;
-                border:1px solid rgba(225,225,225,1);
+                width: 948px;
+                margin-top: 5px;
+                padding: 5px calc(106px/26);
+                border:1px solid rgb(204,204,204);
+                overflow: auto;
+                border-radius: 4px;
             }
             div.thumbnail {
                 width:70px;
-                margin:15px 5px;
                 height:70px;
+                margin:0 calc(106px/26);
+                float:left;
+            }
+            #btnSayMode {
+                border-top-left-radius: 0;
+            }
+            #btnSend {
+                border-top-right-radius: 0;
             }
         </style>
     </head>
@@ -124,7 +167,7 @@
                         </span>
                         <input id='inpUserInp' type="text" class='form-control' placeholder='聊天模式(按鈕切換)'>
                         <span class="input-group-btn">
-                            <button class='btn btn-default'>送出</button>
+                            <button id="btnSend" class='btn btn-default'>送出</button>
                         </span>
                     </div>
                 </div>
@@ -168,6 +211,17 @@
                 </div>
             </div>
             <div id="divUserArea">
+                <div class="thumbnail"><img src="panda.jpg" alt="..."></div>
+                <div class="thumbnail"><img src="panda.jpg" alt="..."></div>
+                <div class="thumbnail"><img src="panda.jpg" alt="..."></div>
+                <div class="thumbnail"><img src="panda.jpg" alt="..."></div>
+                <div class="thumbnail"><img src="panda.jpg" alt="..."></div>
+                <div class="thumbnail"><img src="panda.jpg" alt="..."></div>
+                <div class="thumbnail"><img src="panda.jpg" alt="..."></div>
+                <div class="thumbnail"><img src="panda.jpg" alt="..."></div>
+                <div class="thumbnail"><img src="panda.jpg" alt="..."></div>
+                <div class="thumbnail"><img src="panda.jpg" alt="..."></div>
+                <div class="thumbnail"><img src="panda.jpg" alt="..."></div>
                 <div class="thumbnail"><img src="panda.jpg" alt="..."></div>
             </div>
         </div>

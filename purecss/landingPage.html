@@ -92,7 +92,13 @@
                 letter-spacing: 1px;
             }
             #mainContent img {
-                width:45%;
+                width:200px;
+                position: absolute;
+                margin:auto;
+                top:0;
+                bottom:0;
+                left:0;
+                right:0;
             }
             #mainContent div#laboris {
                 padding:45px 15px;
@@ -100,16 +106,27 @@
             }
             #laboris div.pure-u-2-5 {
                 text-align: center;
-
+                position: relative;
+            }
+            #laboris div.pure-u-3-5 {
+                position: relative;
+                height:200px;
+            }
+            #laboris div.pure-u-3-5 div {
+                position: absolute;
+                margin:auto;
+                top:0;
+                bottom:0;
+                left:0;
+                right:0;
+            }
+            #laboris div.pure-u-3-5 div h1 {
+                margin-top:0;
+                padding-top:0;
             }
             label {
                 padding-bottom:5px;
                 font-weight: bold;
-            }
-            form.pure-form input {
-                margin-bottom:130px;
-                width:100%;
-                height:100%;
             }
             #userInputArea {
                 padding:0 15px;
@@ -124,6 +141,17 @@
                 top:860px;
                 background-color: #fff;
             }
+            label, input {
+                display: block;
+            }
+            input {
+                width:100%;
+                margin-bottom:20px;
+            }
+            #userInputArea div.pure-u-2-5 {
+                height:100%;
+            }
+
         </style>
     </head>
     <body>
@@ -167,14 +195,16 @@
                     <img src="./images/file-icons.png" alt="">
                 </div>
                 <div class="pure-u-3-5">
-                    <h2>LABORIS NISI UT ALIQUIP.</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor.</p>
+                    <div>
+                        <h2>LABORIS NISI UT ALIQUIP.</h2>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor.</p>
+                    </div>
                 </div>
             </div>
             <h2>DOLORE MAGNA ALIQUA. UIS AUTE IRURE.</h2>
             <div id="userInputArea" class="pure-g">
                 <div class="pure-u-2-5">
-                    <form class="pure-form pure-form-stacked">
+                    <form>
 
                         <label for="name">Your Name</label>
                         <input id="name" type="text" placeholder="Your Name">
@@ -186,6 +216,7 @@
                         <input id="password" type="password" placeholder="Your Password">
 
                         <button type="submit" class="pure-button pure-button-primary">Sign Up</button>
+
                     </form>
                 </div>
                 <div class="pure-u-3-5">
@@ -199,5 +230,6 @@
                 <p>View the source of this layout to learn more. Made with love by the YUI Team</p>
             </div>
         </div>
+        <script src="../frameWorks/da_byMySelf/da.js"></script>
     </body>
 </html>
