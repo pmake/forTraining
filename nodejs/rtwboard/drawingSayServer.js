@@ -1,3 +1,7 @@
+//思考哪些事或是資料是不必透過server執行或是傳遞的，進一步減輕server負擔和流量，例如client輸入的聊天訊息，冠名的部分不需在server
+//而是可以在傳遞新玩家登入訊息時就將暱稱紀錄在client端，後續聊天訊息server只傳遞訊息內容，冠名的動作在client端做，訊息的部分也可以
+//使用資料量小的格式傳遞，例如先壓縮或是在client端建立一次性數據，後續以簡碼存取，省去重複內容的非必要傳輸
+
 var express = require('express');
 var app = express();
 var http = require('http').Server(app);
@@ -10,7 +14,7 @@ var msgHistory = [], drawHistory = [], msgNum=0, pixelNum=0;
 app.use(express.static('static_files'));
 
 app.get('/', function(req, res){
-    res.sendFile(__dirname + '/eBoard.html');
+    res.sendFile(__dirname + '/drawingSay.html');
 });
 
 http.listen(3000, function(){
