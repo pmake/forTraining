@@ -20,8 +20,9 @@
                 margin: 0;
                 height: 100%;
             }
-            .switchBtn {
-                width: 60px;
+            .switchBtn, #btnCleaner, #btnSend {
+                width: 47px;
+                padding:0;
             }
             .input-group input.form-control,
             .input-group button {
@@ -32,7 +33,7 @@
             }
             #divLineWidthShow,
             ul.lineWidthGroup div {
-                width: 34px;
+                width: 21px;
                 background-color: rgb(51, 51, 51);
                 position: absolute;
                 margin: auto;
@@ -45,24 +46,27 @@
                 height: 2px;
             }
             #btnLineWidthShow {
+                width: 47px;
                 height: 45px;
                 border-radius: 0;
                 margin-top:-1px;
                 margin-bottom:-1px;
+                margin-right:-1px;
+                border-bottom-right-radius: 4px;
             }
             .lineWidthGroup {
                 min-width: 0;
-                width: 60px;
+                width: 47px;
+                padding:9px 0;
             }
             ul.lineWidthGroup a {
-                padding-left: 12px;
                 height: 26px;
                 position: relative;/*線條圖示div置中用*/
             }
             ul.lineWidthGroup a:hover {
                 background-color: rgba(225, 225, 225, .7);
             }
-            #btnDrawMode {
+            #btnCleaner {
                 float:left;
                 border-top-right-radius: 0;
                 border-top-left-radius: 0;
@@ -71,6 +75,14 @@
                 margin-top:-1px;
                 margin-bottom:-1px;
                 margin-left:-1px;
+                /*                display: none;*/
+            }
+            #btnDrawMode {
+                float:right;
+                border-radius: 0;
+                height: 45px;
+                margin-top:-1px;
+                margin-bottom:-1px;
                 margin-right:-1px;
                 position: relative;/*使z-index有效*/
                 /*                display: none;*/
@@ -79,7 +91,7 @@
                 z-index: 3;/*在focus時拉高，使其框可見*/
             }
             #divCanvasFooter .btn-group {
-                float:left;
+                float:right;
                 /*                display: none;*/
             }
             #divCanvasFooter {
@@ -91,12 +103,16 @@
             #divAnswerSquares {
                 text-align: center;
                 width:100%;
+                font-size: 0;/*讓inline-block的元素間距歸0*/
             }
             #divAnswerSquares button {
                 margin-top:5px;
+                margin-left:1px;
+                margin-right:1px;
                 height: 33px;
                 width: 33px;
                 padding: 0;
+
             }
             #divMsgArea {
                 width:288px;
@@ -113,7 +129,7 @@
                 height:532px;/*扣除按鈕高43px*/
                 margin:0;
                 padding:0;
-                background-color: rgb(85,85,85);
+                background-color: rgb(51,51,51);
                 border-top-left-radius: 4px; 
                 border-top-right-radius: 4px;
                 border:1px solid rgb(204,204,204);
@@ -123,7 +139,7 @@
                 width:960px;
                 padding:5px;
                 margin:0 auto;
-                background-color: rgb(125,125,125);
+                background-color: rgb(85,85,85);
                 border:1px solid rgb(204,204,204);
                 border-radius: 4px;
             }
@@ -176,7 +192,9 @@
                         <canvas></canvas>
                     </div>
                     <div id='divCanvasFooter'>
-                        <button id='btnDrawMode' class='switchBtn btn btn-default'><i id='iDrawModeIcon' class='fa fa-pencil fa-2x'></i></button>
+                        <button id='btnCleaner' class='btn btn-default'>
+                            <i id='iCleanerIcon' class='fa fa-file fa-2x'></i>
+                        </button>
                         <div class="btn-group dropup">
                             <button id="btnLineWidthShow" type="button" class="btn btn-default lineWidthGroup" data-toggle="dropdown">
                                 <div id="divLineWidthShow"></div>
@@ -191,8 +209,9 @@
                                 <li><a href="javascript:;"><div style="height:2px;"></div></a></li>
                             </ul>
                         </div>
+                        <button id='btnDrawMode' class='switchBtn btn btn-default'><i id='iDrawModeIcon' class='fa fa-pencil fa-2x'></i></button>
                         <div id="divAnswerSquares">
-                            <button type="button" class="btn btn-default">?</button>
+                            <button type="button" class="btn btn-default">我</button>
                             <button type="button" class="btn btn-default">?</button>
                             <button type="button" class="btn btn-default">?</button>
                             <button type="button" class="btn btn-default">?</button>
