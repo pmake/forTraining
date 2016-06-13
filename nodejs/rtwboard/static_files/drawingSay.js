@@ -7,9 +7,9 @@ var msgNum = 0;
 function msgShow(msg){
     if (msgNum > 32) {
         $('li:first-child').remove();
-        $('#memberMsg').append($('<li>').text(msg));
+        $('#ulMsgList').append($('<li>').text(msg));
     }else {
-        $('#memberMsg').append($('<li>').text(msg));
+        $('#ulMsgList').append($('<li>').text(msg));
         msgNum+=1;
     }
 }
@@ -39,7 +39,7 @@ socket.on('transport history',function(data1,data2){
     })
     //載入既存聊天訊息
     data2.forEach(function(value){
-        $('#memberMsg').append($('<li>').text(value));
+        $('#ulMsgList').append($('<li>').text(value));
         msgNum+=1;
     })
 });
@@ -61,11 +61,11 @@ socket.on('show', function(data){
 
 /* 繪圖相關設定 */ 
 //宣告 canvas 元素 
-var c = document.getElementsByTagName('canvas')[0]; 
+var c = document.getElementById('cvDrawingArea'); 
 
 //設定 canvas 寬與高 
-c.width  = 648; 
-c.height = 770; 
+c.width  = 653; 
+c.height = 531; 
 
 //判斷畫布是否有動作的布林變數 
 var drawing = false; 
@@ -77,19 +77,19 @@ var ctx = c.getContext('2d');
 //繪圖物件初始設定 
 ctx.lineCap = 'round'; 
 ctx.lineJoin = 'round'; 
-ctx.strokeStyle = '#000000'; 
+ctx.strokeStyle = '#fff'; 
 ctx.lineWidth = 1; 
 
 //座標相關變數 
 var offset={}, x=0, y=0, new_x=0, new_y=0;
 //取得畫布相對位置
-offset = $('#whiteboard').offset();
+offset = $('#cvDrawingArea').offset();
 $(window).resize(function (){
-    offset = $('#whiteboard').offset();
+    offset = $('#cvDrawingArea').offset();
 });
 
 //滑鼠在畫布按下、移動、釋放時的事件處理，on方法可一次指定多事件，多handler
-$('#whiteboard').on({
+$('#cvDrawingArea').on({
     mousedown: function(e){
         e.preventDefault();//關閉滑鼠左鍵按下時預設的拖曳選取功能
 
@@ -103,7 +103,7 @@ $('#whiteboard').on({
     }
 });
 //on方法對本身及子元素，既存和未來新增的元素都會產生效果，理論上效率應會較差，因此此處採用一般方法掛載handler
-$('#whiteboard').mousemove(function(e){ 
+$('#cvDrawingArea').mousemove(function(e){ 
     e.preventDefault();//關閉滑鼠左鍵按下移動時預設的遊標變化功能
 
     //是否開啟畫圖機制 

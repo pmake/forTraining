@@ -4,6 +4,9 @@ body {
     margin: 0;
     height: 100%;
 }
+body {
+    margin-top: 5px;
+}
 .switchBtn, #btnCleaner, #btnSend {
     width: 47px;
     padding:0;
@@ -111,6 +114,10 @@ ul.lineWidthGroup a:hover {
     width:655px;
     height:577px;
     float:left;
+}
+#cvDrawingArea {
+    width: 653px;
+    height: 531px;
 }
 .jumbotron {
     height:532px;/*扣除按鈕高43px*/

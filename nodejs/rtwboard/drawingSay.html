@@ -12,12 +12,14 @@
         <!-- server端有express.static middleware提供靜態檔案服務，-->
         <!-- 使用該服務在URL中不需含內容資料夾名稱，服務自會解析-->
         <link rel="stylesheet" href="drawingSay.css">
+<!--        <link rel="stylesheet" href="static_files/drawingSay.css">-->
     </head>
     <body>
         <div id="divContainer">
             <div id="row">
                 <div id="divMsgArea">
                     <div class="jumbotron">
+                    <ul id="ulMsgList"></ul>
                     </div>
                     <div class="input-group">
                         <span class="input-group-btn">
@@ -33,7 +35,7 @@
                 </div>
                 <div id="divCanvasArea">
                     <div class="jumbotron">
-                        <canvas></canvas>
+                        <canvas id="cvDrawingArea"></canvas>
                     </div>
                     <div id='divCanvasFooter'>
                         <button id='btnCleaner' class='btn btn-default'>
