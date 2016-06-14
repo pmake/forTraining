@@ -166,11 +166,12 @@ function draw(x, y, new_x, new_y)
 }
 
 //聊天功能
-$('form').submit(function(){
-    if ($('#m').val() !== '') socket.emit('chat message', $('#m').val());
-    $('#m').val('');
-    return false;//避免重新導向(載入)
+$('#btnSend').click(function(){
+    if ($('#inpUserInp').val() !=='') socket.emit('chat message', $('#inpUserInp').val());
+    $('#inpUserInp').val('');
 });
+
+$('#inpUserInp').focus();
 
 //清除畫布
 $('#cleaner').click(function(){

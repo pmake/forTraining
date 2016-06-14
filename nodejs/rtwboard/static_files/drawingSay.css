@@ -2,10 +2,9 @@ html,
 body {
     padding: 0;
     margin: 0;
-    height: 100%;
 }
 body {
-    margin-top: 5px;
+    margin-top: calc((100vh - 676px)/2);
 }
 .switchBtn, #btnCleaner, #btnSend {
     width: 47px;
@@ -164,4 +163,16 @@ div.thumbnail img {
 }
 #btnSend {
     border-top-right-radius: 0;
+}
+#ulMsgList {
+    height: 531px;
+    overflow:hidden;
+    word-wrap: break-word;
+    color:#fff;
+    list-style: none;
+    margin-bottom: 0;
+    padding-top: 15.5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    /*    高度大於515.5就必須刪li至<515.5*/
 }
