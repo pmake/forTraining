@@ -1,0 +1,36 @@
+<!--以a觸發大圖，以rel分大圖群組-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <link rel="stylesheet" href="../frameWorks/fancyapps-fancyBox-18d1712/source/jquery.fancybox.css">
+        <script src="../frameWorks/jquery/jquery-1.12.4.min.js"></script>
+        <script src="../frameWorks/fancyapps-fancyBox-18d1712/source/jquery.fancybox.pack.js"></script>
+        <style>
+            .fancy img {
+                width: 150px;
+            }
+        </style>
+    </head>
+    <body>
+        <a class="fancy" rel="g1" title="qutePuppy1" href="https://s.graphiq.com/sites/default/files/stories/t4/The_Best_Dog_Breeds_18262_10912.jpg">
+            <img src="https://s.graphiq.com/sites/default/files/stories/t4/The_Best_Dog_Breeds_18262_10912.jpg" alt="">
+        </a>
+        <a class="fancy" rel="g2" title="quteCat1" href="http://1.bp.blogspot.com/-EqFrDW-d0b0/VP-878RCpLI/AAAAAAAALSs/nkZRw_71HL4/s1600/cat_wallpaper_1280x800.jpg">
+            <img src="http://1.bp.blogspot.com/-EqFrDW-d0b0/VP-878RCpLI/AAAAAAAALSs/nkZRw_71HL4/s1600/cat_wallpaper_1280x800.jpg" alt="">
+        </a>
+        <a class="fancy" rel="g1" title="qutePuppy2" href="http://r.ddmcdn.com/s_f/o_1/cx_633/cy_0/cw_1725/ch_1725/w_720/APL/uploads/2014/11/too-cute-doggone-it-video-playlist.jpg">
+            <img src="http://r.ddmcdn.com/s_f/o_1/cx_633/cy_0/cw_1725/ch_1725/w_720/APL/uploads/2014/11/too-cute-doggone-it-video-playlist.jpg" alt="">
+        </a>
+        <a class="fancy" rel="g2" title="quteCat2" href="http://s.hswstatic.com/gif/whiskers-sam.jpg">
+            <img src="http://s.hswstatic.com/gif/whiskers-sam.jpg" alt="">
+        </a>
+        <a class="fancy" rel="g2" title="quteCat3" href="http://wallpaper4k.info/wp-content/uploads/2016/02/6850497-baby-cat.jpg">
+            <img src="http://wallpaper4k.info/wp-content/uploads/2016/02/6850497-baby-cat.jpg" alt="">
+        </a>
+        <script>
+            $('.fancy').fancybox();
+        </script>
+    </body>
+</html>
