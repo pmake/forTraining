@@ -5,6 +5,7 @@ body {
 }
 body {
     margin-top: calc((100vh - 676px)/2);
+    background-color: rgb(85,85,85);
 }
 .switchBtn, #btnCleaner, #btnSend {
     width: 47px;
@@ -175,4 +176,22 @@ div.thumbnail img {
     padding-left: 10px;
     padding-right: 10px;
     /*    高度大於515.5就必須刪li至<515.5*/
+}
+/*animation*/
+#divContainer, .jumbotron, #inpUserInp, #divCanvasFooter, .btn-default, #divUserArea, .thumbnail {
+    -webkit-animation: live 5s infinite;  /* Chrome, Safari, Opera */ 
+    animation: live 5s infinite; /* Standard syntax */
+}
+/* Chrome, Safari, Opera */
+@-webkit-keyframes live {
+    50% {
+        border-color: rgb(85,85,85);
+    }
+}
+
+/* Standard syntax */
+@keyframes live {
+    50% {
+        border-color: rgb(85,85,85);
+    }
 }

@@ -1,15 +1,43 @@
+//答題模式input依題目字數秀等數格子，已答對部分秀字
 var userName = prompt('請輸入暱稱'); //socket連線建立後使用prompt會額外建立socket，所以要在連線建立之前使用
 
-//紀錄訊息筆數
-var msgNum = 0;
+var msgNum = 0,
+    drawingColor = '#fff',
+    eraserColor = 'rgb(51,51,51)',
+    jqBtnDrawMode = $('#btnDrawMode'),
+    jqBtnSayMode = $('#btnSayMode'),
+    jqIDrawModeIcon = $('#iDrawModeIcon'),
+    jqISayModeIcon = $('#iSayModeIcon'),
+    jqALineWidthGroup = $('ul.lineWidthGroup li a'),
+    divLineWidthShow = document.getElementById('divLineWidthShow'),
+    inpUserInp = document.getElementById('inpUserInp'),
+    jqUlMsgList = $('#ulMsgList'),
+    jqCvDrawingArea = $('#cvDrawingArea'),
+    jqBtnCleaner = $('#btnCleaner');
 
-//
+jqBtnDrawMode.click(function () {
+    jqIDrawModeIcon.toggleClass('fa-pencil fa-eraser');
+});
+jqBtnSayMode.click(function () {
+    jqISayModeIcon.toggleClass('fa-comments fa-key');
+    if (jqISayModeIcon.hasClass('fa-key')) {
+        inpUserInp.setAttribute('placeholder', '猜題模式(按鈕切換)');
+    } else {
+        inpUserInp.setAttribute('placeholder', '聊天模式(按鈕切換)');
+    }
+});
+jqALineWidthGroup.click(function () {
+    divLineWidthShow.style.height = this.firstChild.style.height;
+});
+
 function msgShow(msg){
     if (msgNum > 32) {
         $('li:first-child').remove();
-        $('#ulMsgList').append($('<li>').text(msg));
+        //jqUlMsgList.append($('<li>').text(msg))也可以，邏輯不明，<li>是選擇什麼待解;
+        jqUlMsgList.append('<li>' + msg + '</li>');
     }else {
-        $('#ulMsgList').append($('<li>').text(msg));
+        jqUlMsgList.append('<li>' + msg + '</li>');
+        //jqUlMsgList.append($('<li>').text(msg));
         msgNum+=1;
     }
 }
@@ -39,7 +67,8 @@ socket.on('transport history',function(data1,data2){
     })
     //載入既存聊天訊息
     data2.forEach(function(value){
-        $('#ulMsgList').append($('<li>').text(value));
+        jqUlMsgList.append('<li>' + value + '</li>');
+        //$('#ulMsgList').append($('<li>').text(value));
         msgNum+=1;
     })
 });
@@ -83,13 +112,13 @@ ctx.lineWidth = 1;
 //座標相關變數 
 var offset={}, x=0, y=0, new_x=0, new_y=0;
 //取得畫布相對位置
-offset = $('#cvDrawingArea').offset();
+offset = jqCvDrawingArea.offset();
 $(window).resize(function (){
-    offset = $('#cvDrawingArea').offset();
+    offset = jqCvDrawingArea.offset();
 });
 
 //滑鼠在畫布按下、移動、釋放時的事件處理，on方法可一次指定多事件，多handler
-$('#cvDrawingArea').on({
+jqCvDrawingArea.on({
     mousedown: function(e){
         e.preventDefault();//關閉滑鼠左鍵按下時預設的拖曳選取功能
 
@@ -103,7 +132,7 @@ $('#cvDrawingArea').on({
     }
 });
 //on方法對本身及子元素，既存和未來新增的元素都會產生效果，理論上效率應會較差，因此此處採用一般方法掛載handler
-$('#cvDrawingArea').mousemove(function(e){ 
+jqCvDrawingArea.mousemove(function(e){ 
     e.preventDefault();//關閉滑鼠左鍵按下移動時預設的遊標變化功能
 
     //是否開啟畫圖機制 
@@ -174,11 +203,11 @@ $('#btnSend').click(function(){
 $('#inpUserInp').focus();
 
 //清除畫布
-$('#cleaner').click(function(){
+jqBtnCleaner.click(function(){
     ctx.clearRect(0,0,c.width,c.height);
     //清除完自動設定成繪圖模式
-    ctx.strokeStyle = '#000';
-    $('#draw').prop('checked',true);
+    ctx.strokeStyle = drawingColor;
+    if (jqIDrawModeIcon.hasClass('fa-eraser')) jqIDrawModeIcon.toggleClass('fa-pencil fa-eraser');
     var settings = {};
     settings.color = ctx.strokeStyle;
     settings.size = ctx.lineWidth;
@@ -187,8 +216,8 @@ $('#cleaner').click(function(){
 
 socket.on('clear canvas', function(){
     ctx.clearRect(0,0,c.width,c.height);
-    ctx.strokeStyle = '#000';
-    $('#draw').prop('checked',true);
+    ctx.strokeStyle = drawingColor;
+    if (jqIDrawModeIcon.hasClass('fa-eraser')) jqIDrawModeIcon.toggleClass('fa-pencil fa-eraser');
 });
 
 socket.on('chat message',function(msg){

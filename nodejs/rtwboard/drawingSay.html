@@ -12,7 +12,7 @@
         <!-- server端有express.static middleware提供靜態檔案服務，-->
         <!-- 使用該服務在URL中不需含內容資料夾名稱，服務自會解析-->
         <link rel="stylesheet" href="drawingSay.css">
-        <link rel="stylesheet" href="static_files/drawingSay.css">
+        <!--<link rel="stylesheet" href="static_files/drawingSay.css">-->
     </head>
     <body>
         <div id="divContainer">
@@ -76,7 +76,7 @@
                 </div>
             </div>
             <div id="divUserArea">
-                <div class="thumbnail da spt"><img src="panda.jpg" alt="..."></div>
+                <div class="thumbnail"><img src="panda.jpg" alt="..."></div>
                 <div class="thumbnail"><img src="panda.jpg" alt="..."></div>
                 <div class="thumbnail"><img src="panda.jpg" alt="..."></div>
                 <div class="thumbnail"><img src="panda.jpg" alt="..."></div>
@@ -95,32 +95,6 @@
         <!--內部module-->
         <script src="drawingSay.js"></script>
         <!--內部js-->
-
-        <script>
-            //答題模式input依題目字數秀等數格子，已答對部分秀字
-            var jqBtnDrawMode = $('#btnDrawMode'),
-                jqBtnSayMode = $('#btnSayMode'),
-                jqIDrawModeIcon = $('#iDrawModeIcon'),
-                jqISayModeIcon = $('#iSayModeIcon'),
-                jqALineWidthGroup = $('ul.lineWidthGroup li a'),
-                divLineWidthShow = document.getElementById('divLineWidthShow'),
-                inpUserInp = document.getElementById('inpUserInp');
-
-            jqBtnDrawMode.click(function () {
-                jqIDrawModeIcon.toggleClass('fa-pencil fa-eraser');
-            });
-            jqBtnSayMode.click(function () {
-                jqISayModeIcon.toggleClass('fa-comments fa-key');
-                if (jqISayModeIcon.hasClass('fa-key')) {
-                    inpUserInp.setAttribute('placeholder', '猜題模式(按鈕切換)');
-                } else {
-                    inpUserInp.setAttribute('placeholder', '聊天模式(按鈕切換)');
-                }
-            });
-            jqALineWidthGroup.click(function () {
-                divLineWidthShow.style.height = this.firstChild.style.height;
-            });
-        </script>
-        <script src="../../frameWorks/da_byMySelf/da.js"></script>
+        <!--<script src="../../frameWorks/da_byMySelf/da.js"></script>-->
     </body>
 </html>
