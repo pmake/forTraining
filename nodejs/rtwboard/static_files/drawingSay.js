@@ -13,7 +13,8 @@ var msgNum = 0,
     inpUserInp = document.getElementById('inpUserInp'),
     jqUlMsgList = $('#ulMsgList'),
     jqCvDrawingArea = $('#cvDrawingArea'),
-    jqBtnCleaner = $('#btnCleaner');
+    jqBtnCleaner = $('#btnCleaner'),
+    jqBtnSend = $('#btnSend');
 
 jqBtnDrawMode.click(function () {
     jqIDrawModeIcon.toggleClass('fa-pencil fa-eraser');
@@ -21,27 +22,24 @@ jqBtnDrawMode.click(function () {
 jqBtnSayMode.click(function () {
     jqISayModeIcon.toggleClass('fa-comments fa-key');
     if (jqISayModeIcon.hasClass('fa-key')) {
-        inpUserInp.setAttribute('placeholder', '猜題模式(按鈕切換)');
+        inpUserInp.setAttribute('placeholder', '猜題模式(左側按鈕切換)');
     } else {
-        inpUserInp.setAttribute('placeholder', '聊天模式(按鈕切換)');
+        inpUserInp.setAttribute('placeholder', '聊天模式(左側按鈕切換)');
     }
 });
 jqALineWidthGroup.click(function () {
-    divLineWidthShow.style.height = this.firstChild.style.height;
+    divLineWidthShow.style.height = this.firstElementChild.style.height;
 });
 
 function msgShow(msg){
-    if (msgNum > 24) {
-        $('li:first-child').remove();
-        //jqUlMsgList.append($('<li>').text(msg))也可以，邏輯不明，<li>是選擇什麼待解;
-        jqUlMsgList.append('<li>' + msg + '</li>');
-    }else {
-        jqUlMsgList.append('<li>' + msg + '</li>');
-        //jqUlMsgList.append($('<li>').text(msg));
-        msgNum+=1;
+    jqUlMsgList.append('<li>' + msg + '</li>');
+    //下列方式也可新增，邏輯待解明
+    //$('#ulMsgList').append($('<li>').text(value));
+
+    //高限是516，用526是給一點誤差buffer
+    while((parseFloat(jqUlMsgList.css('height')) - 526) > 0) {
+        jqUlMsgList[0].removeChild(jqUlMsgList[0].firstElementChild);
     }
-    var msgAreaHeight = jqUlMsgList.css('height');
-    console.log(msgAreaHeight);
 }
 
 //建立socket連線 
@@ -69,9 +67,7 @@ socket.on('transport history',function(data1,data2){
     })
     //載入既存聊天訊息
     data2.forEach(function(value){
-        jqUlMsgList.append('<li>' + value + '</li>');
-        //$('#ulMsgList').append($('<li>').text(value));
-        msgNum+=1;
+        msgShow(value);
     })
 });
 
@@ -197,12 +193,19 @@ function draw(x, y, new_x, new_y)
 }
 
 //聊天功能
-$('#btnSend').click(function(){
-    if ($('#inpUserInp').val() !=='') socket.emit('chat message', $('#inpUserInp').val());
-    $('#inpUserInp').val('');
+inpUserInp.focus();
+jqBtnSend.click(function(){
+    if (inpUserInp.value !=='') socket.emit('chat message', inpUserInp.value);
+    inpUserInp.value = '';
+    inpUserInp.focus();
 });
 
-$('#inpUserInp').focus();
+inpUserInp.onkeydown = function (e) {
+    if (e.keyCode === 13) {
+        if (inpUserInp.value !=='') socket.emit('chat message', inpUserInp.value);
+        inpUserInp.value = '';
+    }
+};
 
 //清除畫布
 jqBtnCleaner.click(function(){
