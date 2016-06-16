@@ -43,7 +43,7 @@ io.on('connection', function(socket) {
         var temp = data + ' 上線了';
         socket.broadcast.emit('msg', temp); 
         //紀錄訊息
-        if(msgNum>32){
+        if(msgNum>24){
             msgHistory.shift();
             msgHistory[msgNum-1] = temp;
         }else{
@@ -82,7 +82,7 @@ io.on('connection', function(socket) {
         var temp = socket.name + ' 已離開';
         socket.broadcast.emit('msg', temp);
         //紀錄訊息
-        if(msgNum>32){
+        if(msgNum>24){
             msgHistory.shift();
             msgHistory[msgNum-1] = temp;
         }else{
@@ -95,7 +95,7 @@ io.on('connection', function(socket) {
         var temp = socket.name + ' : ' + msg;
         io.emit('chat message',temp);
         //記錄訊息
-        if(msgNum>32){
+        if(msgNum>24){
             msgHistory.shift();
             msgHistory[msgNum-1] = temp;
         }else{

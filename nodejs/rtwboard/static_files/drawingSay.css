@@ -129,6 +129,9 @@ ul.lineWidthGroup a:hover {
     border:1px solid rgb(204,204,204);
     border-bottom: 0;
 }
+#divMsgContainer {
+    overflow: hidden;
+}
 #divContainer {
     width:960px;
     padding:5px;
@@ -166,8 +169,10 @@ div.thumbnail img {
     border-top-right-radius: 0;
 }
 #ulMsgList {
+/*
     height: 531px;
     overflow:hidden;
+*/
     word-wrap: break-word;
     color:#fff;
     list-style: none;

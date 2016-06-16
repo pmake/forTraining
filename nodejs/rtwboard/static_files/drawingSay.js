@@ -31,7 +31,7 @@ jqALineWidthGroup.click(function () {
 });
 
 function msgShow(msg){
-    if (msgNum > 32) {
+    if (msgNum > 24) {
         $('li:first-child').remove();
         //jqUlMsgList.append($('<li>').text(msg))也可以，邏輯不明，<li>是選擇什麼待解;
         jqUlMsgList.append('<li>' + msg + '</li>');
@@ -40,6 +40,8 @@ function msgShow(msg){
         //jqUlMsgList.append($('<li>').text(msg));
         msgNum+=1;
     }
+    var msgAreaHeight = jqUlMsgList.css('height');
+    console.log(msgAreaHeight);
 }
 
 //建立socket連線 
