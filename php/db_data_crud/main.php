@@ -1,6 +1,12 @@
 <?php
 require_once 'functions.php';
 $conn = dbConnector('localhost', 'root', '1qaz@wsx', 'class', '3306');
+
+//刪除資料
+if(isset($_GET['id'])) {
+    $conn->query('delete from students where cID = ' . $_GET['id']);
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -53,15 +59,22 @@ and open the template in the editor.
                         echo "<td> $val </td>";
                     }
                     echo "<td><a href='update.php?id=" . $rowData[0] . "'>修改</a>";
-                    echo "&nbsp;&nbsp;<a href='delete.php?id=" . $rowData[0] . "'>刪除</a></td></tr>";
+                    echo "&nbsp;&nbsp;<a onclick='return confirm(123)' href='main.php?id=" . $rowData[0] . "'>刪除</a></td></tr>";
                     $rowData = mysqli_fetch_row($result);
                 }
                 echo '</table></div>';
                 //清除查詢結果物件內容，釋放記憶體
                 mysqli_free_result($result);
                 mysqli_close($conn);
-            } else
+            } else {
                 echo 'query failed';
+                mysqli_close($conn);
+            }
             ?>
+            <script>
+                function checker(){
+                    return confirm('are you sure?');
+                }
+            </script>
     </body>
 </html>
