@@ -12,7 +12,7 @@
         <!-- server端有express.static middleware提供靜態檔案服務，-->
         <!-- 使用該服務在URL中不需含內容資料夾名稱，服務自會解析-->
         <link rel="stylesheet" href="drawingSay.css">
-        <!--        <link rel="stylesheet" href="static_files/drawingSay.css">-->
+        <!--<link rel="stylesheet" href="static_files/drawingSay.css">-->
     </head>
     <body>
         <div id="divContainer">
@@ -46,31 +46,31 @@
                                 <div id="divLineWidthShow"></div>
                             </button>
                             <ul class="dropdown-menu lineWidthGroup">
-                                <li><a href="javascript:;"><div style="height:20px;"></div></a></li>
-                                <li><a href="javascript:;"><div style="height:10px;"></div></a></li>
-                                <li><a href="javascript:;"><div style="height:6px;"></div></a></li>
-                                <li><a href="javascript:;"><div style="height:5px;"></div></a></li>
-                                <li><a href="javascript:;"><div style="height:4px;"></div></a></li>
-                                <li><a href="javascript:;"><div style="height:3px;"></div></a></li>
-                                <li><a href="javascript:;"><div style="height:2px;"></div></a></li>
+                                <li><a href="javascript:void(0);"><div style="height:20px;"></div></a></li>
+                                <li><a href="javascript:void(0);"><div style="height:10px;"></div></a></li>
+                                <li><a href="javascript:void(0);"><div style="height:6px;"></div></a></li>
+                                <li><a href="javascript:void(0);"><div style="height:5px;"></div></a></li>
+                                <li><a href="javascript:void(0);"><div style="height:4px;"></div></a></li>
+                                <li><a href="javascript:void(0);"><div style="height:3px;"></div></a></li>
+                                <li><a href="javascript:void(0);"><div style="height:2px;"></div></a></li>
                             </ul>
                         </div>
                         <button id='btnDrawMode' class='switchBtn btn btn-default'><i id='iDrawModeIcon' class='fa fa-pencil fa-2x'></i></button>
                         <div id="divAnswerSquares">
-                            <button type="button" class="btn btn-default">我</button>
-                            <button type="button" class="btn btn-default">?</button>
-                            <button type="button" class="btn btn-default">?</button>
-                            <button type="button" class="btn btn-default">?</button>
-                            <button type="button" class="btn btn-default">?</button>
-                            <button type="button" class="btn btn-default">?</button>
-                            <button type="button" class="btn btn-default">?</button>
-                            <button type="button" class="btn btn-default">?</button>
-                            <button type="button" class="btn btn-default">?</button>
-                            <button type="button" class="btn btn-default">?</button>
-                            <button type="button" class="btn btn-default">?</button>
-                            <button type="button" class="btn btn-default">?</button>
-                            <button type="button" class="btn btn-default">?</button>
-                            <button type="button" class="btn btn-default">?</button>
+                            <button type="button" class="btn btn-default">自</button>
+                            <button type="button" class="btn btn-default">動</button>
+                            <button type="button" class="btn btn-default">比</button>
+                            <button type="button" class="btn btn-default">對</button>
+                            <button type="button" class="btn btn-default">答</button>
+                            <button type="button" class="btn btn-default">案</button>
+                            <button type="button" class="btn btn-default">功</button>
+                            <button type="button" class="btn btn-default">能</button>
+                            <button type="button" class="btn btn-default">正</button>
+                            <button type="button" class="btn btn-default">在</button>
+                            <button type="button" class="btn btn-default">努</button>
+                            <button type="button" class="btn btn-default">力</button>
+                            <button type="button" class="btn btn-default">建</button>
+                            <button type="button" class="btn btn-default">構</button>
                         </div>
                     </div>
                 </div>
@@ -90,11 +90,10 @@
                 <div class="thumbnail"><img src="panda.jpg" alt="..."></div>
             </div>
         </div>
-
-        <script src="/socket.io/socket.io.js"></script>
         <!--內部module-->
-        <script src="drawingSay.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
         <!--內部js-->
-        <!--        <script src="../../frameWorks/da_byMySelf/da.js"></script>-->
+        <script src="drawingSay.js"></script>
+        <!--<script src="../../frameWorks/da_byMySelf/da.js"></script>-->
     </body>
 </html>

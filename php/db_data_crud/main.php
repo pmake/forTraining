@@ -59,7 +59,7 @@ and open the template in the editor.
                         echo "<td> $val </td>";
                     }
                     echo "<td><a href='update.php?id=" . $rowData[0] . "'>修改</a>";
-                    echo "&nbsp;&nbsp;<a onclick='return confirm(123)' href='main.php?id=" . $rowData[0] . "'>刪除</a></td></tr>";
+                    echo "&nbsp;&nbsp;<a onclick='return confirm(\"are you sure?\")' href='main.php?id=$rowData[0]'>刪除</a></td></tr>";
                     $rowData = mysqli_fetch_row($result);
                 }
                 echo '</table></div>';
@@ -71,10 +71,5 @@ and open the template in the editor.
                 mysqli_close($conn);
             }
             ?>
-            <script>
-                function checker(){
-                    return confirm('are you sure?');
-                }
-            </script>
     </body>
 </html>

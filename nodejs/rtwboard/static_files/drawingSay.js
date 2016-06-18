@@ -1,35 +1,37 @@
 //答題模式input依題目字數秀等數格子，已答對部分秀字
 var userName = prompt('請輸入暱稱'); //socket連線建立後使用prompt會額外建立socket，所以要在連線建立之前使用
 
-var msgNum = 0,
-    drawingColor = '#fff',
-    eraserColor = 'rgb(51,51,51)',
-    jqBtnDrawMode = $('#btnDrawMode'),
+//initial
+var jqBtnDrawMode = $('#btnDrawMode'),
     jqBtnSayMode = $('#btnSayMode'),
     jqIDrawModeIcon = $('#iDrawModeIcon'),
     jqISayModeIcon = $('#iSayModeIcon'),
     jqALineWidthGroup = $('ul.lineWidthGroup li a'),
     divLineWidthShow = document.getElementById('divLineWidthShow'),
+    computedStyleDivLWS = window.getComputedStyle(divLineWidthShow),
+    drawingColor = colorToHex(computedStyleDivLWS.getPropertyValue('background-color')),
+    defaultLineWidth = parseInt(computedStyleDivLWS.getPropertyValue('height')),
+    eraserColor = colorToHex($('#divCanvasArea .jumbotron').css('background-color')),
     inpUserInp = document.getElementById('inpUserInp'),
     jqUlMsgList = $('#ulMsgList'),
     jqCvDrawingArea = $('#cvDrawingArea'),
     jqBtnCleaner = $('#btnCleaner'),
     jqBtnSend = $('#btnSend');
 
-jqBtnDrawMode.click(function () {
-    jqIDrawModeIcon.toggleClass('fa-pencil fa-eraser');
-});
-jqBtnSayMode.click(function () {
-    jqISayModeIcon.toggleClass('fa-comments fa-key');
-    if (jqISayModeIcon.hasClass('fa-key')) {
-        inpUserInp.setAttribute('placeholder', '猜題模式(左側按鈕切換)');
-    } else {
-        inpUserInp.setAttribute('placeholder', '聊天模式(左側按鈕切換)');
+function colorToHex(color) {
+    if (color.substr(0, 1) === "#") {
+        return color;
     }
-});
-jqALineWidthGroup.click(function () {
-    divLineWidthShow.style.height = this.firstElementChild.style.height;
-});
+    var nums = /(.*?)rgb\((\d+),\s*(\d+),\s*(\d+)\)/i.exec(color),
+        r = parseInt(nums[2], 10).toString(16),
+        g = parseInt(nums[3], 10).toString(16),
+        b = parseInt(nums[4], 10).toString(16);
+    return "#"+ (
+        (r.length == 1 ? "0"+ r : r) +
+        (g.length == 1 ? "0"+ g : g) +
+        (b.length == 1 ? "0"+ b : b)
+    );
+}
 
 function msgShow(msg){
     jqUlMsgList.append('<li>' + msg + '</li>');
@@ -42,6 +44,42 @@ function msgShow(msg){
     }
 }
 
+jqBtnDrawMode.click(function () {
+    console.log(eraserColor);
+    //改變之前先記錄原設定
+    var settings = {};
+    settings.ex_color = ctx.strokeStyle;
+    settings.ex_size = ctx.lineWidth;
+    //套用變更
+    jqIDrawModeIcon.toggleClass('fa-pencil fa-eraser');
+    (jqIDrawModeIcon.hasClass('fa-pencil'))? ctx.strokeStyle = drawingColor : ctx.strokeStyle = eraserColor;
+    settings.color = ctx.strokeStyle;
+    settings.size = ctx.lineWidth;
+    socket.emit('settings changed',settings);
+    console.log(settings.color);
+});
+
+jqALineWidthGroup.click(function () {
+    var settings = {};
+    settings.ex_color = ctx.strokeStyle;
+    settings.ex_size = ctx.lineWidth;
+
+    divLineWidthShow.style.height = this.firstElementChild.style.height;
+    ctx.lineWidth = parseInt(this.firstElementChild.style.height);
+    settings.color = ctx.strokeStyle;
+    settings.size = ctx.lineWidth;
+    socket.emit('settings changed',settings);
+});
+
+jqBtnSayMode.click(function () {
+    jqISayModeIcon.toggleClass('fa-comments fa-key');
+    if (jqISayModeIcon.hasClass('fa-key')) {
+        inpUserInp.setAttribute('placeholder', '猜題模式(左側按鈕切換)');
+    } else {
+        inpUserInp.setAttribute('placeholder', '聊天模式(左側按鈕切換)');
+    }
+});
+
 //建立socket連線 
 var socket = io();
 
@@ -49,12 +87,14 @@ var socket = io();
 socket.emit('login', userName); 
 
 //接收歷史資料並載入
-socket.on('transport history',function(data1,data2){
+socket.on('show history',function(drawingHistory,msgHistory){
     //載入既存圖畫
-    data1.forEach(function(value){
+    drawingHistory.forEach(function(value){
         if(value[0]==='s'){
-            (value[1]=='#ffffff')?$('#era').prop('checked',true):$('#draw').prop('checked',true);
-            $('#size').val(value[2]);
+            if ((value[1] == drawingColor && jqIDrawModeIcon.hasClass('fa-eraser')) || (value[1] == eraserColor && jqIDrawModeIcon.hasClass('fa-pencil'))) jqIDrawModeIcon.toggleClass('fa-pencil fa-eraser');
+
+            divLineWidthShow.style.height = value[2] + 'px';
+
             ctx.strokeStyle = value[1];
             ctx.lineWidth = value[2];
         }else if(value[0]==='d'){
@@ -66,7 +106,7 @@ socket.on('transport history',function(data1,data2){
         }
     })
     //載入既存聊天訊息
-    data2.forEach(function(value){
+    msgHistory.forEach(function(value){
         msgShow(value);
     })
 });
@@ -104,8 +144,8 @@ var ctx = c.getContext('2d');
 //繪圖物件初始設定 
 ctx.lineCap = 'round'; 
 ctx.lineJoin = 'round'; 
-ctx.strokeStyle = '#fff'; 
-ctx.lineWidth = 1; 
+ctx.strokeStyle = drawingColor; 
+ctx.lineWidth = defaultLineWidth; 
 
 //座標相關變數 
 var offset={}, x=0, y=0, new_x=0, new_y=0;
@@ -152,25 +192,17 @@ $(document).mouseup(function(e){
     drawing = false; 
 }); 
 
-//設定變更處理，用js做的變更不會觸發change事件
-$('#settings').on('change',function(){
-    //改變之前先記錄原設定
-    var settings = {};
-    settings.ex_color = ctx.strokeStyle;
-    settings.ex_size = ctx.lineWidth;
-    //套用變更
-    ctx.lineWidth = $('#size').val();
-    ($('#draw').prop('checked'))? ctx.strokeStyle='#000000':ctx.strokeStyle='#ffffff';
-    settings.color = ctx.strokeStyle;
-    settings.size = ctx.lineWidth;
-    socket.emit('settings changed',settings);
-});
-
 socket.on('settings changed',function(settings){
+    //套用設定
     ctx.strokeStyle = settings.color;
-    (settings.color=='#ffffff')?$('#era').prop('checked',true):$('#draw').prop('checked',true);
-    $('#size').val(settings.size);
     ctx.lineWidth = settings.size;
+    console.log(settings.color);
+    //顯示改變
+    if ((settings.color == drawingColor && jqIDrawModeIcon.hasClass('fa-eraser')) || (settings.color == eraserColor && jqIDrawModeIcon.hasClass('fa-pencil'))) {
+        jqIDrawModeIcon.toggleClass('fa-pencil fa-eraser');
+    }
+
+    divLineWidthShow.style.height = settings.size + 'px';
 });
 
 //畫圖，並將繪畫座標傳給網頁上的其他使用者 
