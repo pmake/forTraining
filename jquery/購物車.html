@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <script src="../frameWorks/jquery/jquery-1.12.4.min.js"></script>
+        <style>
+            table, tr, th, td {
+                border:1px solid;
+            }
+        </style>
+    </head>
+    <body>
+        <table>
+            <tr>
+                <th>Product Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+            </tr>
+            <tr>
+                <td>Apple</td>
+                <td>35</td>
+                <td><input type="text"><button>Add to cart</button></td>
+            </tr>
+            <tr>
+                <td>Banana</td>
+                <td>18</td>
+                <td><input type="text"><button>Add to cart</button></td>
+            </tr>
+            <tr>
+                <td>Tomato</td>
+                <td>39</td>
+                <td><input type="text"><button>Add to cart</button></td>
+            </tr>
+            <tr>
+                <td>Orange</td>
+                <td>17</td>
+                <td><input type="text"><button>Add to cart</button></td>
+            </tr>
+            <tr>
+                <td>Lemon</td>
+                <td>28</td>
+                <td><input type="text"><button>Add to cart</button></td>
+            </tr>
+            <tr>
+                <td>Total</td>
+                <td></td>
+                <td id='tdTtlAmount'></td>
+            </tr>
+        </table>
+        <a href="javascript:;" id='aShowResults'>show Results</a>
+        <script>
+
+            var jqBtn = $('button'),
+                jqAShowResults = $('#aShowResults'),
+                jqTdTtlAmount = $('#tdTtlAmount'),
+                totalAmount = 0,
+                cart = {};
+
+            jqBtn.click(function() {
+
+                var pName = this.parentElement.previousElementSibling.previousElementSibling.childNodes[0].textContent,
+                    pPrice = parseInt(this.parentElement.previousElementSibling.textContent),
+                    pVolume = parseInt(this.previousElementSibling.value);
+
+                console.log(pName);
+                console.log(pPrice);
+                console.log(pVolume);
+                console.log(cart[pName]);
+
+                if (cart[pName]) {
+                    if (!cart[pName].price) cart[pName].price = pPrice;
+                    if(cart[pName].volume){
+                        cart[pName].volume += pVolume;
+                    }else cart[pName].volume = pVolume;
+
+                    totalAmount+=pVolume * pPrice;
+                    jqTdTtlAmount.text(totalAmount);
+
+                    console.log(cart[pName].price);
+                    console.log(cart[pName].volume);
+                    console.log(cart[pName]);
+                }else {
+                    cart[pName] = {};
+                    if (!cart[pName].price) cart[pName].price = pPrice;
+                    if(cart[pName].volume){
+                        cart[pName].volume += pVolume;
+                    }else cart[pName].volume = pVolume;
+
+                    totalAmount+=pVolume * pPrice;
+                    jqTdTtlAmount.text(totalAmount);
+                    console.log(cart[pName].price);
+                    console.log(cart[pName].volume);
+                }
+            });
+
+            jqAShowResults.click(function(){
+                let x = 0;
+                for (let i in cart) {
+                    x++;
+                    this.previousElementSibling.children[x].children[2].textContent = cart[i].volume;
+                }
+            });
+
+        </script>
+    </body>
+</html>

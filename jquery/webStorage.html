@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            //指令範例
+            //local模式是永久的，除非自行清除，session模式在瀏覽器標籤或是瀏覽器關閉時即清除
+            localStorage.setItem('name','RYU');
+            localStorage.setItem('move','HORYUKEN');
+            sessionStorage.setItem('name','Ryu');
+            sessionStorage.setItem('move','HORYUKEN');
+            localStorage.getItem('name');
+            localStorage.getItem('move');            localStorage.getItem('move');
+
+            sessionStorage.getItem('name');
+            sessionStorage.getItem('move');
+            localStorage.deleteItem('name');
+            localStorage.deleteItem('move');
+            sessionStorage.deleteItem('name');
+            sessionStorage.deleteItem('move');
+            //清空全部
+            localStorage.clear();
+            sessionStorage.clear();
+        </script>
+    </body>
+</html>

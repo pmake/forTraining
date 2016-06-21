@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <script src="../frameWorks/jquery/jquery-1.12.4.min.js"></script>
+    </head>
+    <body>
+
+        <textarea name="" id="ta" cols="30" rows="10"></textarea>
+        <br>
+        <button id="btnSaveDraft">儲存草稿</button>
+        <button id="btnSend">送出</button>
+        <script>
+
+            var jqTa = $('#ta'),
+                tempText = localStorage.getItem('draft'),
+                jqBtnSaveDraft = $('#btnSaveDraft'),
+                jqBtnSend = $('#btnSend'),
+                interval = setInterval(function (){
+                    saveDraft();
+                }, 5000);
+
+            //讀取草稿
+            if(tempText) jqTa.val(tempText);
+
+            jqBtnSaveDraft.click(function (){
+                let draft = jqTa.val();
+                localStorage.setItem('draft',draft);
+            });
+
+            jqBtnSend.click(function() {
+                localStorage.clear();
+            });
+
+            function saveDraft() {
+                let draft = jqTa.val();
+                localStorage.setItem('draft',draft);
+            }
+            
+        </script>
+    </body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <script src="../frameWorks/jquery/jquery-1.12.4.min.js"></script>
+        <style>
+            table, tr, td {
+                border:1px solid;
+            }
+        </style>
+    </head>
+    <body>
+        <button id='btnFetchData'>ajax to fetch user data</button>
+        <table id='tableShowArea'></table>
+
+        <!-- script -->
+        <script>
+            jqTableShowArea = $('#tableShowArea'), jqBtnFetchData = $('#btnFetchData'), postData = {"email":"test@sample.com", "password":"letmein"};
+
+            function getData(){
+                $.post("http://api.0x427567.com:8080/login", postData, function(response, status){
+                    let user = {"accessToken":response.accessToken}
+                    $.get("http://api.0x427567.com:8080/user",user,function(data) {
+                        jqTableShowArea.empty();
+                        if (data.errorCode) {
+                            objDataShower(data, jqTableShowArea);
+                        }
+                        else {
+                            objDataShower(data, jqTableShowArea);
+                        }
+                    });
+                });
+            }
+
+            function objDataShower(obj,table) {
+                for (let i in obj) {
+                    table.append('<tr><td>' + i +'</td><td>' + obj[i] +'</td></tr>');
+                }
+            }
+
+            jqBtnFetchData.click(function(){
+                getData();
+            });
+        </script>
+
+    </body>
+</html>
