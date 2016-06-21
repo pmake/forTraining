@@ -11,7 +11,7 @@
         </style>
     </head>
     <body>
-        <table>
+        <table id='tbShopingArea'>
             <tr>
                 <th>Product Name</th>
                 <th>Price</th>
@@ -20,88 +20,106 @@
             <tr>
                 <td>Apple</td>
                 <td>35</td>
-                <td><input type="text"><button>Add to cart</button></td>
+                <td><input type="text"><button class='btnAddToCart'>Add to cart</button></td>
             </tr>
             <tr>
                 <td>Banana</td>
                 <td>18</td>
-                <td><input type="text"><button>Add to cart</button></td>
+                <td><input type="text"><button class='btnAddToCart'>Add to cart</button></td>
             </tr>
             <tr>
                 <td>Tomato</td>
                 <td>39</td>
-                <td><input type="text"><button>Add to cart</button></td>
+                <td><input type="text"><button class='btnAddToCart'>Add to cart</button></td>
             </tr>
             <tr>
                 <td>Orange</td>
                 <td>17</td>
-                <td><input type="text"><button>Add to cart</button></td>
+                <td><input type="text"><button class='btnAddToCart'>Add to cart</button></td>
             </tr>
             <tr>
                 <td>Lemon</td>
                 <td>28</td>
-                <td><input type="text"><button>Add to cart</button></td>
+                <td><input type="text"><button class='btnAddToCart'>Add to cart</button></td>
             </tr>
             <tr>
                 <td>Total</td>
                 <td></td>
-                <td id='tdTtlAmount'></td>
+                <td id='tdAmount'></td>
             </tr>
         </table>
-        <a href="javascript:;" id='aShowResults'>show Results</a>
+        <br>
+        <button id='btnShowTheCart'>Show the cart</button>
+        <button id='btnClearLocalStorage'>Clear localStorage</button>
+        <!-- script -->
         <script>
+            //初始化
+            var jqTbShopingArea = $('#tbShopingArea'),
+                jqBtnAddToCart = $('.btnAddToCart'),
+                jqBtnShowTheCart = $('#btnShowTheCart'),
+                jqBtnClearLocalStorage = $('#btnClearLocalStorage'),
+                jqTdAmount = $('#tdAmount'),
+                loadData = localStorage.getItem('cart'),
+                cart = {
+                    totalAmount:0
+                };
 
-            var jqBtn = $('button'),
-                jqAShowResults = $('#aShowResults'),
-                jqTdTtlAmount = $('#tdTtlAmount'),
-                totalAmount = 0,
-                cart = {};
+            //讀取localStorage儲存資料
+            if(loadData) {
+                cart = JSON.parse(loadData);
+                jqTdAmount.text(cart.totalAmount);
+            }
 
-            jqBtn.click(function() {
+            //設定加入購物車按鈕click事件handler
+            jqBtnAddToCart.click(function() {
+                var pVolume = parseFloat(this.previousElementSibling.value);
 
-                var pName = this.parentElement.previousElementSibling.previousElementSibling.childNodes[0].textContent,
-                    pPrice = parseInt(this.parentElement.previousElementSibling.textContent),
-                    pVolume = parseInt(this.previousElementSibling.value);
+                if (pVolume === NaN || pVolume !== parseInt(pVolume)) alert('請輸入整數數字!');
+                else{
+                    let pName = this.parentElement.previousElementSibling.previousElementSibling.textContent,
+                        pPrice = parseFloat(this.parentElement.previousElementSibling.textContent);
 
-                console.log(pName);
-                console.log(pPrice);
-                console.log(pVolume);
-                console.log(cart[pName]);
+                    //更新總價
+                    cart.totalAmount+=pVolume * pPrice;
+                    jqTdAmount.text(cart.totalAmount);
 
-                if (cart[pName]) {
-                    if (!cart[pName].price) cart[pName].price = pPrice;
-                    if(cart[pName].volume){
+                    //更新購物車
+                    if (cart[pName]) {
                         cart[pName].volume += pVolume;
-                    }else cart[pName].volume = pVolume;
+                    }else {
+                        cart[pName] = {};
+                        if (!cart[pName].price) cart[pName].price = pPrice;
+                        if(cart[pName].volume){
+                            cart[pName].volume += pVolume;
+                        }else cart[pName].volume = pVolume;
+                    }
 
-                    totalAmount+=pVolume * pPrice;
-                    jqTdTtlAmount.text(totalAmount);
-
-                    console.log(cart[pName].price);
-                    console.log(cart[pName].volume);
-                    console.log(cart[pName]);
-                }else {
-                    cart[pName] = {};
-                    if (!cart[pName].price) cart[pName].price = pPrice;
-                    if(cart[pName].volume){
-                        cart[pName].volume += pVolume;
-                    }else cart[pName].volume = pVolume;
-
-                    totalAmount+=pVolume * pPrice;
-                    jqTdTtlAmount.text(totalAmount);
-                    console.log(cart[pName].price);
-                    console.log(cart[pName].volume);
+                    //更新localStorage資料
+                    localStorage.setItem('cart',JSON.stringify(cart));
                 }
             });
 
-            jqAShowResults.click(function(){
-                let x = 0;
-                for (let i in cart) {
-                    x++;
-                    this.previousElementSibling.children[x].children[2].textContent = cart[i].volume;
-                }
+            //設定Show the cart按鈕事件handler
+            jqBtnShowTheCart.click(function(){
+                if (Object.keys(cart).length > 1) {
+                    jqTbShopingArea.empty();
+                    jqTbShopingArea.append('<tr><th>Product Name</th><th>Price</th><th>Quantity</th></tr>');
+                    for (let i in cart) {
+                        if (i=='totalAmount') continue;
+                        jqTbShopingArea.append('<tr><td>' + i + '</td><td>' + cart[i].price + '</td><td>' + cart[i].volume + '</td></tr>');
+                    }
+                    jqTbShopingArea.append('<tr><td>Total</td><td></td><td>' + cart.totalAmount + '</td></tr>');
+                }else alert('The cart is empty!');
             });
 
+            //設定Clear the cart按鈕事件handler
+            jqBtnClearLocalStorage.click(function (){
+                if (Object.keys(cart).length > 1) {
+                    localStorage.removeItem('cart');
+                    cart = {totalAmount:0};
+                    jqTdAmount.text('');
+                }
+            });
         </script>
     </body>
 </html>

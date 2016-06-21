@@ -13,14 +13,13 @@
             sessionStorage.setItem('name','Ryu');
             sessionStorage.setItem('move','HORYUKEN');
             localStorage.getItem('name');
-            localStorage.getItem('move');            localStorage.getItem('move');
-
+            localStorage.getItem('move');
             sessionStorage.getItem('name');
             sessionStorage.getItem('move');
-            localStorage.deleteItem('name');
-            localStorage.deleteItem('move');
-            sessionStorage.deleteItem('name');
-            sessionStorage.deleteItem('move');
+            localStorage.removeItem('name');
+            localStorage.removeItem('move');
+            sessionStorage.removeItem('name');
+            sessionStorage.removeItem('move');
             //清空全部
             localStorage.clear();
             sessionStorage.clear();
