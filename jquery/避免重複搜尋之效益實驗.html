@@ -30,48 +30,56 @@
         <p></p>
         <p></p>
         <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
         <button>點擊以開始實驗</button>
+        <p id="pStatus">   </p>
+        <p id="pMethod1Result1">   </p>
+        <p id="pMethod2Result">   </p>
+        <p id="pMethod1Result2">   </p>
     </body>
     <script>
         $('button').click(function() {
-            var start, end;
-
-            alert('點擊確定以開始方式１測試，約需20秒，依硬體而異，請稍候');
+            var start, end, method1Result1, method2Result, method1Result2;
+            $('#pStatus').text('測試中，整個過程約需1分鐘，請稍候');
+            alert('點擊確定以開始方式１測試，依硬體而異，請稍候');
             //記錄開始時間
             start = Date.now();
 
             //方式1:每次重新搜尋
-            for (let i=1; i<1000000;i++){
+            for (let i=1; i<100000;i++){
                 $('p').attr('class','123');
             }
+
             //記錄結束時間
             end = Date.now();
-            alert('方式1花費 ' + (end-start)/1000 + ' seconds');
+            method1Result1 = (end-start)/1000 + ' seconds';
+            alert('方式1花費 ' + method1Result1);
             alert('點擊確定開始方式2測試，並稍候片刻');
             start = Date.now();
 
             //方式2:先儲存搜尋結果
             var test = $('p');
-            for (let i=1; i<1000000;i++){
+            for (let i=1; i<100000;i++){
                 test.attr('class','123');
             }
+
             end = Date.now();
-            alert('方式2花費 ' + (end-start)/1000 + ' seconds');
+            method2Result = (end-start)/1000 + ' seconds';
+            alert('方式2花費 ' + method2Result);
             alert('點擊確定再測試方式1一次，以排除順序影響，並稍候片刻');
             start = Date.now();
 
             //方式1:每次重新搜尋(再執行一次消除先後順序影響變數)
-            for (let i=1; i<1000000;i++){
+            for (let i=1; i<100000;i++){
                 $('p').attr('class','123');
             }
 
             end = Date.now();
-            alert('方式1再次測試花費 ' + (end-start)/1000 + ' seconds');
-            alert('測試結束! 方式1是不是快很多呢?');
+            method1Result2 = (end-start)/1000 + ' seconds';
+            alert('方式1再次測試花費 ' + method1Result2);
+            $('#pMethod1Result1').text('方式1花費: ' + method1Result1);
+            $('#pMethod2Result').text('方式2花費: ' + method2Result);
+            $('#pMethod1Result2').text('方式1二次測試花費: ' + method1Result2);
+            $('#pStatus').text('測試結束! 方式2是不是快很多呢?');
         });
     </script>
 </html>
