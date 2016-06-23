@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <script src="../frameWorks/jquery/jquery-1.12.4.min.js"></script>
+        <script src="../frameWorks/jquery/plugins/fileterTable/sunnywalker-jQuery.FilterTable-a8427c4/jquery.filtertable.js"></script>
+        <style>
+            span a{
+                margin-left: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <table>
+            <thead>
+                <tr><th>Product</th><th>Price</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Axx</td><td>121</td></tr>
+                <tr><td>Bxx</td><td>123</td></tr>
+                <tr><td>Cxx</td><td>125</td></tr>
+                <tr><td>Dxx</td><td>112</td></tr>
+                <tr><td>Exx</td><td>132</td></tr>
+                <tr><td>Fxx</td><td>152</td></tr>
+                <tr><td>Axx</td><td>162</td></tr>
+                <tr><td>Axx</td><td>162</td></tr>
+                <tr><td>Axx</td><td>162</td></tr>
+                <tr><td>Axx</td><td>162</td></tr>
+                <tr><td>Axx</td><td>162</td></tr>
+                <tr><td>Axx</td><td>162</td></tr>
+            </tbody>
+        </table>
+        <script>
+            $('table').filterTable({
+                //預設是8，小於8列不會顯示搜尋框
+                minRows:0,
+                quickList:["A","F"],
+                quickListGroupTag:"span",
+            });
+        </script>
+    </body>
+</html>

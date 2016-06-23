@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <script src="../frameWorks/jquery/jquery-1.12.4.min.js"></script>
+        <script src="../frameWorks/jquery/plugins/sieve/jquery.sieve.js"></script>
+    </head>
+    <body>
+        <table>
+            <thead>
+                <tr><th>Product</th><th>Price</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Axxx</td><td>12</td></tr>
+                <tr><td>Axxx</td><td>112</td></tr>
+                <tr><td>Bxxx</td><td>132</td></tr>
+                <tr><td>Cxxx</td><td>102</td></tr>
+                <tr><td>Dxxx</td><td>123</td></tr>
+                <tr><td>Exxx</td><td>125</td></tr>
+                <tr><td>Fxxx</td><td>123</td></tr>
+                <tr><td>Fxxx</td><td>123</td></tr>
+                <tr><td>Gxxx</td><td>122</td></tr>
+                <tr><td>Hxxx</td><td>124</td></tr>
+                <tr><td>Jxxx</td><td>128</td></tr>
+            </tbody>
+        </table>
+        <ul>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+            <li>6</li>
+        </ul>
+        <div class='divTest'>
+            <p>1</p>
+            <p>2</p>
+            <p>3</p>
+            <p>4</p>
+            <p>5</p>
+            <p>6</p>
+        </div>
+        <script>
+            $('table').sieve();
+            $('ul').sieve({
+                itemSelector: 'li'
+            });
+            $('div.divTest').sieve({
+                itemSelector: 'p'
+            });
+        </script>
+    </body>
+</html>
