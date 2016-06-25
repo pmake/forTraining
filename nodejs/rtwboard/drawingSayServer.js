@@ -6,10 +6,28 @@ var express = require('express'),
     app = express(),
     http = require('http').Server(app),
     io = require('socket.io')(http);
+
+var rooms = {};
+
+//處理客戶端創建畫室需求，使用get或post判斷，創建畫室時需設定名稱，以名稱做區別，開發階段先簡單直接創一個名為test的畫室
+rooms['test'] = {
+    players: {},
+    drawer: {},
+    answer: '',
+    msgHistory: [],
+    drawingHistory: [],
+    msgNum: 0,
+    pixelNum: 0,
+    settings: {
+        maxPlayers: 12,
+        gameMode: 'drawingAndGuess'
+    }
+};
+//畫室屬性說明:
 //drawingHistory[]=[switch,x or color,y or lineWidth,new_x or ex_color,new_y or ex_lineWidth]
 //用pixelNum當做時間序列，紀錄各個動作的先後順序，包含設定變更，這樣就不用每筆都記錄設定選項值
 //由首個元素判定是設定還是座標組
-var msgHistory = [], drawingHistory = [], msgNum=0, pixelNum=0;
+
 //experss的靜態檔案服務
 app.use(express.static('static_files'));
 
@@ -28,6 +46,14 @@ http.listen(3000, function(){
 //因此雖然同樣的程式碼多處重複，仍不以函數簡化，以提高運行效率
 io.on('connection', function(socket) {
     console.log('someone build a socket.');
+
+    //判斷進入哪一個畫室，歸屬畫室，並將畫室屬性存入變數，此處先假設進入test畫室
+    var room = rooms['test'],
+        msgHistory = room.msgHistory,
+        msgNum = room.msgNum,
+        drawingHistory = room.drawingHistory,
+        pixelNum = room.pixelNum
+
     //登入初始化，傳送歷史資料予客戶端
     socket.emit('show history',drawingHistory,msgHistory);
 
@@ -37,8 +63,9 @@ io.on('connection', function(socket) {
         console.log(data + " connected"); 
 
         //將在前端輸入的名稱記錄下來 
-        socket.name = data; 
-
+        socket.playerName = data;
+        //登錄玩家，玩家實際上是一個socket
+        rooms['test'].players[data] = socket;
         //將自己上線訊息傳給自己以外的連線
         var temp = data + ' 上線了';
         socket.broadcast.emit('msg', temp); 
@@ -62,7 +89,7 @@ io.on('connection', function(socket) {
     });
     socket.on('clear canvas',function(settings){
         socket.broadcast.emit('clear canvas');
-        //重置drawingHistory和pixelNum
+        //drawingHistory和pixelNum
         drawingHistory=[];
         pixelNum=0;
         //紀錄設定
@@ -77,9 +104,9 @@ io.on('connection', function(socket) {
     });
     //離線 
     socket.on('disconnect', function() { 
-        console.log(socket.name + ' disconnected');
+        console.log(socket.playerName + ' disconnected');
         //通知其他人此socket已離線
-        var temp = socket.name + ' 已離開';
+        var temp = socket.playerName + ' 已離開';
         socket.broadcast.emit('msg', temp);
         //紀錄訊息
         if(msgNum>24){
@@ -92,7 +119,7 @@ io.on('connection', function(socket) {
     }); 
     //接收聊天訊息
     socket.on('chat message',function(msg){
-        var temp = socket.name + ' : ' + msg;
+        var temp = socket.playerName + ' : ' + msg;
         io.emit('chat message',temp);
         //記錄訊息
         if(msgNum>24){

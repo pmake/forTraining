@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+    </head>
+    <body>
+        <p id="demo"></p>
+        <script>
+            var obj = {
+                a: 'a',
+                b: 'b',
+                c: 'c',
+                d: 'd',
+                e: 'e',
+                f: 'f',
+                g: 'g',
+                h: 'h',
+                i: 'i',
+                j: 'j',
+                k: 'k',
+                l: 'l',
+                m: 'm',
+                n: 'n',
+                o: 'o',
+                p: 'p',
+                q: 'q',
+                r: 'r',
+                s: 's',
+                t: 't',
+                u: 'u',
+                v: 'v',
+                w: 'w',
+                x: 'x',
+                y: 'y',
+                z: {
+                    za: 'za',
+                    zb: 'zb',
+                    zc: 'zc',
+                    zd: 'zd',
+                    ze: 'ze',
+                    zf: 'zf',
+                    zg: 'zg',
+                    zh: 'zh',
+                    zi: 'zi',
+                    zj: 'zj'
+                }
+            };
+            var expTimes = 1000000000, start = 0, end = 0, timeA1 = 0, timeB = 0, timeA2 = 0;
+
+            //不存入變數
+            alert('不存入變數速度測試開始')
+            start = Date.now();
+            for (let i=0;i<expTimes;i++){
+                obj.z.zj = i;
+            }
+            end = Date.now();
+            timeA1 = (end - start)/1000;
+            alert('不存入變數速度測試結束，耗時 ' + timeA1 + '秒');
+
+            //存入變數
+            alert('存入變數速度測試開始')
+            start = Date.now();
+            var temp = obj.z;
+            for (let i=0;i<expTimes;i++){
+                temp.zj = i;
+            }
+            end = Date.now();
+            timeB = (end - start)/1000;
+            alert('存入變數速度測試結束，耗時 ' + timeB + '秒');
+
+            //不存入變數二次測試
+            alert('不存入變數速度再次測試開始')
+            start = Date.now();
+            for (let i=0;i<expTimes;i++){
+                obj.z.zj = i;
+            }
+            end = Date.now();
+            timeA2 = (end - start)/1000;
+            alert('不存入變數速度再測試結束，耗時 ' + timeA2 + '秒');
+            alert('測試完成!看結果!');
+
+            document.getElementById('demo').innerHTML = '不存入變數耗時: ' + timeA1 + '秒<br>存入變數耗時: ' + timeB + '秒<br>不存入變數二次測試耗時: ' + timeA2 + '秒';
+
+        </script>
+    </body>
+</html>
