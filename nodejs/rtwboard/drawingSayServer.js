@@ -47,15 +47,11 @@ http.listen(3000, function(){
 io.on('connection', function(socket) {
     console.log('someone build a socket.');
 
-    //判斷進入哪一個畫室，歸屬畫室，並將畫室屬性存入變數，此處先假設進入test畫室
-    var room = rooms['test'],
-        msgHistory = room.msgHistory,
-        msgNum = room.msgNum,
-        drawingHistory = room.drawingHistory,
-        pixelNum = room.pixelNum
+    //判斷進入哪一個畫室，歸屬畫室，此處先假設進入test畫室
+    //--------------------------------------------
 
     //登入初始化，傳送歷史資料予客戶端
-    socket.emit('show history',drawingHistory,msgHistory);
+    socket.emit('show history',rooms['test'].drawingHistory,rooms['test'].msgHistory);
 
     //設定來自此客戶端socket的各種自定義事件handler
     socket.on('login', function(data) { 
@@ -68,14 +64,14 @@ io.on('connection', function(socket) {
         rooms['test'].players[data] = socket;
         //將自己上線訊息傳給自己以外的連線
         var temp = data + ' 上線了';
-        socket.broadcast.emit('msg', temp); 
+        socket.broadcast.emit('user message', temp); 
         //紀錄訊息
-        if(msgNum>24){
-            msgHistory.shift();
-            msgHistory[msgNum-1] = temp;
+        if(rooms['test'].msgNum>24){
+            rooms['test'].msgHistory.shift();
+            rooms['test'].msgHistory[rooms['test'].msgNum-1] = temp;
         }else{
-            msgHistory[msgNum] = temp;
-            msgNum+=1;
+            rooms['test'].msgHistory[rooms['test'].msgNum] = temp;
+            rooms['test'].msgNum+=1;
         }
     }); 
 
@@ -84,50 +80,50 @@ io.on('connection', function(socket) {
         //將畫布作業訊息傳給其他連線 
         socket.broadcast.emit('show', data);
         //紀錄繪圖軌跡
-        drawingHistory[pixelNum] = ['d',data.x,data.y,data.new_x,data.new_y];
-        pixelNum+=1;
+        rooms['test'].drawingHistory[rooms['test'].pixelNum] = ['d',data.x,data.y,data.new_x,data.new_y];
+        rooms['test'].pixelNum+=1;
     });
     socket.on('clear canvas',function(settings){
         socket.broadcast.emit('clear canvas');
         //drawingHistory和pixelNum
-        drawingHistory=[];
-        pixelNum=0;
+        rooms['test'].drawingHistory=[];
+        rooms['test'].pixelNum=0;
         //紀錄設定
-        drawingHistory[pixelNum] = ['s',settings.color,settings.size];
-        pixelNum+=1;
+        rooms['test'].drawingHistory[rooms['test'].pixelNum] = ['s',settings.color,settings.size];
+        rooms['test'].pixelNum+=1;
     });
     socket.on('settings changed',function(settings){
         socket.broadcast.emit('settings changed',settings);
         //紀錄設定
-        drawingHistory[pixelNum] = ['s', settings.color, settings.size, settings.ex_color, settings.ex_size];
-        pixelNum+=1;
+        rooms['test'].drawingHistory[rooms['test'].pixelNum] = ['s', settings.color, settings.size, settings.ex_color, settings.ex_size];
+        rooms['test'].pixelNum+=1;
     });
     //離線 
     socket.on('disconnect', function() { 
         console.log(socket.playerName + ' disconnected');
         //通知其他人此socket已離線
         var temp = socket.playerName + ' 已離開';
-        socket.broadcast.emit('msg', temp);
+        socket.broadcast.emit('user message', temp);
         //紀錄訊息
-        if(msgNum>24){
-            msgHistory.shift();
-            msgHistory[msgNum-1] = temp;
+        if(rooms['test'].msgNum>24){
+            rooms['test'].msgHistory.shift();
+            rooms['test'].msgHistory[rooms['test'].msgNum-1] = temp;
         }else{
-            msgHistory[msgNum] = temp;
-            msgNum+=1;
+            rooms['test'].msgHistory[rooms['test'].msgNum] = temp;
+            rooms['test'].msgNum+=1;
         }
     }); 
     //接收聊天訊息
-    socket.on('chat message',function(msg){
-        var temp = socket.playerName + ' : ' + msg;
-        io.emit('chat message',temp);
+    socket.on('user message',function(msg){
+        var temp = socket.playerName + ' : ' + msg.content;
+        io.emit('user message',temp);
         //記錄訊息
-        if(msgNum>24){
-            msgHistory.shift();
-            msgHistory[msgNum-1] = temp;
+        if(rooms['test'].msgNum>24){
+            rooms['test'].msgHistory.shift();
+            rooms['test'].msgHistory[rooms['test'].msgNum-1] = temp;
         }else{
-            msgHistory[msgNum] = temp;
-            msgNum+=1;
+            rooms['test'].msgHistory[rooms['test'].msgNum] = temp;
+            rooms['test'].msgNum+=1;
         }
     });
 });

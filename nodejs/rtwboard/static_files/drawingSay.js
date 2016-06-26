@@ -15,8 +15,8 @@ var jqBtnDrawMode = $('#btnDrawMode'),
     inpUserInp = document.getElementById('inpUserInp'),
     jqUlMsgList = $('#ulMsgList'),
     jqCvDrawingArea = $('#cvDrawingArea'),
-    jqBtnCleaner = $('#btnCleaner'),
-    jqBtnSend = $('#btnSend');
+        jqBtnCleaner = $('#btnCleaner'),
+        jqBtnSend = $('#btnSend');
 
 function colorToHex(color) {
     if (color.substr(0, 1) === "#") {
@@ -33,8 +33,8 @@ function colorToHex(color) {
     );
 }
 
-function msgShow(msg){
-    jqUlMsgList.append('<li>' + msg + '</li>');
+function msgShow(content){
+    jqUlMsgList.append('<li>' + content + '</li>');
     //下列方式也可新增，邏輯待解明
     //$('#ulMsgList').append($('<li>').text(value));
 
@@ -45,7 +45,6 @@ function msgShow(msg){
 }
 
 jqBtnDrawMode.click(function () {
-    console.log(eraserColor);
     //改變之前先記錄原設定
     var settings = {};
     settings.ex_color = ctx.strokeStyle;
@@ -56,7 +55,6 @@ jqBtnDrawMode.click(function () {
     settings.color = ctx.strokeStyle;
     settings.size = ctx.lineWidth;
     socket.emit('settings changed',settings);
-    console.log(settings.color);
 });
 
 jqALineWidthGroup.click(function () {
@@ -100,21 +98,16 @@ socket.on('show history',function(drawingHistory,msgHistory){
         }else if(value[0]==='d'){
             ctx.beginPath();  
             ctx.moveTo(value[1], value[2]);  
-            ctx.lineTo(value[3],value[4]);  
+            ctx.lineTo(value[3], value[4]);  
             ctx.closePath();  
             ctx.stroke();
         }
     })
     //載入既存聊天訊息
-    msgHistory.forEach(function(value){
-        msgShow(value);
+    msgHistory.forEach(function(content){
+        msgShow(content);
     })
 });
-
-//上線通知 
-socket.on('msg', function(data){ 
-    msgShow(data);
-}); 
 
 //別人畫布上的動作，呈現在我們自己的頁面上 
 socket.on('show', function(data){ 
@@ -226,18 +219,30 @@ function draw(x, y, new_x, new_y)
 
 //聊天功能
 inpUserInp.focus();
+
+function msgEmiter () {
+    if (inpUserInp.value !=='') {
+        var msg = {};
+        if (jqISayModeIcon.hasClass('fa-key')) msg.type = 'guess';
+        else msg.type = 'chat';
+        msg.content = inpUserInp.value;
+        socket.emit('user message', msg);
+        inpUserInp.value = '';
+    }
+}
+
 jqBtnSend.click(function(){
-    if (inpUserInp.value !=='') socket.emit('chat message', inpUserInp.value);
-    inpUserInp.value = '';
+    msgEmiter();
     inpUserInp.focus();
 });
 
 inpUserInp.onkeydown = function (e) {
-    if (e.keyCode === 13) {
-        if (inpUserInp.value !=='') socket.emit('chat message', inpUserInp.value);
-        inpUserInp.value = '';
-    }
+    if (e.keyCode === 13) msgEmiter();
 };
+
+socket.on('user message',function(content){
+    msgShow(content);
+});
 
 //清除畫布
 jqBtnCleaner.click(function(){
@@ -257,9 +262,7 @@ socket.on('clear canvas', function(){
     if (jqIDrawModeIcon.hasClass('fa-eraser')) jqIDrawModeIcon.toggleClass('fa-pencil fa-eraser');
 });
 
-socket.on('chat message',function(msg){
-    msgShow(msg);
-});
+
 
 
 
