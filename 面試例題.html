@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            function q1(arr) {
+                var max=1, temp=1;
+                for(let i=0;i<arr.length;i++){
+                    if(i>0){
+                        if (arr[i] == arr[i-1]) {
+                            temp++;
+                            if (temp > max) max =  temp;
+                        }
+                        else temp=1;
+                    }
+                }
+                console.log(max);
+            }
+            //呼叫q1
+            q1([1,1,2,2,2,2,2,2,2,3,4,5,6,6,6,6,6]);
+
+            function q2(arr) {
+                var arrPre=[], arrSuf=[], sameNums=0, posToCompare=0;
+                for(let i=0; i<arr.length;i++){
+                    arrPre[i]=arrSuf[i]=0;
+                    for(let j=0;j<i+1;j++){
+                        arrPre[i]+=arr[j];
+                        arrSuf[i]+=arr[arr.length-(j+1)];
+                    }
+                }
+                for (let i=0;i<arr.length;i++){
+                    for(let j=posToCompare;j<arr.length;j++){
+                        if (arrPre[i] == arrSuf[j]) {
+                            sameNums++;
+                            posToCompare = j+1;
+                            break;
+                        }
+                    }
+                }
+                console.log(sameNums);
+            }
+            //呼叫q2
+            q2([1,2,3,4,4,5,2]);
+
+            function q3(arr1,arr2,arr3){
+                var minSame, posToCompare=0;
+                for(let i=0;i<arr1.length;i++){
+                    for(let j=posToCompare;j<arr2.length;j++){
+                        if (arr1[i] == arr2[j]){
+                            posToCompare=j+1;
+                            for(let k=0;k<arr3.length;k++){
+                                if(arr1[i]==arr3[k]) {
+                                    minSame = arr1[i];
+                                    i=arr1.length;
+                                    j=arr2.length;
+                                    k=arr3.length;
+                                    break;
+                                }
+                            }
+                        }
+                    } 
+                }
+                console.log(minSame);
+            }
+            //呼叫q3
+            q3([2,2,3,5],[5,6,7],[1,2,5,8]);
+
+            function q4(text,pat){
+                var posMatch = [], posToCompare=0, isSub=1;
+                for(let i=0;i<pat.length;i++){
+                    for (let j=posToCompare;j<text.length;j++){
+                        if(pat[i] == text[j]){
+                            posToCompare = j+1;
+                            posMatch[i] = j;
+                            break;
+                        }
+                        if (j==text.length-1) isSub=0;
+                    }
+
+                }
+                if (isSub){
+                    console.log('是子字串，對應父子串索引位置依序如下:');
+                    for (ind in posMatch){
+                        console.log(posMatch[ind]);
+                    }
+                }else console.log('非子字串');
+            }
+            //呼叫q4，只記錄最先符合的位置，多重符合不記錄
+            q4('abade','aa');
+
+        </script>
+    </body>
+</html>

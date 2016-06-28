@@ -41,9 +41,12 @@ echo "<br>";
 echo 'x:' . $distance[0] . '      ' . 'y:' . $distance[1];
 
 $cloneLittleBlack = $littleBlack;
-$littleBlack = '';
+//$littleBlack = '';
+
+unset($littleBlack->name);
 
 echo $littleBlack->name;
+//echo $littleBlack->distance(4,6);
 echo $cloneLittleBlack->name;
 
 ?>
