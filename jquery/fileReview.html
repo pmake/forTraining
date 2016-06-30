@@ -12,9 +12,12 @@
 
             var jqInpFileBrowser = $('#inpFileBrowser'),
                 jqDivGallery = $('#divGallery');
-            
+
             //監聽選擇檔案完成事件
             jqInpFileBrowser.change(function (e) {
+
+                //清除舊圖
+                jqDivGallery.empty();
 
                 let files = e.target.files,
                     fr = new FileReader(),
@@ -36,12 +39,12 @@
                 fr.onload = function (e) {
                     //秀圖
                     jqDivGallery.append('<img src="' + e.target.result + '">');
-                    //繼續讀下一張圖(readAsDataURL方法一次只能讀一個檔案，讀完才能讀下一張)
+                    //繼續讀下一張圖，一個FileReader一次只能讀一個檔案，讀完才能讀下一張(可以用多個FileReader)
                     i++;
                     imgLoader();
                 };
 
-                alert('non-blocking?');
+                alert('non-blocking');
 
             });
         </script>
