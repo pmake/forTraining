@@ -6,38 +6,43 @@
         <script src="../frameWorks/jquery/jquery-1.12.4.min.js"></script>
     </head>
     <body>
-        <input type="file" multiple size="50" id="inpFileBrowser">
-        <img src="" alt="">
+        <input type="file" multiple size='3' id="inpFileBrowser">
+        <div id="divGallery"></div>
         <script>
+
             var jqInpFileBrowser = $('#inpFileBrowser'),
-                jqImgs = $('img');
+                jqDivGallery = $('#divGallery');
+            
+            //監聽選擇檔案完成事件
             jqInpFileBrowser.change(function (e) {
 
-                let files = e.target.files;
+                let files = e.target.files,
+                    fr = new FileReader(),
+                    i = 0;
 
-                //                console.log(files);
-                let fr = new FileReader();
-                
-                
-                for(var i=0;i<files.length;){
-
-                    if (i=0) fr.readAsDataURL(files[i]);
-                    i=
-                    fr.onload = function (e) {
-
-                        console.log(e.target.result);
-                        i++;
-                    };
+                function imgLoader(){
+                    for(;i<files.length;i++) {
+                        if(files[i].type.slice(0,5) == 'image') {
+                            fr.readAsDataURL(files[i]);
+                            break;
+                        }
+                    }
                 }
 
+                //判斷若是圖片則讀取
+                imgLoader();
 
-                //                fr.onload = function (e) {
-                //                    console.log(e.target.result);
-                //                    console.log(e.target.result);
-                //                    console.log(files[0].type);
-                //                    if (files[0].type == 'image/jpeg') jqImgs.attr('src', e.target.result);
+                //設定讀取完成事件handler
+                fr.onload = function (e) {
+                    //秀圖
+                    jqDivGallery.append('<img src="' + e.target.result + '">');
+                    //繼續讀下一張圖(readAsDataURL方法一次只能讀一個檔案，讀完才能讀下一張)
+                    i++;
+                    imgLoader();
+                };
 
-                //                };
+                alert('non-blocking?');
+
             });
         </script>
     </body>

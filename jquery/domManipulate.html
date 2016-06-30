@@ -19,18 +19,14 @@
             #light {
                 background-color: yellow;
                 transition: all 1s;
-            }
-            .right {
-                transform:rotate(720deg);
-            }
-            .left {
-                transform:rotate(-720deg);
+                transform:scaleY(2);
             }
         </style>
         <script src="../frameWorks/jquery/jquery-1.12.4.min.js"></script>
     </head>
     <body>
-        <div class="box" id="light"></div>
+        <div id="light"></div>
+        <div class="box"></div>
         <div class="box"></div>
         <div class="box"></div>
         <div class="box"></div>
@@ -79,7 +75,7 @@
                 if(isNextInside){
                     lighter.removeAttr('id');
                     nexter.attr('id','light');
-                    nexter.css('background-color',randomColor())
+                    nexter.css('background-color',randomColor());
                 }
             });
 
