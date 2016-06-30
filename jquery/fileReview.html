@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <script src="../frameWorks/jquery/jquery-1.12.4.min.js"></script>
+    </head>
+    <body>
+        <input type="file" multiple size="50" id="inpFileBrowser">
+        <img src="" alt="">
+        <script>
+            var jqInpFileBrowser = $('#inpFileBrowser'),
+                jqImgs = $('img');
+            jqInpFileBrowser.change(function (e) {
+
+                let files = e.target.files;
+
+                //                console.log(files);
+                let fr = new FileReader();
+                
+                
+                for(var i=0;i<files.length;){
+
+                    if (i=0) fr.readAsDataURL(files[i]);
+                    i=
+                    fr.onload = function (e) {
+
+                        console.log(e.target.result);
+                        i++;
+                    };
+                }
+
+
+                //                fr.onload = function (e) {
+                //                    console.log(e.target.result);
+                //                    console.log(e.target.result);
+                //                    console.log(files[0].type);
+                //                    if (files[0].type == 'image/jpeg') jqImgs.attr('src', e.target.result);
+
+                //                };
+            });
+        </script>
+    </body>
+</html>

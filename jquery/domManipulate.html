@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Sample - DOM</title>
+        <style>
+            .box {
+                width: 38px;
+                height: 38px;
+                border: 1px solid black;
+                float: left;
+                margin: 5px;
+            }
+
+            .clear {
+                clear: both;
+            }
+
+            #light {
+                background-color: yellow;
+                transition: all 1s;
+            }
+            .right {
+                transform:rotate(720deg);
+            }
+            .left {
+                transform:rotate(-720deg);
+            }
+        </style>
+        <script src="../frameWorks/jquery/jquery-1.12.4.min.js"></script>
+    </head>
+    <body>
+        <div class="box" id="light"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="clear"></div>
+        <button type="button" id="btnPrev">Prev</button>
+        <button type="button" id="btnNext">Next</button>
+
+        <script>
+
+            var jqBtnPrev = $('#btnPrev'),
+                jqBtnNext = $('#btnNext'),
+                isNextInside = true,
+                direction = 'right';
+
+            function randomColor(){
+                let hex = '#';
+                for(let i=0;i<6;i++){
+                    hex += Math.floor((Math.random() * 10)).toString();
+                }
+                return hex;
+            }
+
+
+
+            jqBtnPrev.click(function (){
+                var lighter = $('#light'), prever= lighter.prev();
+                isNextInside = prever.hasClass('box');
+                if(isNextInside){
+                    lighter.removeAttr('id');
+                    prever.attr('id','light');
+                    prever.css('background-color',randomColor());
+                }
+            });
+
+            jqBtnNext.click(function (){
+                var lighter = $('#light'), nexter = lighter.next();
+                isNextInside = nexter.hasClass('box');
+                if(isNextInside){
+                    lighter.removeAttr('id');
+                    nexter.attr('id','light');
+                    nexter.css('background-color',randomColor())
+                }
+            });
+
+            //自動位移
+            var itvClickBtn = setInterval(function () {
+
+                if (direction == 'right') {
+                    jqBtnNext.click();
+                    if(!isNextInside) direction = 'left';
+                }else {
+                    jqBtnPrev.click();
+                    if(!isNextInside) direction = 'right';
+                }
+
+            }, 500);
+
+        </script>
+    </body>
+</html>
