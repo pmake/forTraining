@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+
+            //以實例說明javascript的物件導向繼承運作方式
+
+
+            //定義動物類別
+            function Animal (weight, height, numLegs) {
+                this.weight = weight;
+                this.height = height;
+                this.moveable = true;
+            }
+
+            //定義狗類別
+            function Dog (name) {
+                this.name = name;
+                this.setName = function (name){
+                    this.name = name;
+                };
+            }
+
+            //創造一個狗類別實體
+            var laifu = new Dog('laifu');
+
+            //透過類別的prototype新增吠叫方法，這可以直接讓既存的實體擁有吠叫的能力
+
+            Dog.prototype.bark = function (){
+                console.log('woof!');  
+            };
+
+            laifu.bark();
+            //可使用bark方法
+            //因為實體會透過prototype chain尋找方法與屬性
+            //實體的__proto__屬性儲存著類別的prototype內容，類別的__proto__屬性儲存著父類別的prototype內容
+            //向上延伸直至原始類別Object，原始類別Object的prototype是空物件，再往上就是null
+            //運作過程是實體若在自身內部找不到指定的屬性或方法，就會進一步尋找搜尋__proto__物件內是否存在，若否，則繼續往上一層
+            //直至找到目標或是搜尋完整個prototype chain
+            //可透過右側方式探索prototype chain: laigu.__proto__.__proto__...
+
+            //讓狗類別繼承Animal類別
+            Dog.prototype = new Animal();
+            //此時Dog.prototype指向的記憶體位置已不同，已是指向Animal類別的一個實體，值已從原本的{bark:function(){}}變成{weight:undefined, height:undefined, ...}，而Dog.prototype.__proto__指向的是其其父類別的prototype，也就是Animal.prototype
+
+            laifu.bark();
+            //laifu.__proto__指向的仍是原本的記憶體位置，也就是原本的Dog.prototype，值是{bark:function(){}}，所以仍然可使用bark方法
+
+            //創造另一個狗類別實體
+            var littleBlack = new Dog('littleBlack');
+
+            //littleBlack.bark();已無法使用這個方法，因為littleBlack.__proto__指向的Dog.prototype已是新的位置，有新的值{weight:undefined, height:undefined, ...}
+
+            console.log(littleBlack.moveable);//繼承後新建的實體依循新的prototype chain取得moveable這個屬性
+            console.log(laifu.moveable);//繼承前既存的實體仍是依循原本的prototype chain，其中沒有moveable這個屬性，所以輸出undefined
+
+            //定義一個新的黃金獵犬類別
+
+            function GoldenRetriever() {
+                this.hunt = function () {
+                    console.log('It\'s hunting');  
+                };
+            }
+
+            //繼承狗類別
+            GoldenRetriever.prototype = new Dog();
+
+            var littleGold = new GoldenRetriever();
+
+            //透過littleGold.__proto__，也就是GoldenRetriever.prototype獲得name屬性並習得setName方法
+            console.log(littleGold.__proto__);
+            console.log(GoldenRetriever.prototype);
+
+            littleGold.setName('littleGold');
+            console.log(littleGold.name);
+
+            //透過littleGold.__proto__.__proto__，也就是Dog.prototype獲得moveable屬性
+            console.log(littleGold.__proto__.__proto__);
+            console.log(Dog.prototype);
+            console.log(littleBlack.__proto__);
+
+            console.log(littleGold.moveable);
+
+            //使用自己的方法
+            littleGold.hunt();
+
+
+            //打完收工
+
+        </script>
+    </body>
+</html>
