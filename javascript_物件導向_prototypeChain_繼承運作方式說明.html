@@ -37,11 +37,11 @@
             laifu.bark();
             //可使用bark方法
             //因為實體會透過prototype chain尋找方法與屬性
-            //實體的__proto__屬性儲存著類別的prototype內容，類別的prototype的__proto__屬性儲存著父類別的prototype內容
+            //實體的__proto__屬性儲存著所屬類別的prototype內容，
+            //所屬類別的prototype的__proto__屬性儲存著父類別的prototype內容
             //向上延伸直至原始類別Object，原始類別Object的prototype是空物件，再往上就是null
-            //實際運作過程是實體若在自身內部找不到指定的屬性或方法，就會進一步搜尋__proto__物件內是否存在目標屬性或方法，
-            //若否，則繼續往上一層尋找
-            //直至找到目標或是搜尋完整個prototype chain
+            //實際運作過程是使用new創建實體時會run一遍prototype chain，取得可用的屬性和方法，
+            //相同的屬性或方法以血緣近者優先取用
             //可透過右側方式探索prototype chain: laigu.__proto__.__proto__...
 
             //讓狗類別繼承Animal類別
@@ -89,7 +89,24 @@
             //使用自己的方法
             littleGold.hunt();
 
+            //使用prototype動態新增屬性與方法，會即時套用至prototype chain上所有既存實體
+            Animal.prototype.p1 = 'p1';
+            Dog.prototype.p2 = function (){console.log('p2')};
+            GoldenRetriever.prototype.p3 = 'p3';
+            
+            console.log(littleGold.p1);
+            littleGold.p2();
+            console.log(littleGold.p3);
+            
+            
+            //相同的屬性或方法，血綠近者優先取用
+            Animal.prototype.lol = '789';
+            Dog.prototype.lol = '456';
+            GoldenRetriever.prototype.lol = '123';
 
+            console.log(littleGold.lol);
+
+            
             //打完收工
 
         </script>
