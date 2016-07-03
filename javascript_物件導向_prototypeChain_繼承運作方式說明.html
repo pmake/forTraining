@@ -7,7 +7,7 @@
     <body>
         <script>
 
-            //以實例說明javascript的物件導向繼承運作方式
+            //以下以實例說明javascript的物件導向繼承運作方式
 
 
             //定義動物類別
@@ -36,10 +36,10 @@
 
             laifu.bark();
             //可使用bark方法
-            //因為實體會透過prototype chain尋找方法與屬性
+            //因為實體會透過prototype chain"向上"從祖先的prototype中尋找可用的方法與屬性
             //實體的__proto__屬性儲存著所屬類別的prototype內容，
             //所屬類別的prototype的__proto__屬性儲存著父類別的prototype內容
-            //向上延伸直至原始類別Object，原始類別Object的prototype是空物件，再往上就是null
+            //向上延伸直至原始類別Object的prototype，再往上就是null
             //實際運作過程是使用new創建實體時會run一遍prototype chain，取得可用的屬性和方法，
             //相同的屬性或方法以血緣近者優先取用
             //可透過右側方式探索prototype chain: laigu.__proto__.__proto__...
@@ -56,8 +56,10 @@
 
             //littleBlack.bark();已無法使用這個方法，因為littleBlack.__proto__指向的Dog.prototype已是新的位置，有新的值{weight:undefined, height:undefined, ...}
 
-            console.log(littleBlack.moveable);//繼承後新建的實體依循新的prototype chain取得moveable這個屬性
-            console.log(laifu.moveable);//繼承前既存的實體仍是依循原本的prototype chain，其中沒有moveable這個屬性，所以輸出undefined
+            console.log(littleBlack.moveable);
+            //繼承後新建的實體依循新的prototype chain取得moveable這個屬性
+            console.log(laifu.moveable);
+            //繼承前既存的實體仍是依循原本的prototype chain，其中沒有moveable這個屬性，所以輸出undefined
 
             //定義一個新的黃金獵犬類別
 
@@ -73,6 +75,7 @@
             var littleGold = new GoldenRetriever();
 
             //透過littleGold.__proto__，也就是GoldenRetriever.prototype獲得name屬性並習得setName方法
+            //以下內容值驗證，後續的console.log都是在驗證內容值
             console.log(littleGold.__proto__);
             console.log(GoldenRetriever.prototype);
 
@@ -93,13 +96,13 @@
             Animal.prototype.p1 = 'p1';
             Dog.prototype.p2 = function (){console.log('p2')};
             GoldenRetriever.prototype.p3 = 'p3';
-            
+
             console.log(littleGold.p1);
             littleGold.p2();
             console.log(littleGold.p3);
-            
-            
-            //相同的屬性或方法，血綠近者優先取用
+
+
+            //相同的屬性或方法，血緣近者優先取用
             Animal.prototype.lol = '789';
             Dog.prototype.lol = '456';
             GoldenRetriever.prototype.lol = '123';
@@ -108,10 +111,101 @@
 
             //輸出prototype chain尾端類別實體擁有的全部屬性和方法
             for(prop in littleGold){
-               console.log(prop); 
+                console.log(prop); 
             }
-            
-            
+
+            //分界線
+            console.log('-------------------------------');
+
+
+            //private 屬性和方法，物件中以this定義的屬性和方法為public，以var定義者為private
+            //private 屬性和方法不會在for in迴圈中顯示
+            function Person(name, age, weight){
+                //public
+                this.name = name;
+                this.say = function (words){
+                    console.log(this.name + ' says ' + words + '.');
+                };
+                //private
+                var age = age;
+                var weight = weight;
+                var think = function(question){
+                    return ('I think ' + question + ' is a great thing.');
+                };
+                //使用public方法存取private屬性和方法
+                this.setAge = function (num){
+                    age = num;
+                };
+                this.tellingAge = function (friendship){
+                    if(friendship === 'good') return age;
+                    else return 'this is secret.';
+                };
+                this.tellingWeight = function (friendship){
+                    if(friendship === 'good') return weight;
+                    else return 'this is secret.';
+                };
+                this.advise = function (friendship){
+                    if(friendship === 'good') return think;
+                    else return 'sorry I have no time.';
+                };
+            }
+
+            var Ryu = new Person('Ryu',36,75);
+
+            for(p in Ryu){
+                console.log(p);
+            }
+
+            console.log(Ryu.name);
+            Ryu.say('hello!');
+            console.log(Ryu.tellingAge('good'));
+            console.log(Ryu.tellingWeight('normal'));
+
+            var thinkingMethod = Ryu.advise('good');
+            var thought = thinkingMethod('OOP');
+
+            console.log( thought );
+            console.log( thinkingMethod('OOP') );
+            console.log( Ryu.advise('good')('OOP') );
+
+            console.log('------------------------------');
+
+            //定義rosyPerson類別
+            function rosyPerson (mentality) {
+                this.mentality = mentality;
+                var hardshipExp = 'many years ago...';
+                this.tellingStory = function (){
+                    return hardshipExp;  
+                };
+            }
+
+            //繼承Person類別，private屬性和方法一樣會繼承
+            rosyPerson.prototype = new Person();
+
+            var rosyKen = new rosyPerson('positive');
+
+            for(p in rosyKen){
+                console.log(p);
+            }
+
+            console.log( rosyKen.advise('good')('programming') );
+            rosyKen.setAge(33);
+            console.log( rosyKen.tellingAge('good') );
+
+            //所有物件皆繼承原始物件Object，因此擁有Object.prototype中的所有屬性和方法，例如hasOwnProperty方法
+            //可透過console.log(Object.prototype)檢視有哪些通用的方法和屬性
+            console.log(Object.prototype);
+
+            //hasOwnProperty方法確認是否擁有指定的屬性或方法，傳回true或false，繼承的屬性或方法會傳回false，
+            //private 屬性和方法也會傳回false
+
+            console.log(rosyKen.hasOwnProperty('mentality'));
+            console.log(rosyKen.hasOwnProperty('name'));
+            console.log(rosyKen.hasOwnProperty('hardshipExp'));
+            console.log(rosyKen.hasOwnProperty('tellingStory'));
+            console.log(rosyKen.tellingStory());
+
+
             //打完收工
 
         </script>
