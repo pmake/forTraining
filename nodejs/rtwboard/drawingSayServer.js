@@ -7,22 +7,42 @@ var express = require('express'),
     http = require('http').Server(app),
     io = require('socket.io')(http);
 
+//建立一個rooms物件模擬關聯式陣列
 var rooms = {};
 
-//處理客戶端創建畫室需求，使用get或post判斷，創建畫室時需設定名稱，以名稱做區別，開發階段先簡單直接創一個名為test的畫室
-rooms['test'] = {
-    players: {},
-    drawer: {},
-    answer: '',
-    msgHistory: [],
-    drawingHistory: [],
-    msgNum: 0,
-    pixelNum: 0,
-    settings: {
-        maxPlayers: 12,
+//建立room類別
+function Room (){
+    //this.id = id;
+    this.players = {};
+    this.drawer = {};
+    this.answer = '';
+    this.msgHistory = [];
+    this.drawingHistory = [];
+    this.msgNum = 0;
+    this.pixelNum = 0;
+    this.settings = {
+        maxPlayer: 12,
         gameMode: 'drawingAndGuess'
+    };
+}
+
+//室友信使, notToSelf置入自身socket，代表不傳給自己
+function roomMessenger (event, message, room, notToSelf){
+    if (notToSelf){
+        for(member in rooms[room].players) {
+            if (rooms[room].players[member] == notToSelf) continue;
+            rooms[room].players[member].emit(event, message)
+        }
+    }else {
+        for(member in rooms[room].players) {
+            rooms[room].players[member].emit(event, message)
+        }
     }
-};
+}
+
+//處理客戶端創建畫室需求，使用get或post判斷，創建畫室時需設定名稱，以名稱做區別，開發階段先簡單直接創一個名為test的畫室
+rooms['test'] = new Room ();
+
 //畫室屬性說明:
 //drawingHistory[]=[switch,x or color,y or lineWidth,new_x or ex_color,new_y or ex_lineWidth]
 //用pixelNum當做時間序列，紀錄各個動作的先後順序，包含設定變更，這樣就不用每筆都記錄設定選項值
@@ -50,6 +70,7 @@ io.on('connection', function(socket) {
     //判斷進入哪一個畫室，歸屬畫室，此處先假設進入test畫室
     //--------------------------------------------
 
+
     //登入初始化，傳送歷史資料予客戶端
     socket.emit('show history',rooms['test'].drawingHistory,rooms['test'].msgHistory);
 
@@ -57,14 +78,14 @@ io.on('connection', function(socket) {
     socket.on('login', function(data) { 
         //伺服端訊息 
         console.log(data + " connected"); 
-
-        //將在前端輸入的名稱記錄下來 
-        socket.playerName = data;
-        //登錄玩家，玩家實際上是一個socket
-        rooms['test'].players[data] = socket;
+        //將在前端輸入的名稱記錄下來
+        this.playerName = data;
+        //登錄玩家，玩家實際上是一個socket，以名稱做為屬性名稱儲存socket物件指標
+        rooms['test'].players[data] = this;
         //將自己上線訊息傳給自己以外的連線
         var temp = data + ' 上線了';
-        socket.broadcast.emit('user message', temp); 
+        //socket.broadcast.emit('user message', temp); 
+        roomMessenger('user message', temp, 'test', this);
         //紀錄訊息
         if(rooms['test'].msgNum>24){
             rooms['test'].msgHistory.shift();
@@ -77,14 +98,20 @@ io.on('connection', function(socket) {
 
     //接收畫布作業訊息 
     socket.on('draw', function(data){ 
-        //將畫布作業訊息傳給其他連線 
+        //將畫布作業訊息傳給其他連線，即時影響力最大的作業，考慮不用function，以提速
         socket.broadcast.emit('show', data);
+
+        //        for(member in rooms['test'].players) {
+        //            if (rooms['test'].players[member] == socket) continue;
+        //            rooms['test'].players[member].emit('show', data)
+        //        }
+
         //紀錄繪圖軌跡
         rooms['test'].drawingHistory[rooms['test'].pixelNum] = ['d',data.x,data.y,data.new_x,data.new_y];
         rooms['test'].pixelNum+=1;
     });
     socket.on('clear canvas',function(settings){
-        socket.broadcast.emit('clear canvas');
+        this.broadcast.emit('clear canvas');
         //drawingHistory和pixelNum
         rooms['test'].drawingHistory=[];
         rooms['test'].pixelNum=0;
@@ -93,17 +120,17 @@ io.on('connection', function(socket) {
         rooms['test'].pixelNum+=1;
     });
     socket.on('settings changed',function(settings){
-        socket.broadcast.emit('settings changed',settings);
+        this.broadcast.emit('settings changed',settings);
         //紀錄設定
         rooms['test'].drawingHistory[rooms['test'].pixelNum] = ['s', settings.color, settings.size, settings.ex_color, settings.ex_size];
         rooms['test'].pixelNum+=1;
     });
     //離線 
     socket.on('disconnect', function() { 
-        console.log(socket.playerName + ' disconnected');
+        console.log(this.playerName + ' disconnected');
         //通知其他人此socket已離線
-        var temp = socket.playerName + ' 已離開';
-        socket.broadcast.emit('user message', temp);
+        var temp = this.playerName + ' 已離開';
+        this.broadcast.emit('user message', temp);
         //紀錄訊息
         if(rooms['test'].msgNum>24){
             rooms['test'].msgHistory.shift();
@@ -115,7 +142,7 @@ io.on('connection', function(socket) {
     }); 
     //接收聊天訊息
     socket.on('user message',function(msg){
-        var temp = socket.playerName + ' : ' + msg.content;
+        var temp = this.playerName + ' : ' + msg.content;
         io.emit('user message',temp);
         //記錄訊息
         if(rooms['test'].msgNum>24){
