@@ -15,8 +15,8 @@ var jqBtnDrawMode = $('#btnDrawMode'),
     inpUserInp = document.getElementById('inpUserInp'),
     jqUlMsgList = $('#ulMsgList'),
     jqCvDrawingArea = $('#cvDrawingArea'),
-        jqBtnCleaner = $('#btnCleaner'),
-        jqBtnSend = $('#btnSend');
+    jqBtnCleaner = $('#btnCleaner'),
+    jqBtnSend = $('#btnSend');
 
 function colorToHex(color) {
     if (color.substr(0, 1) === "#") {
