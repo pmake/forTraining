@@ -13,7 +13,7 @@ var rooms = {};
 //建立room類別
 function Room (){
     //this.id = id;
-    this.players = {};
+    //this.players = {};
     this.drawer = {};
     this.answer = '';
     this.msgHistory = [];
@@ -26,6 +26,7 @@ function Room (){
     };
 }
 
+/*
 //室友登錄者，室友登錄在socket物件自身的屬性物件中，登錄室友是為了避免每次傳送圖點時的除外判斷，以新成員加入時的更新室友動作取代原本的每個圖點的數次判斷
 function roommateRegister (room, newPlayer) {
     //先宣告物件給roommate屬性
@@ -50,6 +51,7 @@ function roomMessenger (event, message, room, exclusion){
         }
     }
 }
+*/
 
 //處理客戶端創建畫室需求，使用get或post判斷，創建畫室時需設定名稱，以名稱做區別，開發階段先簡單直接創一個名為test的畫室
 rooms['test'] = new Room ();
@@ -80,7 +82,7 @@ io.on('connection', function(socket) {
 
     //判斷進入哪一個畫室，歸屬畫室，此處先假設進入test畫室
     //--------------------------------------------
-
+    socket.join('test');
 
     //登入初始化，傳送歷史資料予客戶端
     socket.emit('show history',rooms['test'].drawingHistory,rooms['test'].msgHistory);
@@ -91,14 +93,17 @@ io.on('connection', function(socket) {
         console.log(data + " connected");
         //將在前端輸入的名稱記錄下來
         this.playerName = data;
+        /*
         //更新所有成員的室友清單
         roommateRegister('test', this);
         //登錄玩家，玩家實際上是一個socket，以名稱做為屬性名稱儲存socket物件指標
         rooms['test'].players[data] = this;
+        */
         //將自己上線訊息傳給自己以外的連線
         var temp = data + ' 上線了';
         //socket.broadcast.emit('user message', temp); 
-        roomMessenger('user message', temp, 'test', this);
+        //roomMessenger('user message', temp, 'test', this);
+        this.to('test').broadcast.emit('user message', temp);
         //紀錄訊息
         if(rooms['test'].msgNum>24){
             rooms['test'].msgHistory.shift();
@@ -113,10 +118,12 @@ io.on('connection', function(socket) {
     socket.on('draw', function(data){ 
         //將畫布作業訊息傳給其他連線，即時影響力最大的作業，考慮不用function，以提速
         //socket.broadcast.emit('show', data);
-
+        /*
         for(player in this.roommate) {
             this.roommate[player].emit('show', data)
         }
+        */
+        this.to('test').broadcast.emit('show', data);
 
         //紀錄繪圖軌跡
         rooms['test'].drawingHistory[rooms['test'].pixelNum] = ['d',data.x,data.y,data.new_x,data.new_y];
@@ -124,7 +131,8 @@ io.on('connection', function(socket) {
     });
     socket.on('clear canvas',function(settings){
         //this.broadcast.emit('clear canvas');
-        roomMessenger('clear canvas', '', 'test', this);
+        //roomMessenger('clear canvas', '', 'test', this);
+        this.to('test').broadcast.emit('clear canvas');
         //drawingHistory和pixelNum
         rooms['test'].drawingHistory=[];
         rooms['test'].pixelNum=0;
@@ -134,7 +142,8 @@ io.on('connection', function(socket) {
     });
     socket.on('settings changed',function(settings){
         //this.broadcast.emit('settings changed',settings);
-        roomMessenger('settings changed', settings, 'test', this);
+        //roomMessenger('settings changed', settings, 'test', this);
+        this.to('test').broadcast.emit('settings changed', settings);
         //紀錄設定
         rooms['test'].drawingHistory[rooms['test'].pixelNum] = ['s', settings.color, settings.size, settings.ex_color, settings.ex_size];
         rooms['test'].pixelNum+=1;
@@ -145,7 +154,8 @@ io.on('connection', function(socket) {
         //通知其他人此socket已離線
         var temp = this.playerName + ' 已離開';
         //this.broadcast.emit('user message', temp);
-        roomMessenger('user message', temp, 'test', this);
+        //roomMessenger('user message', temp, 'test', this);
+        this.to('test').broadcast.emit('user message', temp);
         //紀錄訊息
         if(rooms['test'].msgNum>24){
             rooms['test'].msgHistory.shift();
@@ -159,7 +169,8 @@ io.on('connection', function(socket) {
     socket.on('user message',function(msg){
         var temp = this.playerName + ' : ' + msg.content;
         //io.emit('user message',temp);
-        roomMessenger('user message', temp, 'test');
+        //roomMessenger('user message', temp, 'test');
+        io.to('test').emit('user message', temp);
         //記錄訊息
         if(rooms['test'].msgNum>24){
             rooms['test'].msgHistory.shift();
