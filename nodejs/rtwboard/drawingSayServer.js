@@ -65,7 +65,7 @@ rooms['test'] = new Room ();
 app.use(express.static('static_files'));
 
 app.get('/', function(req, res){
-    res.sendFile(__dirname + '/drawingSay.html');
+    res.sendFile(__dirname + '/main.html');
 });
 
 http.listen(3000, function(){
