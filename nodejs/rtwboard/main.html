@@ -3,9 +3,76 @@
     <head>
         <meta charset="UTF-8">
         <title>drawingSay</title>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+        <!-- href未打網址預設是向提供html檔案的server提出需求，-->
+        <!-- server端有express.static middleware提供靜態檔案服務，-->
+        <!-- 使用該服務在URL中不需含內容資料夾名稱，服務自會解析-->
+        <style>
+            body {
+                background-color: rgb(141,141,141);
+            }
+            h1 {
+                text-align: center;
+                color: white;
+            }
+            .item img {
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .carousel-indicators li {
+                border-color: black;
+                background-color: rgba(141,141,141,.5);
+            }
+        </style>
     </head>
     <body>
-       <h1>123</h1>
+        <div id='divReplace'>
+            <h1>你猜的到這些圖畫的作者想表達什麼嗎?
+                <button type="button" class="btn btn-info">猜猜看!</button>
+            </h1>
+            <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                    <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                </ol>
+
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner" role="listbox">
+                    <div class="item active">
+                        <img src="images/1.jpg" alt="...">
+                        <!--<div class="carousel-caption"></div>-->
+                    </div>
+                    <div class="item">
+                        <img src="images/2.jpg" alt="...">
+                    </div>
+                    <div class="item">
+                        <img src="images/3.jpg" alt="...">
+                    </div>
+                </div>
+
+                <!-- Controls -->
+                <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+            <script>
+                $('.btn-info').click(function (){
+                    //清除本頁無用內容
+                    $('#divReplace, style').remove();
+                    //載入新內容
+                    $('body').load('views/roomChoice.html');
+                });
+            </script>
+        </div>
     </body>
 </html>

@@ -120,6 +120,9 @@ ul.lineWidthGroup a:hover {
 #cvDrawingArea {
     width: 653px;
     height: 531px;
+    cursor:url(../images/cursor.cur) 4 30, auto;
+    /*for IE*/
+    cursor:url(../images/cursor.cur), auto;
 }
 .jumbotron {
     height:532px;/*扣除按鈕高43px*/
@@ -171,10 +174,10 @@ div.thumbnail img {
     border-top-right-radius: 0;
 }
 #ulMsgList {
-/*
+    /*
     height: 531px;
     overflow:hidden;
-*/
+    */
     word-wrap: break-word;
     color:#fff;
     list-style: none;

@@ -1,0 +1,35 @@
+<div id="divReplace">
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">
+            <button id="btnJoinRoom" type="button" class="btn btn-success">加入畫室</button>
+            <button id="btnCreateRoom" type="button" class="btn btn-success">創建畫室</button>
+        </div>
+
+        <!-- Table -->
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Room ID</th>
+                    <th>Players</th>
+                    <th>Mode</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>test</td>
+                    <td>5/12</td>
+                    <td>drawingAndGuess</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        $('#btnJoinRoom').click(function (){
+            $('#divReplace').remove();
+            $('body').load('views/drawingSay.html');
+        });
+    </script>
+</div>
