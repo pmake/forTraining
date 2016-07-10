@@ -8,7 +8,7 @@ var express = require('express'),
     io = require('socket.io')(http);
 
 //建立一個rooms物件模擬關聯式陣列
-var rooms = {};
+var rooms = {}, roomsForLobby = {};
 
 //建立room類別
 function Room (){
@@ -22,7 +22,7 @@ function Room (){
     this.pixelNum = 0;
     this.settings = {
         maxPlayer: 12,
-        gameMode: 'drawingAndGuess'
+        gameMode: 'Draw and guess'
     };
 }
 
@@ -55,6 +55,12 @@ function roomMessenger (event, message, room, exclusion){
 
 //處理客戶端創建畫室需求，使用get或post判斷，創建畫室時需設定名稱，以名稱做區別，開發階段先簡單直接創一個名為test的畫室
 rooms['test'] = new Room ();
+//更新Lobby用物件
+roomsForLobby['test'] = {
+    maxPlayers: rooms['test'].settings.maxPlayer,
+    Players: 1,
+    gameMode: rooms['test'].settings.gameMode
+};
 
 //畫室屬性說明:
 //drawingHistory[]=[switch,x or color,y or lineWidth,new_x or ex_color,new_y or ex_lineWidth]
@@ -66,6 +72,11 @@ app.use(express.static('static_files'));
 
 app.get('/', function(req, res){
     res.sendFile(__dirname + '/main.html');
+});
+
+//更新畫室清單
+app.get('/rooms', function(req, res){
+    res.send(roomsForLobby);
 });
 
 http.listen(3000, function(){

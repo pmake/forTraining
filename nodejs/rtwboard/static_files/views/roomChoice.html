@@ -2,7 +2,6 @@
     <div class="panel panel-default">
         <!-- Default panel contents -->
         <div class="panel-heading">
-            <button id="btnJoinRoom" type="button" class="btn btn-success">加入畫室</button>
             <button id="btnCreateRoom" type="button" class="btn btn-success">創建畫室</button>
         </div>
 
@@ -10,26 +9,38 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>#</th>
-                    <th>Room ID</th>
-                    <th>Players</th>
-                    <th>Mode</th>
+                    <th>進入畫室</th>
+                    <th>畫室名稱</th>
+                    <th>玩家人數</th>
+                    <th>進行模式</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>test</td>
-                    <td>5/12</td>
-                    <td>drawingAndGuess</td>
-                </tr>
+            <tbody id='tbRoomList'>
             </tbody>
         </table>
     </div>
     <script>
-        $('#btnJoinRoom').click(function (){
-            $('#divReplace').remove();
-            $('body').load('views/drawingSay.html');
+        var jqDivReplace = $('#divReplace'), jqStyle = $('style'), jqBody = $('body');
+
+        $('head').append('<style>table.table tbody tr td, th {vertical-align: middle; text-align: center;}</style>');
+
+        $.get('rooms', function (data){
+            let jqTbody = $('#tbRoomList');
+
+            for (prp in data) {
+                jqTbody.append('<tr><td><button type="button" class="btn btn-info btnJoinRoom" id="' + prp + '">點擊進入</button></td><td>' + prp + '</td><td>' + data[prp].maxPlayers + '</td><td>' + data[prp].gameMode + '</td></tr>');
+            }
+            $('.btnJoinRoom').click(function (){
+                jqDivReplace.remove();
+                jqStyle.remove();
+                jqBody.load('views/drawingSay.html');
+            });
+        });
+
+        $('#btnCreateRoom').click(function (){
+            jqDivReplace.remove();
+            jqStyle.remove();
+            jqBody.load('views/createRoom.html');
         });
     </script>
 </div>
