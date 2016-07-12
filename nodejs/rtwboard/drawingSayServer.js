@@ -5,7 +5,8 @@
 var express = require('express'),
     app = express(),
     http = require('http').Server(app),
-    io = require('socket.io')(http);
+    io = require('socket.io')(http),
+    bodyParser = require('body-parser');
 
 //建立一個rooms物件模擬關聯式陣列
 var rooms = {}, roomsForLobby = {};
@@ -23,6 +24,15 @@ function Room (){
     this.settings = {
         maxPlayer: 12,
         gameMode: 'Draw and guess'
+    };
+}
+
+function roomBuilder (roomName){
+    rooms[roomName] = new Room ();
+    roomsForLobby[roomName] = {
+        maxPlayers: rooms['test'].settings.maxPlayer,
+        Players: 1,
+        gameMode: rooms['test'].settings.gameMode
     };
 }
 
@@ -53,7 +63,7 @@ function roomMessenger (event, message, room, exclusion){
 }
 */
 
-//處理客戶端創建畫室需求，使用get或post判斷，創建畫室時需設定名稱，以名稱做區別，開發階段先簡單直接創一個名為test的畫室
+//建立預設畫室test
 rooms['test'] = new Room ();
 //更新Lobby用物件
 roomsForLobby['test'] = {
@@ -70,6 +80,13 @@ roomsForLobby['test'] = {
 //experss的靜態檔案服務
 app.use(express.static('static_files'));
 
+// parse application/x-www-form-urlencoded 
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json 
+//app.use(bodyParser.json())
+
+//處理客戶端需求
 app.get('/', function(req, res){
     res.sendFile(__dirname + '/main.html');
 });
@@ -77,6 +94,11 @@ app.get('/', function(req, res){
 //更新畫室清單
 app.get('/rooms', function(req, res){
     res.send(roomsForLobby);
+});
+
+//處理客戶端創建畫室需求
+app.post('/createRoom', function(req, res){
+    console.log(req.body);
 });
 
 http.listen(3000, function(){

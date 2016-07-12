@@ -1,15 +1,15 @@
 <div id="divReplace">
     <div class="panel panel-default">
-        <div class="panel-heading">創建畫室</div>
+        <div class="panel-heading"><span>創建畫室</span></div>
         <div class="panel-body">
             <div class="input-group">
                 <span class="input-group-addon">畫室名稱</span>
-                <input type="text" class="form-control" placeholder="名稱請勿超過14個字" maxlength='14'>
+                <input id="inpRoomName" type="text" class="form-control" placeholder="名稱請勿超過14個字" maxlength='14'>
             </div>
             <br>
             <div class="input-group">
                 <span class="input-group-addon">允許人數</span>
-                <select class='form-control'>
+                <select id="sltMaxPlayer" class='form-control'>
                     <option value="2">2</option>
                     <option value="3">3</option>
                     <option value="4">4</option>
@@ -28,7 +28,7 @@
             <br>
             <div class="input-group">
                 <span class="input-group-addon">進行模式</span>
-                <select class='form-control'>
+                <select id="sltGameMode" class='form-control'>
                     <option value="drawAndGuess">Draw and guess</option>
                     <option value="guessOnly">Guess only</option>
                 </select>
@@ -37,10 +37,32 @@
         <div class="panel-footer"><button type="button" class="btn btn-success" id='btnCreateRoom'>創建</button></div>
     </div>
     <script>
-        $('head').append('<style> .panel-default { width: 500px; margin-left: auto; margin-right: auto; margin-top: 30px;}</style>');
+        $('head').append('<style> .panel-default { max-width: 500px; margin-left: auto; margin-right: auto; margin-top: 30px;}</style>');
         $('#btnCreateRoom').click(function (){
-            $('#divReplace').remove();
-            $('style').remove();
+            let jqInpRoomName = $('#inpRoomName'),
+                roomName = jqInpRoomName.val();
+
+            if (roomName) {
+                let roomSettings = {
+                    name: roomName,
+                    maxPlayer: $('#sltMaxPlayer').val(),
+                    gameMode: $('#sltGameMode').val()
+                };
+                $.post('createRoom', roomSettings, function() {
+                    
+                });
+                $('#divReplace').remove();
+                $('style').remove();
+            }else {
+                if(!$('#spHint').text()){
+                    $('.panel-heading').append('<span id="spHint">名稱不得空白，請輸入。</span>');
+                    $('#spHint').css({
+                        float: 'right',
+                        color: 'red'
+                    });
+                }
+                jqInpRoomName.focus();
+            }
         });
     </script>
 </div>
