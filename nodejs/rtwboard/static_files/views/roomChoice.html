@@ -33,6 +33,9 @@
             $('.btnJoinRoom').click(function (){
                 jqDivReplace.remove();
                 jqStyle.remove();
+                //記錄歸屬畫室
+                jqBody.attr('id', $(this).attr('id'));
+                //載入畫室
                 jqBody.load('views/drawingSay.html');
             });
         });

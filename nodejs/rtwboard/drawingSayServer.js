@@ -12,7 +12,7 @@ var express = require('express'),
 var rooms = {}, roomsForLobby = {};
 
 //建立room類別
-function Room (){
+function Room (maxPlayer, gameMode){
     //this.id = id;
     //this.players = {};
     this.drawer = {};
@@ -22,17 +22,17 @@ function Room (){
     this.msgNum = 0;
     this.pixelNum = 0;
     this.settings = {
-        maxPlayer: 12,
-        gameMode: 'Draw and guess'
+        maxPlayer: maxPlayer,
+        gameMode: gameMode
     };
 }
 
-function roomBuilder (roomName){
-    rooms[roomName] = new Room ();
+function roomBuilder (roomName, maxPlayer, gameMode){
+    rooms[roomName] = new Room (maxPlayer, gameMode);
     roomsForLobby[roomName] = {
-        maxPlayers: rooms['test'].settings.maxPlayer,
+        maxPlayers: rooms[roomName].settings.maxPlayer,
         Players: 1,
-        gameMode: rooms['test'].settings.gameMode
+        gameMode: rooms[roomName].settings.gameMode
     };
 }
 
@@ -64,13 +64,14 @@ function roomMessenger (event, message, room, exclusion){
 */
 
 //建立預設畫室test
-rooms['test'] = new Room ();
-//更新Lobby用物件
-roomsForLobby['test'] = {
-    maxPlayers: rooms['test'].settings.maxPlayer,
-    Players: 1,
-    gameMode: rooms['test'].settings.gameMode
-};
+roomBuilder('test', 12, 'Draw and guess');
+//rooms['test'] = new Room (12, 'Draw and guess');
+////更新Lobby用物件
+//roomsForLobby['test'] = {
+//    maxPlayers: rooms['test'].settings.maxPlayer,
+//    Players: 1,
+//    gameMode: rooms['test'].settings.gameMode
+//};
 
 //畫室屬性說明:
 //drawingHistory[]=[switch,x or color,y or lineWidth,new_x or ex_color,new_y or ex_lineWidth]
@@ -98,7 +99,7 @@ app.get('/rooms', function(req, res){
 
 //處理客戶端創建畫室需求
 app.post('/createRoom', function(req, res){
-    console.log(req.body);
+    roomBuilder(req.body.name, req.body.maxPlayer, req.body.gameMode);
 });
 
 http.listen(3000, function(){
