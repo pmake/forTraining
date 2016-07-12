@@ -1,5 +1,9 @@
 //答題模式input依題目字數秀等數格子，已答對部分秀字
-var userName = prompt('請輸入暱稱'); //socket連線建立後使用prompt會額外建立socket，所以要在連線建立之前使用
+//socket連線建立後使用prompt會額外建立socket，所以要在連線建立之前使用
+var loginData = {
+    playerName: prompt('請輸入暱稱'),
+    roomName: $('body').attr('id')
+};
 
 //initial
 var jqBtnDrawMode = $('#btnDrawMode'),
@@ -82,7 +86,7 @@ jqBtnSayMode.click(function () {
 var socket = io();
 
 //將輸入名稱傳到後端 node.js server 來通知其他人您已上線的訊息 
-socket.emit('login', userName); 
+socket.emit('login', loginData); 
 
 //接收歷史資料並載入
 socket.on('show history',function(drawingHistory,msgHistory){
