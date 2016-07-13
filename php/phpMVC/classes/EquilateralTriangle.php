@@ -1,10 +1,9 @@
 <?php
-namespace archi\classes\square;
-use archi\classes\circle\Circle;
+namespace archi\classes\equilateraltriangle;
 use archi\classes\shape\Shape;
 
 include_once "Shape.php";
-class Square extends Shape{
+class EquilateralTriangle extends Shape{
     private $sideLength;
     public function __construct($sideLength)
     {
@@ -17,7 +16,7 @@ class Square extends Shape{
         return $this->sideLength;
     }
     public function calcArea (){
-        return ($this->sideLength * $this->sideLength);
+        return ($this->sideLength * $this->sideLength / 2);
     }
 }
 ?>

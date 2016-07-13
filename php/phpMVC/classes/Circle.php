@@ -1,6 +1,9 @@
 <?php
 namespace archi\classes\circle;
-class Circle {
+use archi\classes\shape\Shape;
+include_once "Shape.php";
+
+class Circle extends Shape{
     private $radius;
     public function __construct($radius)
     {
@@ -13,7 +16,7 @@ class Circle {
         return $this->radius;
     }
     public function calcArea (){
-        
+        return $this->radius * $this->radius * 3.14159;
     }
 }
 ?>
