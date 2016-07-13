@@ -26,31 +26,37 @@ littleBlack->setName('bb');
 
 */
 
-class Dog {
+class Dog
+{
 
     protected $name;
     protected $position;
 
-    public function __construct($name){
+    public function __construct($name)
+    {
         $this->name = $name;
-        $this->position = ['x'=>0, 'y'=>0];
-    }
-    
-    public function setName ($name){
-        this->name = $name;
-    }
-    
-    public function getName ($name){
-        return this->name;
+        $this->position = ['x' => 0, 'y' => 0];
     }
 
-    public function moveTo ($x,$y){
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    public function getName($name)
+    {
+        return $this->name;
+    }
+
+    public function moveTo($x, $y)
+    {
         $this->position['x'] = $x;
         $this->position['y'] = $y;
         return $this->position;
     }
 
-    public function distance($x, $y) {
+    public function distance($x, $y)
+    {
         return array($x - $this->position['x'], $y - $this->position['y']);
     }
 
@@ -61,10 +67,10 @@ $littleBlack = new Dog('littleBlack');
 
 //操作物件屬性與方法
 echo $littleBlack->getName();
-$position = $littleBlack->moveTo(3,5);
+$position = $littleBlack->moveTo(3, 5);
 echo "<br>";
 echo $position['x'] . '/' . $position['y'];
-$distance = $littleBlack->distance(3,6);
+$distance = $littleBlack->distance(3, 6);
 echo "<br>";
 echo 'x:' . $distance[0] . '      ' . 'y:' . $distance[1];
 

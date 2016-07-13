@@ -33,7 +33,7 @@ class ContactList implements DataTransferInterface{
         return $this->friendList;   
     }
 }
-aa
+
 $ds = new DataStorager();
 $cl = new ContactList();
 $cl->add('Wen', 'Archi');

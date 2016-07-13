@@ -17,7 +17,7 @@ class Animal {
     }
 
     public function eat($food) {
-        echo this->name . 'is eating ' . $food;
+        echo $this->name . 'is eating ' . $food;
     }
 
 }
@@ -26,7 +26,7 @@ class Animal {
 class Dog extends Animal {
     
     public function barking ($target) {
-        echo this->name . 'is barking to ' . $target;  
+        echo $this->name . 'is barking to ' . $target;
     }
     
 }
@@ -34,7 +34,7 @@ class Dog extends Animal {
 class Cat extends Animal {
     
     public function clawAttack($target){
-        echo this->name . 'is Attack ' . $target . 'with it\'s claw';
+        echo $this->name . 'is Attack ' . $target . 'with it\'s claw';
     }
     
 }
