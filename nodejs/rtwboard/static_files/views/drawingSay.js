@@ -85,7 +85,7 @@ jqBtnSayMode.click(function () {
 //建立socket連線 
 var socket = io();
 
-//將輸入名稱傳到後端 node.js server 來通知其他人您已上線的訊息 
+//將登入資料傳到後端 node.js server 加入房間，傳送上線通知
 socket.emit('login', loginData); 
 
 //接收歷史資料並載入

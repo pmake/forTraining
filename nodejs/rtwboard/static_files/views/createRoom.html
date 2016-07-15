@@ -30,7 +30,7 @@
                 <span class="input-group-addon">進行模式</span>
                 <select id="sltGameMode" class='form-control'>
                     <option value="Draw and guess">Draw and guess</option>
-                    <option value="guessOnly">Guess only</option>
+                    <option value="Guess guess guess">Guess guess guess</option>
                 </select>
             </div>
         </div>
@@ -48,8 +48,13 @@
                     maxPlayer: $('#sltMaxPlayer').val(),
                     gameMode: $('#sltGameMode').val()
                 };
-                $.post('createRoom', roomSettings, function() {
-                    
+                $.post('createRoom', roomSettings, function(data) {
+                    let jqBody = $('body');
+                    //記錄歸屬畫室
+                    console.log(data);
+                    jqBody.attr('id', roomName);
+                    //載入畫室
+                    jqBody.load('views/drawingSay.html');
                 });
                 $('#divReplace').remove();
                 $('style').remove();

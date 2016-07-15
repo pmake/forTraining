@@ -100,6 +100,7 @@ app.get('/rooms', function(req, res){
 //處理客戶端創建畫室需求
 app.post('/createRoom', function(req, res){
     roomBuilder(req.body.name, req.body.maxPlayer, req.body.gameMode);
+    res.send('success');
 });
 
 http.listen(3000, function(){
@@ -127,6 +128,13 @@ io.on('connection', function(socket) {
         this.join(roomName);
         //現存全部的room清單
         //console.log(socket.adapter.rooms);
+        //room成員清單
+        //console.log(socket.adapter.rooms['test']['sockets']);
+        
+        //test，中介變數或直接記入屬性
+        this.roomName = roomName;
+
+
 
         //登入初始化，傳送歷史資料予客戶端
         this.emit('show history',rooms[roomName].drawingHistory,rooms[roomName].msgHistory);
@@ -190,7 +198,8 @@ io.on('connection', function(socket) {
             rooms[roomName].pixelNum+=1;
         });
         //離線 
-        this.on('disconnect', function() { 
+        this.on('disconnect', function() {
+            //確認Room是否還有玩家，若否，釋放Room
             console.log(this.playerName + ' disconnected');
             //通知其他人此socket已離線
             var temp = this.playerName + ' 已離開';

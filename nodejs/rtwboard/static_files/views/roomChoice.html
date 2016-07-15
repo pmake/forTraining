@@ -6,7 +6,7 @@
         </div>
 
         <!-- Table -->
-        <table class="table">
+        <table id="tableRoomList" class="table">
             <thead>
                 <tr>
                     <th>進入畫室</th>
@@ -15,34 +15,47 @@
                     <th>進行模式</th>
                 </tr>
             </thead>
-            <tbody id='tbRoomList'>
-            </tbody>
         </table>
     </div>
     <script>
-        var jqDivReplace = $('#divReplace'), jqStyle = $('style'), jqBody = $('body');
+        var jqDivReplace = $('#divReplace'), jqStyle = $('style'), jqBody = $('body'), jqTableRoomList = $('#tableRoomList'), itvRefresh;
 
         $('head').append('<style>table.table tbody tr td, th {vertical-align: middle; text-align: center;}</style>');
+        //更新Room清單函數
+        function refreshRoom (){
+            $('#tbRoomList').remove();
+            jqTableRoomList.append('<tbody id="tbRoomList"></tbody>');
 
-        $.get('rooms', function (data){
-            let jqTbody = $('#tbRoomList');
-
-            for (prp in data) {
-                jqTbody.append('<tr><td><button type="button" class="btn btn-info btnJoinRoom" id="' + prp + '">點擊進入</button></td><td>' + prp + '</td><td>' + data[prp].maxPlayers + '</td><td>' + data[prp].gameMode + '</td></tr>');
-            }
-            $('.btnJoinRoom').click(function (){
-                jqDivReplace.remove();
-                jqStyle.remove();
-                //記錄歸屬畫室
-                jqBody.attr('id', $(this).attr('id'));
-                //載入畫室
-                jqBody.load('views/drawingSay.html');
+            $.get('rooms', function (data){
+                let jqTbody = $('#tbRoomList');
+                for (prp in data) {
+                    jqTbody.append('<tr><td><button type="button" class="btn btn-info btnJoinRoom" id="' + prp + '">點擊進入</button></td><td>' + prp + '</td><td>' + data[prp].maxPlayers + '</td><td>' + data[prp].gameMode + '</td></tr>');
+                }
+                $('.btnJoinRoom').click(function (){
+                    //要先確認Room是否還存在
+                    jqDivReplace.remove();
+                    jqStyle.remove();
+                    //記錄歸屬畫室
+                    jqBody.attr('id', $(this).attr('id'));
+                    //清除interval
+                    clearInterval(itvRefresh);
+                    //載入畫室
+                    jqBody.load('views/drawingSay.html');
+                });
             });
-        });
+        }
+        //初次更新
+        refreshRoom();
+        //設定定時更新
+        itvRefresh = setInterval(function (){
+            console.log('refresh');
+            refreshRoom();
+        },5000);
 
         $('#btnCreateRoom').click(function (){
             jqDivReplace.remove();
             jqStyle.remove();
+            clearInterval(itvRefresh);
             jqBody.load('views/createRoom.html');
         });
     </script>
