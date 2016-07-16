@@ -9,7 +9,7 @@
             <br>
             <div class="input-group">
                 <span class="input-group-addon">允許人數</span>
-                <select id="sltMaxPlayer" class='form-control'>
+                <select id="sltmaxPlayers" class='form-control'>
                     <option value="2">2</option>
                     <option value="3">3</option>
                     <option value="4">4</option>
@@ -45,7 +45,7 @@
             if (roomName) {
                 let roomSettings = {
                     name: roomName,
-                    maxPlayer: $('#sltMaxPlayer').val(),
+                    maxPlayers: $('#sltmaxPlayers').val(),
                     gameMode: $('#sltGameMode').val()
                 };
                 $.post('createRoom', roomSettings, function(data) {

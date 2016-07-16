@@ -29,18 +29,31 @@
             $.get('rooms', function (data){
                 let jqTbody = $('#tbRoomList');
                 for (prp in data) {
-                    jqTbody.append('<tr><td><button type="button" class="btn btn-info btnJoinRoom" id="' + prp + '">點擊進入</button></td><td>' + prp + '</td><td>' + data[prp].maxPlayers + '</td><td>' + data[prp].gameMode + '</td></tr>');
+                    jqTbody.append('<tr><td><button type="button" class="btn btn-info btnJoinRoom" id="' + prp + '">點擊進入</button></td><td>' + prp + '</td><td>' + data[prp].numPlayers + '/' + data[prp].maxPlayers + '</td><td>' + data[prp].gameMode + '</td></tr>');
                 }
                 $('.btnJoinRoom').click(function (){
                     //要先確認Room是否還存在
-                    jqDivReplace.remove();
-                    jqStyle.remove();
-                    //記錄歸屬畫室
-                    jqBody.attr('id', $(this).attr('id'));
-                    //清除interval
-                    clearInterval(itvRefresh);
-                    //載入畫室
-                    jqBody.load('views/drawingSay.html');
+                    let roomName = $(this).attr('id');
+                    $.post('roomCheck', {name: roomName}, function (result){
+                        if(result == "yes"){
+                            jqDivReplace.remove();
+                            jqStyle.remove();
+                            //記錄歸屬畫室
+                            jqBody.attr('id', roomName);
+                            //清除interval
+                            clearInterval(itvRefresh);
+                            //載入畫室
+                            jqBody.load('views/drawingSay.html');
+                        }else{
+                            //修改按鈕內文為"畫室已不存在"然後整個tr淡出消失
+                            let jqBtn = $('#' + roomName),
+                                jqTr = jqBtn.closest('tr');
+                            jqBtn.text('已不存在');
+                            jqTr.fadeOut(2000,"swing", function (){
+                                jqTr.remove();
+                            });
+                        }
+                    });
                 });
             });
         }
@@ -50,7 +63,7 @@
         itvRefresh = setInterval(function (){
             console.log('refresh');
             refreshRoom();
-        },5000);
+        },15000);
 
         $('#btnCreateRoom').click(function (){
             jqDivReplace.remove();

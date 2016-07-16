@@ -12,27 +12,28 @@ var express = require('express'),
 var rooms = {}, roomsForLobby = {};
 
 //建立room類別
-function Room (maxPlayer, gameMode){
+function Room (maxPlayers, gameMode){
     //this.id = id;
     //this.players = {};
+    //this.numPlayers = 0;
     this.drawer = {};
     this.answer = '';
     this.msgHistory = [];
     this.drawingHistory = [];
-    this.msgNum = 0;
-    this.pixelNum = 0;
+    this.numMsgs = 0;
+    this.numPixels = 0;
     this.settings = {
-        maxPlayer: maxPlayer,
+        maxPlayers: maxPlayers,
         gameMode: gameMode
     };
 }
 
-function roomBuilder (roomName, maxPlayer, gameMode){
-    rooms[roomName] = new Room (maxPlayer, gameMode);
+function roomBuilder (roomName, maxPlayers, gameMode){
+    rooms[roomName] = new Room (maxPlayers, gameMode);
     roomsForLobby[roomName] = {
-        maxPlayers: rooms[roomName].settings.maxPlayer,
-        Players: 1,
-        gameMode: rooms[roomName].settings.gameMode
+        maxPlayers: maxPlayers,
+        numPlayers: 0,
+        gameMode: gameMode
     };
 }
 
@@ -68,14 +69,14 @@ roomBuilder('test', 12, 'Draw and guess');
 //rooms['test'] = new Room (12, 'Draw and guess');
 ////更新Lobby用物件
 //roomsForLobby['test'] = {
-//    maxPlayers: rooms['test'].settings.maxPlayer,
+//    maxPlayers: rooms['test'].settings.maxPlayers,
 //    Players: 1,
 //    gameMode: rooms['test'].settings.gameMode
 //};
 
 //畫室屬性說明:
 //drawingHistory[]=[switch,x or color,y or lineWidth,new_x or ex_color,new_y or ex_lineWidth]
-//用pixelNum當做時間序列，紀錄各個動作的先後順序，包含設定變更，這樣就不用每筆都記錄設定選項值
+//用numPixels當做時間序列，紀錄各個動作的先後順序，包含設定變更，這樣就不用每筆都記錄設定選項值
 //由首個元素判定是設定還是座標組
 
 //experss的靜態檔案服務
@@ -85,7 +86,7 @@ app.use(express.static('static_files'));
 app.use(bodyParser.urlencoded({ extended: false }))
 
 // parse application/json 
-//app.use(bodyParser.json())
+app.use(bodyParser.json())
 
 //處理客戶端需求
 app.get('/', function(req, res){
@@ -99,8 +100,15 @@ app.get('/rooms', function(req, res){
 
 //處理客戶端創建畫室需求
 app.post('/createRoom', function(req, res){
-    roomBuilder(req.body.name, req.body.maxPlayer, req.body.gameMode);
+    roomBuilder(req.body.name, req.body.maxPlayers, req.body.gameMode);
     res.send('success');
+});
+
+//處理畫室存在確認需求
+app.post('/roomCheck', function(req, res){
+    //rooms[req.body.name];以讀取屬性的方式判斷是否存在
+    if (rooms[req.body.name]) res.send("yes");
+    else res.send("no");
 });
 
 http.listen(3000, function(){
@@ -125,23 +133,20 @@ io.on('connection', function(socket) {
     socket.on('login', function(data) { 
         //判斷進入哪一個畫室，歸屬畫室
         var roomName = data.roomName;
-        this.join(roomName);
+        socket.join(roomName);
+        roomsForLobby[roomName].numPlayers++;
+
         //現存全部的room清單
         //console.log(socket.adapter.rooms);
         //room成員清單
         //console.log(socket.adapter.rooms['test']['sockets']);
-        
-        //test，中介變數或直接記入屬性
-        this.roomName = roomName;
-
-
 
         //登入初始化，傳送歷史資料予客戶端
-        this.emit('show history',rooms[roomName].drawingHistory,rooms[roomName].msgHistory);
+        socket.emit('show history',rooms[roomName].drawingHistory,rooms[roomName].msgHistory);
         //伺服端訊息 
         console.log(data.playerName + " connected");
         //將在前端輸入的名稱記錄下來
-        this.playerName = data.playerName;
+        socket.playerName = data.playerName;
         /*
         //更新所有成員的室友清單
         roommateRegister('test', this);
@@ -152,19 +157,19 @@ io.on('connection', function(socket) {
         var temp = data.playerName + ' 上線了';
         //socket.broadcast.emit('user message', temp); 
         //roomMessenger('user message', temp, 'test', this);
-        this.to(roomName).broadcast.emit('user message', temp);
+        socket.to(roomName).broadcast.emit('user message', temp);
         //紀錄訊息
-        if(rooms[roomName].msgNum>24){
+        if(rooms[roomName].numMsgs>24){
             rooms[roomName].msgHistory.shift();
-            rooms[roomName].msgHistory[rooms[roomName].msgNum-1] = temp;
+            rooms[roomName].msgHistory[rooms[roomName].numMsgs-1] = temp;
         }else{
-            rooms[roomName].msgHistory[rooms[roomName].msgNum] = temp;
-            rooms[roomName].msgNum+=1;
+            rooms[roomName].msgHistory[rooms[roomName].numMsgs] = temp;
+            rooms[roomName].numMsgs+=1;
         }
 
         //登錄事件handler
         //接收畫布作業訊息，速度優先
-        this.on('draw', function(data){ 
+        socket.on('draw', function(data){ 
             //將畫布作業訊息傳給其他連線，即時影響力最大的作業，考慮不用function，以提速
             //socket.broadcast.emit('show', data);
             /*
@@ -172,62 +177,69 @@ io.on('connection', function(socket) {
             this.roommate[player].emit('show', data)
         }
         */
-            this.to(roomName).broadcast.emit('show', data);
+            socket.to(roomName).broadcast.emit('show', data);
 
             //紀錄繪圖軌跡
-            rooms[roomName].drawingHistory[rooms[roomName].pixelNum] = ['d',data.x,data.y,data.new_x,data.new_y];
-            rooms[roomName].pixelNum+=1;
+            rooms[roomName].drawingHistory[rooms[roomName].numPixels] = ['d',data.x,data.y,data.new_x,data.new_y];
+            rooms[roomName].numPixels+=1;
         });
-        this.on('clear canvas',function(settings){
+        socket.on('clear canvas',function(settings){
             //this.broadcast.emit('clear canvas');
             //roomMessenger('clear canvas', '', 'test', this);
-            this.to(roomName).broadcast.emit('clear canvas');
-            //drawingHistory和pixelNum
+            socket.to(roomName).broadcast.emit('clear canvas');
+            //drawingHistory和numPixels
             rooms[roomName].drawingHistory=[];
-            rooms[roomName].pixelNum=0;
+            rooms[roomName].numPixels=0;
             //紀錄設定
-            rooms[roomName].drawingHistory[rooms[roomName].pixelNum] = ['s',settings.color,settings.size];
-            rooms[roomName].pixelNum+=1;
+            rooms[roomName].drawingHistory[rooms[roomName].numPixels] = ['s',settings.color,settings.size];
+            rooms[roomName].numPixels+=1;
         });
-        this.on('settings changed',function(settings){
+        socket.on('settings changed',function(settings){
             //this.broadcast.emit('settings changed',settings);
             //roomMessenger('settings changed', settings, 'test', this);
-            this.to(roomName).broadcast.emit('settings changed', settings);
+            socket.to(roomName).broadcast.emit('settings changed', settings);
             //紀錄設定
-            rooms[roomName].drawingHistory[rooms[roomName].pixelNum] = ['s', settings.color, settings.size, settings.ex_color, settings.ex_size];
-            rooms[roomName].pixelNum+=1;
+            rooms[roomName].drawingHistory[rooms[roomName].numPixels] = ['s', settings.color, settings.size, settings.ex_color, settings.ex_size];
+            rooms[roomName].numPixels+=1;
         });
         //離線 
-        this.on('disconnect', function() {
-            //確認Room是否還有玩家，若否，釋放Room
-            console.log(this.playerName + ' disconnected');
-            //通知其他人此socket已離線
-            var temp = this.playerName + ' 已離開';
-            //this.broadcast.emit('user message', temp);
-            //roomMessenger('user message', temp, 'test', this);
-            this.to(roomName).broadcast.emit('user message', temp);
-            //紀錄訊息
-            if(rooms[roomName].msgNum>24){
-                rooms[roomName].msgHistory.shift();
-                rooms[roomName].msgHistory[rooms[roomName].msgNum-1] = temp;
-            }else{
-                rooms[roomName].msgHistory[rooms[roomName].msgNum] = temp;
-                rooms[roomName].msgNum+=1;
+        socket.on('disconnect', function() {
+            console.log(socket.playerName + ' disconnected');
+            //確認是否仍有玩家，若無則釋放自定room物件
+            //當socket room中已無socket，會自動釋放socket room，自定room物件要自己釋放
+            if (socket.adapter.rooms[roomName]) {
+                //通知其他人此socket已離線
+                var temp = socket.playerName + ' 已離開';
+                roomsForLobby[roomName].numPlayers--;
+                //this.broadcast.emit('user message', temp);
+                //roomMessenger('user message', temp, 'test', this);
+                socket.to(roomName).broadcast.emit('user message', temp);
+                //紀錄訊息
+                if(rooms[roomName].numMsgs>24){
+                    rooms[roomName].msgHistory.shift();
+                    rooms[roomName].msgHistory[rooms[roomName].numMsgs-1] = temp;
+                }else{
+                    rooms[roomName].msgHistory[rooms[roomName].numMsgs] = temp;
+                    rooms[roomName].numMsgs+=1;
+                }
+            }else {
+                delete rooms[roomName];
+                delete roomsForLobby[roomName];
             }
         }); 
         //接收聊天訊息
-        this.on('user message',function(msg){
-            var temp = this.playerName + ' : ' + msg.content;
+        socket.on('user message',function(msg){
+            var temp = socket.playerName + ' : ' + msg.content;
             //io.emit('user message',temp);
             //roomMessenger('user message', temp, 'test');
             io.to(roomName).emit('user message', temp);
             //記錄訊息
-            if(rooms[roomName].msgNum>24){
+            if(rooms[roomName].numMsgs>24){
                 rooms[roomName].msgHistory.shift();
-                rooms[roomName].msgHistory[rooms[roomName].msgNum-1] = temp;
+                rooms[roomName].msgHistory[rooms[roomName].numMsgs-1] = temp;
             }else{
-                rooms[roomName].msgHistory[rooms[roomName].msgNum] = temp;
-                rooms[roomName].msgNum+=1;
+                rooms[roomName].msgHistory[rooms[roomName].numMsgs] = temp;
+                rooms[roomName].numMsgs+=1;
             }
         });
 
