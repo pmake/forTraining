@@ -37,7 +37,7 @@ function roomBuilder (roomName, maxPlayers, gameMode){
     };
 }
 
-function msgRecoder (roomName, msg){
+function msgRecorder (roomName, msg){
     if(rooms[roomName].numMsgs>24){
         rooms[roomName].msgHistory.shift();
         rooms[roomName].msgHistory[rooms[roomName].numMsgs-1] = msg;
@@ -179,7 +179,7 @@ io.on('connection', function(socket) {
         //roomMessenger('user message', temp, 'test', this);
         socket.to(roomName).broadcast.emit('user message', temp);
         //紀錄訊息
-        msgRecoder(roomName, temp);
+        msgRecorder(roomName, temp);
 
         //登錄事件handler
         //接收畫布作業訊息，速度優先
@@ -229,14 +229,14 @@ io.on('connection', function(socket) {
                 //roomMessenger('user message', temp, 'test', this);
                 socket.to(roomName).broadcast.emit('user message', temp);
                 //紀錄訊息
-                msgRecoder(roomName, temp);
+                msgRecorder(roomName, temp);
             }else {
                 //預設畫室不可刪除
                 if (roomName == '你畫我猜' || roomName == '猜猜猜'){
                     roomsForLobby[roomName].numPlayers--;
                     var temp = socket.playerName + ' 已離開';
                     //紀錄訊息
-                    msgRecoder(roomName, temp);
+                    msgRecorder(roomName, temp);
                     //清空畫布
                     rooms[roomName].drawingHistory=[];
                     rooms[roomName].numPixels=0;
