@@ -37,6 +37,16 @@ function roomBuilder (roomName, maxPlayers, gameMode){
     };
 }
 
+function msgRecoder (roomName, msg){
+    if(rooms[roomName].numMsgs>24){
+        rooms[roomName].msgHistory.shift();
+        rooms[roomName].msgHistory[rooms[roomName].numMsgs-1] = msg;
+    }else{
+        rooms[roomName].msgHistory[rooms[roomName].numMsgs] = msg;
+        rooms[roomName].numMsgs+=1;
+    }
+}
+
 /*
 //室友登錄者，室友登錄在socket物件自身的屬性物件中，登錄室友是為了避免每次傳送圖點時的除外判斷，以新成員加入時的更新室友動作取代原本的每個圖點的數次判斷
 function roommateRegister (room, newPlayer) {
@@ -64,8 +74,9 @@ function roomMessenger (event, message, room, exclusion){
 }
 */
 
-//建立預設畫室test
-roomBuilder('test', 12, 'Draw and guess');
+//建立兩個預設畫室，
+roomBuilder('你畫我猜', 12, 'Draw and guess');
+roomBuilder('猜猜猜', 12, 'Guess guess guess');
 //rooms['test'] = new Room (12, 'Draw and guess');
 ////更新Lobby用物件
 //roomsForLobby['test'] = {
@@ -110,6 +121,15 @@ app.post('/roomCheck', function(req, res){
     if (rooms[req.body.name]) res.send("yes");
     else res.send("no");
 });
+
+//處理邀請朋友需求
+app.get('/invite', function(req,res){
+    //畫室中玩家頭像區域顯示線上玩家，在還有空位的前提下於下一個頭像位置顯示一個邀請圖像連結
+    //點擊連結產生以光箱效果呈現的文字框，內容為"一起玩你畫我猜吧! http://....包含roomName的queryString" 以及點擊複製連結按鈕，
+    //點擊複製鈕後光箱效果消失，回到正常畫室畫面，之後將複製內容貼上給朋友即可
+    //朋友點擊連結，會進入這個需求處理，此處從queryString取得roomName做後續處理
+});
+
 
 http.listen(3000, function(){
     console.log('listening on *:3000');
@@ -159,13 +179,7 @@ io.on('connection', function(socket) {
         //roomMessenger('user message', temp, 'test', this);
         socket.to(roomName).broadcast.emit('user message', temp);
         //紀錄訊息
-        if(rooms[roomName].numMsgs>24){
-            rooms[roomName].msgHistory.shift();
-            rooms[roomName].msgHistory[rooms[roomName].numMsgs-1] = temp;
-        }else{
-            rooms[roomName].msgHistory[rooms[roomName].numMsgs] = temp;
-            rooms[roomName].numMsgs+=1;
-        }
+        msgRecoder(roomName, temp);
 
         //登錄事件handler
         //接收畫布作業訊息，速度優先
@@ -191,7 +205,7 @@ io.on('connection', function(socket) {
             rooms[roomName].drawingHistory=[];
             rooms[roomName].numPixels=0;
             //紀錄設定
-            rooms[roomName].drawingHistory[rooms[roomName].numPixels] = ['s',settings.color,settings.size];
+            rooms[roomName].drawingHistory[0] = ['s',settings.color,settings.size];
             rooms[roomName].numPixels+=1;
         });
         socket.on('settings changed',function(settings){
@@ -215,16 +229,21 @@ io.on('connection', function(socket) {
                 //roomMessenger('user message', temp, 'test', this);
                 socket.to(roomName).broadcast.emit('user message', temp);
                 //紀錄訊息
-                if(rooms[roomName].numMsgs>24){
-                    rooms[roomName].msgHistory.shift();
-                    rooms[roomName].msgHistory[rooms[roomName].numMsgs-1] = temp;
-                }else{
-                    rooms[roomName].msgHistory[rooms[roomName].numMsgs] = temp;
-                    rooms[roomName].numMsgs+=1;
-                }
+                msgRecoder(roomName, temp);
             }else {
-                delete rooms[roomName];
-                delete roomsForLobby[roomName];
+                //預設畫室不可刪除
+                if (roomName == '你畫我猜' || roomName == '猜猜猜'){
+                    roomsForLobby[roomName].numPlayers--;
+                    var temp = socket.playerName + ' 已離開';
+                    //紀錄訊息
+                    msgRecoder(roomName, temp);
+                    //清空畫布
+                    rooms[roomName].drawingHistory=[];
+                    rooms[roomName].numPixels=0;
+                }else {
+                    delete rooms[roomName];
+                    delete roomsForLobby[roomName]; 
+                }
             }
         }); 
         //接收聊天訊息
@@ -233,7 +252,7 @@ io.on('connection', function(socket) {
             //io.emit('user message',temp);
             //roomMessenger('user message', temp, 'test');
             io.to(roomName).emit('user message', temp);
-            //記錄訊息
+            //記錄訊息，和繪圖一樣是主要的即時處理程序，效率優先，不調用函數
             if(rooms[roomName].numMsgs>24){
                 rooms[roomName].msgHistory.shift();
                 rooms[roomName].msgHistory[rooms[roomName].numMsgs-1] = temp;
@@ -242,6 +261,5 @@ io.on('connection', function(socket) {
                 rooms[roomName].numMsgs+=1;
             }
         });
-
     }); 
 });

@@ -38,28 +38,46 @@
     </div>
     <script>
         $('head').append('<style> .panel-default { max-width: 500px; margin-left: auto; margin-right: auto; margin-top: 30px;}</style>');
+        $('#inpRoomName').focus();
         $('#btnCreateRoom').click(function (){
             let jqInpRoomName = $('#inpRoomName'),
-                roomName = jqInpRoomName.val();
-
+                roomName = jqInpRoomName.val(),
+                jqSpHint = $('#spHint');
             if (roomName) {
-                let roomSettings = {
-                    name: roomName,
-                    maxPlayers: $('#sltmaxPlayers').val(),
-                    gameMode: $('#sltGameMode').val()
-                };
-                $.post('createRoom', roomSettings, function(data) {
-                    let jqBody = $('body');
-                    //記錄歸屬畫室
-                    console.log(data);
-                    jqBody.attr('id', roomName);
-                    //載入畫室
-                    jqBody.load('views/drawingSay.html');
+                $.post('roomCheck', {name: roomName}, function (result){
+                    if(result == "yes") {
+                        if(jqSpHint.length){
+                            jqSpHint.text('畫室名稱使用中，請取其他名稱。');
+                        }else {
+                            $('.panel-heading').append('<span id="spHint">畫室名稱使用中，請取其他名稱。</span>');
+                            $('#spHint').css({
+                                float: 'right',
+                                color: 'red'
+                            });
+                        }
+                        jqInpRoomName.focus();
+                    }else {
+                        let roomSettings = {
+                            name: roomName,
+                            maxPlayers: $('#sltmaxPlayers').val(),
+                            gameMode: $('#sltGameMode').val()
+                        };
+                        $.post('createRoom', roomSettings, function(data) {
+                            let jqBody = $('body');
+                            //記錄歸屬畫室
+                            console.log(data);
+                            jqBody.attr('id', roomName);
+                            //載入畫室
+                            jqBody.load('views/drawingSay.html');
+                        });
+                        $('#divReplace').remove();
+                        $('style').remove();
+                    }
                 });
-                $('#divReplace').remove();
-                $('style').remove();
             }else {
-                if(!$('#spHint').text()){
+                if(jqSpHint.length){
+                    jqSpHint.text('名稱不得空白，請輸入。');
+                }else {
                     $('.panel-heading').append('<span id="spHint">名稱不得空白，請輸入。</span>');
                     $('#spHint').css({
                         float: 'right',
