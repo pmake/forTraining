@@ -209,7 +209,7 @@ function draw(x, y, new_x, new_y)
     ctx.beginPath();  
     ctx.moveTo(x, y);  
     ctx.lineTo(new_x, new_y);  
-    ctx.closePath();  
+    ctx.closePath();
     ctx.stroke();
 
     //將繪畫座標透過 node.js 傳給使用者 
