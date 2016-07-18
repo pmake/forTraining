@@ -21,10 +21,11 @@
 
                 let files = e.target.files,
                     fr = new FileReader(),
+                    numFiles = files.length,
                     i = 0;
 
                 function imgLoader(){
-                    for(;i<files.length;i++) {
+                    for(;i<numFiles;i++) {
                         if(files[i].type.slice(0,5) == 'image') {
                             fr.readAsDataURL(files[i]);
                             break;

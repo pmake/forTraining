@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <script src="../frameWorks/jquery/jquery-1.12.4.min.js"></script>
+    </head>
+    <body>
+        <h1>台北市<img id="imgWeatherIcon" src="" alt=""></h1>
+        <table>
+            <tr>
+                <td>目前天氣</td><td id="weather"></td>
+            </tr>
+            <tr>
+                <td>目前氣溫</td><td id="temp"></td>
+            </tr>
+            <tr>
+                <td>最低溫</td><td id="minTemp"></td>
+            </tr>
+            <tr>
+                <td>最高溫</td><td id="maxTemp"></td>
+            </tr>
+        </table>
+        <script>
+            $.get('http://api.openweathermap.org/data/2.5/weather?id=1668341&appid=533f071239dffdea9320f7b33d154256&lang=zh_tw&units=metric', function (res){
+                $('#weather').text(res.weather[0].description);
+                $('#temp').text(res.main.temp);
+                $('#minTemp').text(res.main.temp_min);
+                $('#maxTemp').text(res.main.temp_max);
+                console.log(res);
+                $('#imgWeatherIcon').attr({
+                    src: 'http://openweathermap.org/img/w/' + res.weather[0].icon + '.png',
+                    alt: res.weather[0].description,
+                    title: res.weather[0].description
+                });
+                
+                
+            });
+        </script>
+    </body>
+</html>

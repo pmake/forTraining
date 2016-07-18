@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="../frameWorks/jquery/jquery-1.12.4.min.js"></script>
+    <style>
+        table {
+            width: 500px;
+            height: 500px;
+        }
+        tr {
+            height: 100px;
+        }
+        td {
+            width: 20px;
+            height: 20px;
+            background-color: rgb(85,85,85);
+        }
+        .light {
+            background-color: rgb(232, 232, 163);
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <tr data-row='1'>
+            <td data-clu='1'></td>
+            <td data-clu='2'></td>
+            <td data-clu='3'></td>
+            <td data-clu='4'></td>
+            <td data-clu='5'></td>
+        </tr>
+        <tr data-row='2'>
+            <td data-clu='1'></td>
+            <td data-clu='2'></td>
+            <td data-clu='3'></td>
+            <td data-clu='4'></td>
+            <td data-clu='5'></td>
+        </tr>
+        <tr data-row='3'>
+            <td data-clu='1'></td>
+            <td data-clu='2'></td>
+            <td data-clu='3'></td>
+            <td data-clu='4'></td>
+            <td data-clu='5'></td>
+        </tr>
+        <tr data-row='4'>
+            <td data-clu='1'></td>
+            <td data-clu='2'></td>
+            <td data-clu='3'></td>
+            <td data-clu='4'></td>
+            <td data-clu='5'></td>
+        </tr>
+        <tr data-row='5'>
+            <td data-clu='1'></td>
+            <td data-clu='2'></td>
+            <td data-clu='3'></td>
+            <td data-clu='4'></td>
+            <td data-clu='5'></td>
+        </tr>
+    </table>
+    <script>
+        
+        $('td').click(function(){
+            let tar = $(this),
+                tarPos = tar.data('clu');
+            //自身
+            tar.toggleClass('light');
+            //左右
+            tar.prev().toggleClass('light');
+            tar.next().toggleClass('light');
+            //上一列
+            $(tar.parent().prev().children()[parseInt(tarPos-1)]).toggleClass('light');
+            //下一列
+            $(tar.parent().next().children()[parseInt(tarPos-1)]).toggleClass('light');
+            //判斷是否全亮
+            if($('.light').length == 25){
+                alert("恭喜你過關了");
+                $('.light').toggleClass('light');
+            } 
+        });
+    
+    </script>
+</body>
+</html>
