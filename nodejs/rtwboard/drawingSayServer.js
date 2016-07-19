@@ -16,7 +16,7 @@ function Room (maxPlayers, gameMode){
     //this.id = id;
     //this.players = {};
     //this.numPlayers = 0;
-    this.drawer = {};
+    this.drawer = '';
     this.answer = '';
     this.msgHistory = [];
     this.drawingHistory = [];
@@ -94,10 +94,10 @@ roomBuilder('猜猜猜', 12, 'Guess guess guess');
 app.use(express.static('static_files'));
 
 // parse application/x-www-form-urlencoded 
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // parse application/json 
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
 //處理客戶端需求
 app.get('/', function(req, res){
@@ -156,6 +156,14 @@ io.on('connection', function(socket) {
         socket.join(roomName);
         roomsForLobby[roomName].numPlayers++;
 
+        //設定畫者，在離線或回合結束時轉換
+        if (rooms[roomName].drawer == ''){
+            rooms[roomName].drawer = socket.id;
+            //資料庫取題目
+            rooms[roomName].answer = '你畫我猜';
+            socket.emit('role', 'drawer', rooms[roomName].answer);
+        }else socket.emit('role');
+
         //現存全部的room清單
         //console.log(socket.adapter.rooms);
         //room成員清單
@@ -183,7 +191,7 @@ io.on('connection', function(socket) {
 
         //登錄事件handler
         //接收畫布作業訊息，速度優先
-        socket.on('draw', function(data){ 
+        socket.on('draw', function(data){
             //將畫布作業訊息傳給其他連線，即時影響力最大的作業，考慮不用function，以提速
             //socket.broadcast.emit('show', data);
             /*
@@ -191,6 +199,7 @@ io.on('connection', function(socket) {
             this.roommate[player].emit('show', data)
         }
         */
+            //視需要增加畫者判斷
             socket.to(roomName).broadcast.emit('show', data);
 
             //紀錄繪圖軌跡
@@ -251,6 +260,7 @@ io.on('connection', function(socket) {
             var temp = socket.playerName + ' : ' + msg.content;
             //io.emit('user message',temp);
             //roomMessenger('user message', temp, 'test');
+            //視需要增加非畫者判斷
             io.to(roomName).emit('user message', temp);
             //記錄訊息，和繪圖一樣是主要的即時處理程序，效率優先，不調用函數
             if(rooms[roomName].numMsgs>24){

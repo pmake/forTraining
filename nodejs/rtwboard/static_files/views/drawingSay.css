@@ -124,6 +124,9 @@ ul.lineWidthGroup a:hover {
     /*for IE*/
     cursor:url(../images/cursor.cur), auto;
 }
+#cvDrawingArea.notAllowed {
+    cursor:not-allowed;
+}
 .jumbotron {
     height:532px;/*扣除按鈕高43px*/
     margin:0;
