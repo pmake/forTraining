@@ -22,7 +22,11 @@ var jqBtnDrawMode = $('#btnDrawMode'),
     jqBtnCleaner = $('#btnCleaner'),
     jqBtnSend = $('#btnSend'),
     jqBtnLineWidthShow = $('#btnLineWidthShow'),
-    jqDivAnswerSquares = $('#divAnswerSquares');
+    jqDivAnswerSquares = $('#divAnswerSquares'),
+    answerString = '',
+    remainingWords = [],
+    correctWords = [],
+    audio = new Audio('../sounds/Pedal_Braking.mp3');
 
 function colorToHex(color) {
     if (color.substr(0, 1) === "#") {
@@ -108,8 +112,37 @@ $(window).resize(function (){
     offset = jqCvDrawingArea.offset();
 });
 
-socket.on('user message',function(content){
+socket.on('user message',function(content, correctWords){
     msgShow(content);
+    var btnWords = jqDivAnswerSquares.children();
+    if(correctWords) {
+        if(inpUserInp.disabled == true){
+            for(ind in correctWords){
+                btnWords[correctWords[ind]].innerHTML = answerString[correctWords[ind]];
+                $(btnWords[correctWords[ind]]).addClass('flipInX').attr('disabled', false);
+                //audio.play();
+            } 
+        }else {
+            for(ind in correctWords){
+                btnWords[correctWords[ind]].innerHTML = answerString[correctWords[ind]];
+                $(btnWords[correctWords[ind]]).addClass('flipInX');
+                //audio.play();
+            }
+        }
+        audio.play();
+    }
+});
+
+//預設關閉全部功能
+jqBtnSayMode.attr('disabled', true);
+inpUserInp.disabled = true;
+jqBtnSend.attr('disabled', true);
+jqBtnDrawMode.attr('disabled', true);
+jqBtnLineWidthShow.attr('disabled', true);
+jqBtnCleaner.attr('disabled', true);
+jqCvDrawingArea.addClass('notAllowed');
+jqCvDrawingArea.off({
+    mousedown: openDrawing
 });
 
 //角色判斷
@@ -128,9 +161,10 @@ socket.on('role', function(role, answer){
             mousedown: openDrawing
         });
         //設定題目
-        
+
         for(let i=0, words=answer.length;i<words;i++){
-            jqDivAnswerSquares.append('<button type="button" class="btn btn-default">' + answer[i] + '</button>');
+            jqDivAnswerSquares.append('<button type="button" class="btn btn-default" disabled>' + answer[i] + '</button>');
+            remainingWords[i]=i;
         }
     }else {
         //關閉畫者功能
@@ -146,7 +180,14 @@ socket.on('role', function(role, answer){
         inpUserInp.disabled = false;
         jqBtnSend.attr('disabled', false);
         inpUserInp.focus();
+        //設定題目
+
+        for(let i=0, words=answer.length;i<words;i++){
+            jqDivAnswerSquares.append('<button type="button" class="btn btn-default">?</button>');
+            remainingWords[i]=i;
+        }
     }
+    answerString = answer;
 });
 
 //for guesser
@@ -187,9 +228,36 @@ socket.on('settings changed',function(settings){
 function msgEmiter () {
     if (inpUserInp.value !=='') {
         var msg = {};
-        if (jqISayModeIcon.hasClass('fa-key')) msg.type = 'guess';
-        else msg.type = 'chat';
         msg.content = inpUserInp.value;
+        if (jqISayModeIcon.hasClass('fa-key')) {
+            msg.type = 'guess';
+            if(msg)
+                //比對答案
+                var i = 0, end = remainingWords.length, guessLength = msg.content.length-1;
+            console.log('餘字量' + remainingWords.length);
+            console.log('猜字長度' + guessLength);
+            for(;i<end;){
+                if(remainingWords[i] == undefined || remainingWords[i] > guessLength) break;
+                else{
+                    if(answerString[remainingWords[i]] == msg.content[remainingWords[i]]){
+                        console.log('正確的位置' + remainingWords[i]);
+                        //紀錄答對字的索引
+                        correctWords.push(remainingWords[i]);
+                        //答對的位置移除，下次不用再比對，位置自然向前，i不用++
+                        remainingWords.splice(i,1);
+                        console.log('餘字長' + remainingWords.length);
+                    }else i++;
+                }
+            }
+            console.log('答對字數' + correctWords.length);
+
+            if(correctWords.length > 0) {
+                msg.correctWords = correctWords;
+                //清空
+                correctWords = [];
+            }
+        }else msg.type = 'chat';
+
         socket.emit('user message', msg);
         inpUserInp.value = '';
     }

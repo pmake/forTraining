@@ -18,6 +18,7 @@ function Room (maxPlayers, gameMode){
     //this.numPlayers = 0;
     this.drawer = '';
     this.answer = '';
+    this.remainingWords = [];
     this.msgHistory = [];
     this.drawingHistory = [];
     this.numMsgs = 0;
@@ -161,8 +162,13 @@ io.on('connection', function(socket) {
             rooms[roomName].drawer = socket.id;
             //資料庫取題目
             rooms[roomName].answer = '你畫我猜';
+            var end = rooms[roomName].answer.length;
+            //轉餘字陣列
+            for(var i=0;i<end;i++){
+                rooms[roomName].remainingWords[i]= rooms[roomName].answer[i];
+            }
             socket.emit('role', 'drawer', rooms[roomName].answer);
-        }else socket.emit('role');
+        }else socket.emit('role', 'guesser', rooms[roomName].answer);
 
         //現存全部的room清單
         //console.log(socket.adapter.rooms);
@@ -250,8 +256,10 @@ io.on('connection', function(socket) {
                     rooms[roomName].drawingHistory=[];
                     rooms[roomName].numPixels=0;
                 }else {
+                    //當有效率問題時，此處可測試改成null而不用delete
+                    //有篇文章提到v8對常用物件有優化，delete會改變物件結構而影響優化
                     delete rooms[roomName];
-                    delete roomsForLobby[roomName]; 
+                    delete roomsForLobby[roomName];
                 }
             }
         }); 
@@ -261,7 +269,25 @@ io.on('connection', function(socket) {
             //io.emit('user message',temp);
             //roomMessenger('user message', temp, 'test');
             //視需要增加非畫者判斷
-            io.to(roomName).emit('user message', temp);
+
+            //有猜對的處理
+            if(msg.correctWords){
+                var end = msg.correctWords.length,
+                    correctWords = msg.correctWords,
+                    remainingWords = rooms[roomName].remainingWords,
+                    wordsToAll = [];
+
+                for(var i=0;i<end;i++){
+                    if(remainingWords[correctWords[i]]) {
+                        //記錄答對字的位置
+                        wordsToAll.push(correctWords[i]);
+                        remainingWords[correctWords[i]] = undefined;
+                    }
+                }
+                if(wordsToAll[0] != undefined ) io.to(roomName).emit('user message', temp, wordsToAll);
+                else io.to(roomName).emit('user message', temp);
+            }else io.to(roomName).emit('user message', temp);
+
             //記錄訊息，和繪圖一樣是主要的即時處理程序，效率優先，不調用函數
             if(rooms[roomName].numMsgs>24){
                 rooms[roomName].msgHistory.shift();

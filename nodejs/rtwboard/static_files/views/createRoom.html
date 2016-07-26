@@ -43,6 +43,7 @@
             let jqInpRoomName = $('#inpRoomName'),
                 roomName = jqInpRoomName.val(),
                 jqSpHint = $('#spHint');
+            //jquery不允許符號名稱，這裡要再限制只允許數字和英文和底線，連接線
             if (roomName) {
                 $.post('roomCheck', {name: roomName}, function (result){
                     if(result == "yes") {
