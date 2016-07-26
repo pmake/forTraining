@@ -1,0 +1,35 @@
+<?php
+$message = "***************************************************<br>";
+$message .="請注意︰此郵件是系統自動傳送，請勿直接回覆此郵件。 <br>";
+$message .="***************************************************<br>";
+$message .="<br>";
+$message .="親愛的 $cName 您好：<br>";
+$message .="<br>";
+$message .="這封認證信是由『myHost網站 ( <a href=http://www.myHost.com>http://www.myHost.com</a> )』發出，用以確認閣下身份。<br>";
+$message .="<br>";
+$message .="您所註冊的會員資料如下：<br>";
+$message .="<br>";
+$message .="帳號： $cAccount<br>";
+$message .="<br>";
+$message .="如果您收到多封『認證信函』，請以最新的那一封，方為有效。<br>";
+$message .="<br>";
+$message .="總共有兩種認證方法，方法如下：<br>";
+$message .="<br>";
+$message .="認證方法一：(快速認證)<br>";
+$message .="<br>";
+$message .="點選或複製以下的連結至瀏覽器進行快速認證。<br>";
+$message .="<br>";
+$message .="$chkLink<br>";
+$message .="<br>";
+$message .="認證方法二：(手動認證)<br>";
+$message .="<br>";
+$message .="如方法一無法認證，可採取方法二。<br>";
+$message .="<ol>";
+$message .=" <li>請先連線至本網站 <a href=http://www.myHost.com>http://www.myHost.com</a></li>";
+$message .=" <li>登入網站後點選『會員專區』----->『手動認證』</li>";
+$message .=" <li>輸入您這次的認證號碼『 $chkNo 』</li>";
+$message .=" <li>畫面出現 認證成功字樣，就完成認證手續了</li>";
+$message .="</ol>";
+$message .="<br>";
+$message .="歡迎您加入myHost網站 這個專為myHost所設計的網站。<br><br>";
+?>
