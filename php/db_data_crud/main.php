@@ -1,6 +1,6 @@
 <?php
 require_once 'functions.php';
-$conn = dbConnector('localhost', 'root', '1qaz@wsx', 'class', '3306');
+$conn = dbConnector('localhost', 'root', '', 'class', '3306');
 ?>
 
 <!DOCTYPE html>
