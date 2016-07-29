@@ -19,6 +19,7 @@ var jqBtnDrawMode = $('#btnDrawMode'),
     inpUserInp = document.getElementById('inpUserInp'),
     jqUlMsgList = $('#ulMsgList'),
     jqCvDrawingArea = $('#cvDrawingArea'),
+    jqDivDrawingJumbo = jqCvDrawingArea.parent(),
     jqBtnCleaner = $('#btnCleaner'),
     jqBtnSend = $('#btnSend'),
     jqBtnLineWidthShow = $('#btnLineWidthShow'),
@@ -26,7 +27,8 @@ var jqBtnDrawMode = $('#btnDrawMode'),
     answerString = '',
     remainingWords = [],
     correctWords = [],
-    audio = new Audio('../sounds/Pedal_Braking.mp3');
+    audioCorrect = new Audio('../sounds/Wood_Plank_Flicks.mp3'),
+    audioFinish = new Audio('../sounds/Darling_Ranch_Sting.mp3');
 
 function colorToHex(color) {
     if (color.substr(0, 1) === "#") {
@@ -54,6 +56,37 @@ function msgShow(content){
     }
 }
 
+function countdown(time){
+    jqDivDrawingJumbo.prepend('<h1 id="h1Countdown"></h1>').css('position', 'relative');
+    var jqH1Countdown = $('#h1Countdown');
+    jqH1Countdown.css({
+        color:'white',
+        'line-height': '532px',
+        width: '100%',
+        'text-align': 'center',
+        'margin-top': 0,
+        'font-size': 64,
+        position: 'absolute'
+    });
+    jqH1Countdown.hide();
+    //改用css的方式做動畫效果
+    function repeat(time){
+        jqH1Countdown.text(time);
+        jqH1Countdown.fadeIn(500,'swing',function(){
+            jqH1Countdown.fadeOut(500,'swing',function(){
+                time--;
+                if (time > 0) repeat(time);
+                else {
+                    jqH1Countdown.remove();
+                    jqDivDrawingJumbo.css('position', 'static');
+                }
+            });
+        });
+    }
+
+    repeat(time);
+
+}
 
 //建立socket連線(異步方法)
 var socket = io();
@@ -112,24 +145,36 @@ $(window).resize(function (){
     offset = jqCvDrawingArea.offset();
 });
 
-socket.on('user message',function(content, correctWords){
-    msgShow(content);
+socket.on('user message',function(msg){
+    msgShow(msg[0]);
     var btnWords = jqDivAnswerSquares.children();
-    if(correctWords) {
+    if(msg[1]) {
         if(inpUserInp.disabled == true){
-            for(ind in correctWords){
-                btnWords[correctWords[ind]].innerHTML = answerString[correctWords[ind]];
-                $(btnWords[correctWords[ind]]).addClass('flipInX').attr('disabled', false);
-                //audio.play();
+            for(ind in msg[1]){
+                btnWords[msg[1][ind]].innerHTML = answerString[msg[1][ind]];
+                $(btnWords[msg[1][ind]]).addClass('flipInX').attr('disabled', false);
             } 
         }else {
-            for(ind in correctWords){
-                btnWords[correctWords[ind]].innerHTML = answerString[correctWords[ind]];
-                $(btnWords[correctWords[ind]]).addClass('flipInX');
-                //audio.play();
+            for(ind in msg[1]){
+                btnWords[msg[1][ind]].innerHTML = answerString[msg[1][ind]];
+                $(btnWords[msg[1][ind]]).addClass('flipInX');
             }
         }
-        audio.play();
+        audioCorrect.play();
+        if(msg[2]){
+            //答案完成過場效果
+            setTimeout(function(){
+                audioFinish.play();
+                //開啟畫者聊天功能
+                if(jqBtnSayMode.attr('disabled')){
+                    jqBtnSayMode.attr('disabled', false);
+                    inpUserInp.disabled = false;
+                    jqBtnSend.attr('disabled', false);
+                }
+                //下一回合開始倒數計時
+                countdown(10);
+            },1000);
+        }
     }
 });
 
@@ -231,9 +276,8 @@ function msgEmiter () {
         msg.content = inpUserInp.value;
         if (jqISayModeIcon.hasClass('fa-key')) {
             msg.type = 'guess';
-            if(msg)
-                //比對答案
-                var i = 0, end = remainingWords.length, guessLength = msg.content.length-1;
+            //比對答案
+            var i = 0, end = remainingWords.length, guessLength = msg.content.length-1;
             console.log('餘字量' + remainingWords.length);
             console.log('猜字長度' + guessLength);
             for(;i<end;){
@@ -246,6 +290,7 @@ function msgEmiter () {
                         //答對的位置移除，下次不用再比對，位置自然向前，i不用++
                         remainingWords.splice(i,1);
                         console.log('餘字長' + remainingWords.length);
+                        //如果餘字長為0表示結束，傳遞訊息給server處理
                     }else i++;
                 }
             }
@@ -253,6 +298,7 @@ function msgEmiter () {
 
             if(correctWords.length > 0) {
                 msg.correctWords = correctWords;
+                if (!remainingWords.length) msg.isFinish = 'yes';
                 //清空
                 correctWords = [];
             }

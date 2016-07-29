@@ -188,12 +188,12 @@ io.on('connection', function(socket) {
         rooms['test'].players[data] = this;
         */
         //將自己上線訊息傳給自己以外的連線
-        var temp = data.playerName + ' 上線了';
+        var temp = [data.playerName + ' 上線了'];
         //socket.broadcast.emit('user message', temp); 
         //roomMessenger('user message', temp, 'test', this);
         socket.to(roomName).broadcast.emit('user message', temp);
         //紀錄訊息
-        msgRecorder(roomName, temp);
+        msgRecorder(roomName, temp[0]);
 
         //登錄事件handler
         //接收畫布作業訊息，速度優先
@@ -265,7 +265,7 @@ io.on('connection', function(socket) {
         }); 
         //接收聊天訊息
         socket.on('user message',function(msg){
-            var temp = socket.playerName + ' : ' + msg.content;
+            var temp = [socket.playerName + ' : ' + msg.content];
             //io.emit('user message',temp);
             //roomMessenger('user message', temp, 'test');
             //視需要增加非畫者判斷
@@ -284,16 +284,24 @@ io.on('connection', function(socket) {
                         remainingWords[correctWords[i]] = undefined;
                     }
                 }
-                if(wordsToAll[0] != undefined ) io.to(roomName).emit('user message', temp, wordsToAll);
-                else io.to(roomName).emit('user message', temp);
-            }else io.to(roomName).emit('user message', temp);
+                if(wordsToAll[0] != undefined ) {
+                    temp[1] = wordsToAll;
+                    //軌跡記錄在這要停止，避免答對後的亂畫也被記錄
+                    if (msg.isFinish == 'yes') temp[2] = 'yes';
+                }
+            }
+            io.to(roomName).emit('user message', temp);
+            if (msg.isFinish == 'yes') {
+                //角色轉換
+                //軌跡記錄在這要停止，避免答對後的亂畫也被記錄
+            }
 
             //記錄訊息，和繪圖一樣是主要的即時處理程序，效率優先，不調用函數
             if(rooms[roomName].numMsgs>24){
                 rooms[roomName].msgHistory.shift();
-                rooms[roomName].msgHistory[rooms[roomName].numMsgs-1] = temp;
+                rooms[roomName].msgHistory[rooms[roomName].numMsgs-1] = temp[0];
             }else{
-                rooms[roomName].msgHistory[rooms[roomName].numMsgs] = temp;
+                rooms[roomName].msgHistory[rooms[roomName].numMsgs] = temp[0];
                 rooms[roomName].numMsgs+=1;
             }
         });

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>drawingSay</title>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="../rtwboard/static_files/views/drawingSay.css">
+        <style>
+            #test {
+                color:white;
+                line-height: 531px;
+                width:100%;
+                text-align: center;
+                margin-top:0;
+                font-size:64px;
+                position: absolute;
+            }
+            
+            #divCanvasArea .jumbotron{
+                position:relative;
+            }
+        </style>
+    </head>
+    <body style="background-color: rgb(85,85,85);">
+        <div id="divReplace">
+            <div id="divContainer">
+                <div id="row">
+                    <div id="divMsgArea">
+                        <div id="divMsgContainer" class="jumbotron">
+                            <ul id="ulMsgList"></ul>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-btn">
+                                <button id='btnSayMode' class='switchBtn btn btn-default'>
+                                    <i id='iSayModeIcon' class='fa fa-comments fa-2x'></i>
+                                </button>
+                            </span>
+                            <input id='inpUserInp' type="text" class='form-control' maxlength="100" placeholder='聊天模式(左側按鈕切換)'>
+                            <span class="input-group-btn">
+                                <button id="btnSend" class='btn btn-default'>送出</button>
+                            </span>
+                        </div>
+                    </div>
+                    <div id="divCanvasArea">
+                        <div class="jumbotron">
+                            <h1 id='test'>123</h1>
+                            <canvas id="cvDrawingArea"></canvas>
+                            
+                        </div>
+                        <div id='divCanvasFooter'>
+                            <button id='btnCleaner' class='btn btn-default'>
+                                <i id='iCleanerIcon' class='fa fa-file fa-2x'></i>
+                            </button>
+                            <div class="btn-group dropup">
+                                <button id="btnLineWidthShow" type="button" class="btn btn-default lineWidthGroup" data-toggle="dropdown">
+                                    <div id="divLineWidthShow"></div>
+                                </button>
+                                <ul class="dropdown-menu lineWidthGroup">
+                                    <li><a href="javascript:void(0);"><div style="height:20px;"></div></a></li>
+                                    <li><a href="javascript:void(0);"><div style="height:10px;"></div></a></li>
+                                    <li><a href="javascript:void(0);"><div style="height:6px;"></div></a></li>
+                                    <li><a href="javascript:void(0);"><div style="height:5px;"></div></a></li>
+                                    <li><a href="javascript:void(0);"><div style="height:4px;"></div></a></li>
+                                    <li><a href="javascript:void(0);"><div style="height:3px;"></div></a></li>
+                                    <li><a href="javascript:void(0);"><div style="height:2px;"></div></a></li>
+                                </ul>
+                            </div>
+                            <button id='btnDrawMode' class='switchBtn btn btn-default'><i id='iDrawModeIcon' class='fa fa-pencil fa-2x'></i></button>
+                            <div id="divAnswerSquares"></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="divUserArea">
+                    <div class="thumbnail"><img src="images/panda.jpg" alt="..."></div>
+                    <div class="thumbnail"><img src="images/panda.jpg" alt="..."></div>
+                    <div class="thumbnail"><img src="images/panda.jpg" alt="..."></div>
+                    <div class="thumbnail"><img src="images/panda.jpg" alt="..."></div>
+                    <div class="thumbnail"><img src="images/panda.jpg" alt="..."></div>
+                    <div class="thumbnail"><img src="images/panda.jpg" alt="..."></div>
+                    <div class="thumbnail"><img src="images/panda.jpg" alt="..."></div>
+                    <div class="thumbnail"><img src="images/panda.jpg" alt="..."></div>
+                    <div class="thumbnail"><img src="images/panda.jpg" alt="..."></div>
+                    <div class="thumbnail"><img src="images/panda.jpg" alt="..."></div>
+                    <div class="thumbnail"><img src="images/panda.jpg" alt="..."></div>
+                    <div class="thumbnail"><img src="images/panda.jpg" alt="..."></div>
+                </div>
+            </div>
+            <script>
+                $('head').append('<link rel="stylesheet" href="views/drawingSay.css"><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">');
+                //內部modul。ajax傳回的內容不可包含inline script標籤，所以用getScript方法
+                $.getScript("/socket.io/socket.io.js", function(){
+                    //內部js，因為$.getScript方法是async的，
+                    //此處使用callback控制先後順序，確保使用socket.io前，其已經載入
+                    $.getScript("views/drawingSay.js");
+                });
+            </script>
+        </div>
+    </body>
+</html>
