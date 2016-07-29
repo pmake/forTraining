@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.8.1/jquery.fullPage.min.css">
+        <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.8.1/jquery.fullPage.min.js"></script>
+        <style>
+            #divSection1 {
+                background-image: url('../fullPagePlugIn/images/cube-568187_1920.jpg');
+            }
+            #divSection2 {
+                background-image: url('../fullPagePlugIn/images/cube-620636_1920.jpg');
+            }
+            #divSection3 {
+                background-image: url('../fullPagePlugIn/images/roll-the-dice-1502706_1920.jpg');
+            }
+            .section {
+                background-size: cover;
+                text-align:center;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="fullpage">
+            <div class="section" id="divSection1">
+                <div class="slide">
+                    <h1>第一頁</h1>
+                </div>
+                <div class="slide">
+                    <h1>第一之一頁</h1>
+                </div>
+                <!--keepplaying屬性表示跨頁播放-->
+                <audio data-autoplay data-keepplaying>
+                    <source src='../fullPagePlugIn/audios/Maple_Leaf_Rag.mp3' type='audio/mp3'>
+                </audio>
+            </div>
+            <div class="section" id="divSection2">
+                <div class="slide">
+                    <h1>第二頁</h1>
+                </div>
+                <div class="slide">
+                    <h1>第二之一頁</h1>
+                </div>
+            </div>
+            <div class="section" id="divSection3">
+                <div class="slide">
+                    <h1>第三頁</h1>
+                </div>
+                <div class="slide">
+                    <h1>第三之一頁</h1>
+                </div>
+            </div>
+        </div>
+        <script>
+            $('#fullpage').fullpage({
+                anchors:['1','2','3']
+            });
+        </script>
+    </body>
+</html>

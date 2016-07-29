@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <script src="../../frameWorks/jquery/jquery-2.2.4.min.js"></script>
+    </head>
+    <body>
+
+        <script>
+            var jqBody = $('body'),
+                imgs = ['cube-568187_1920.jpg','cube-620636_1920.jpg','roll-the-dice-1502706_1920.jpg'],
+                time = 2000,
+                i=0,
+                itv;
+
+            function createImage(){
+                jqBody.append('<img src="' + imgs[i] + '">');
+                clearInterval(itv);
+                if(i<2){
+                    i++
+                    time+=1000;
+                    itv = setInterval(createImage,time); 
+                }else {
+                    time+=1000;
+                    itv = setInterval(function(){
+                        jqBody.append('<h1>歡迎光臨</h1>');
+                        clearInterval(itv);
+                    },time);
+                }
+            }
+
+            itv = setInterval(createImage,time);
+        </script>
+    </body>
+</html>

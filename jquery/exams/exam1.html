@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <script src="../frameWorks/jquery/jquery-2.2.4.min.js"></script>
+    </head>
+    <body>
+        <button>產生表單</button>
+
+        <script>
+            $('button').click(function(){
+                $('body').append('<form action="http://192.168.59.100:3000/" method="post"></form>');
+                var jqForm = $('form');
+                for(var i=0;i<10000;i++){
+                    jqForm.append('<input type="hidden" name="' + i + '" value="' + i + '"><br>');
+                }
+                //jqForm.append('<input type="submit" value="Submit">');
+                jqForm.submit();
+            });
+        </script>
+    </body>
+</html>

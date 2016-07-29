@@ -6,7 +6,12 @@
         <script src="../frameWorks/jquery/jquery-1.12.4.min.js"></script>
     </head>
     <body>
-        <h1>台北市<img id="imgWeatherIcon" src="" alt=""></h1>
+        <select>
+            <option value="1668341">Taipei</option>
+            <option value="1668399">Taichung</option>
+            <option value="1669321">Shibazhang</option>
+        </select>
+        <h1><img id="imgWeatherIcon" src="" alt=""></h1>
         <table>
             <tr>
                 <td>目前天氣</td><td id="weather"></td>
@@ -22,19 +27,34 @@
             </tr>
         </table>
         <script>
-            $.get('http://api.openweathermap.org/data/2.5/weather?id=1668341&appid=533f071239dffdea9320f7b33d154256&lang=zh_tw&units=metric', function (res){
-                $('#weather').text(res.weather[0].description);
-                $('#temp').text(res.main.temp);
-                $('#minTemp').text(res.main.temp_min);
-                $('#maxTemp').text(res.main.temp_max);
-                console.log(res);
+            var slt =$('select');
+            function refresh(data){
+                $('h1').text($( "select option:selected" ).text());
+                $('#weather').text(data.weather[0].description);
+                $('#temp').text(data.main.temp);
+                $('#minTemp').text(data.main.temp_min);
+                $('#maxTemp').text(data.main.temp_max);
                 $('#imgWeatherIcon').attr({
-                    src: 'http://openweathermap.org/img/w/' + res.weather[0].icon + '.png',
-                    alt: res.weather[0].description,
-                    title: res.weather[0].description
+                    src: 'http://openweathermap.org/img/w/' + data.weather[0].icon + '.png',
+                    alt: data.weather[0].description,
+                    title: data.weather[0].description
                 });
-                
-                
+            }
+            slt.change(function(){
+                let cityId = slt.val(),
+                    data = JSON.parse(sessionStorage.getItem(cityId));
+                if(data && data.expireOn > Date.now()) {
+                    alert('123');
+                    return refresh(data);
+                }
+                let url = 'http://api.openweathermap.org/data/2.5/weather?id=' + cityId + '&appid=533f071239dffdea9320f7b33d154256&lang=zh_tw&units=metric';
+
+                $.get(url, function (res){
+                    refresh(res);
+                    res.expireOn = Date.now() + 10 * 60 * 1000;
+                    sessionStorage.setItem(cityId,JSON.stringify(res));
+                });
+
             });
         </script>
     </body>
