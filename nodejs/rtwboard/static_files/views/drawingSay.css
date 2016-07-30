@@ -286,3 +286,18 @@ div.thumbnail img {
         transform: perspective(400px);
     }
 }
+/*countdown*/
+
+#h1Countdown {
+    line-height: 531px;
+    width: 100%;
+    text-align: center;
+    margin: 0;
+    font-size: 64px;
+    position: absolute;
+    transition: all .5s;
+}
+
+#h1Countdown.show {
+    color: rgb(255,255,255);
+}

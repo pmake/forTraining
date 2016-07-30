@@ -59,29 +59,20 @@ function msgShow(content){
 function countdown(time){
     jqDivDrawingJumbo.prepend('<h1 id="h1Countdown"></h1>').css('position', 'relative');
     var jqH1Countdown = $('#h1Countdown');
-    jqH1Countdown.css({
-        color:'white',
-        'line-height': '532px',
-        width: '100%',
-        'text-align': 'center',
-        'margin-top': 0,
-        'font-size': 64,
-        position: 'absolute'
-    });
-    jqH1Countdown.hide();
-    //改用css的方式做動畫效果
-    function repeat(time){
-        jqH1Countdown.text(time);
-        jqH1Countdown.fadeIn(500,'swing',function(){
-            jqH1Countdown.fadeOut(500,'swing',function(){
-                time--;
-                if (time > 0) repeat(time);
-                else {
-                    jqH1Countdown.remove();
-                    jqDivDrawingJumbo.css('position', 'static');
-                }
-            });
-        });
+    jqH1Countdown.text(time).toggleClass('show');
+    function repeat(time) {
+        setTimeout(function(){
+            var isShowing = jqH1Countdown.hasClass('show');
+            if(!isShowing) time--;
+            if(time > 0){
+                if(!isShowing) jqH1Countdown.text(time);
+                jqH1Countdown.toggleClass('show');
+                repeat(time);
+            }else {
+                jqH1Countdown.remove();
+                jqDivDrawingJumbo.css('position', 'static');
+            }
+        },500);
     }
 
     repeat(time);
@@ -172,7 +163,10 @@ socket.on('user message',function(msg){
                     jqBtnSend.attr('disabled', false);
                 }
                 //下一回合開始倒數計時
-                countdown(10);
+                setTimeout(function(){
+                    countdown(10);
+                    //角色轉換
+                },2000);
             },1000);
         }
     }
@@ -191,8 +185,8 @@ jqCvDrawingArea.off({
 });
 
 //角色判斷
-socket.on('role', function(role, answer){
-    if(role=='drawer'){
+socket.on('role', function(roleInfo){
+    if(roleInfo[0]=='drawer'){
         //關閉猜者功能
         jqBtnSayMode.attr('disabled', true);
         inpUserInp.disabled = true;
@@ -207,8 +201,8 @@ socket.on('role', function(role, answer){
         });
         //設定題目
 
-        for(let i=0, words=answer.length;i<words;i++){
-            jqDivAnswerSquares.append('<button type="button" class="btn btn-default" disabled>' + answer[i] + '</button>');
+        for(let i=0, words=roleInfo[1].length;i<words;i++){
+            jqDivAnswerSquares.append('<button type="button" class="btn btn-default" disabled>' + roleInfo[1][i] + '</button>');
             remainingWords[i]=i;
         }
     }else {
@@ -227,12 +221,16 @@ socket.on('role', function(role, answer){
         inpUserInp.focus();
         //設定題目
 
-        for(let i=0, words=answer.length;i<words;i++){
-            jqDivAnswerSquares.append('<button type="button" class="btn btn-default">?</button>');
-            remainingWords[i]=i;
+        for(let i=0, words=roleInfo[1].length, content ='';i<words;i++){
+            if(!roleInfo[2][i]) content = roleInfo[1][i];
+            else {
+                content ='?';
+                remainingWords.push(i);
+            }
+            jqDivAnswerSquares.append('<button type="button" class="btn btn-default">' + content + '</button>');
         }
     }
-    answerString = answer;
+    answerString = roleInfo[1];
 });
 
 //for guesser

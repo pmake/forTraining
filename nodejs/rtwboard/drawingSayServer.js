@@ -167,8 +167,12 @@ io.on('connection', function(socket) {
             for(var i=0;i<end;i++){
                 rooms[roomName].remainingWords[i]= rooms[roomName].answer[i];
             }
-            socket.emit('role', 'drawer', rooms[roomName].answer);
-        }else socket.emit('role', 'guesser', rooms[roomName].answer);
+            var roleInfo = ['drawer', rooms[roomName].answer];
+            socket.emit('role', roleInfo);
+        }else {
+            var roleInfo = ['guesser', rooms[roomName].answer, rooms[roomName].remainingWords];
+            socket.emit('role',roleInfo);
+        }
 
         //現存全部的room清單
         //console.log(socket.adapter.rooms);
@@ -238,13 +242,13 @@ io.on('connection', function(socket) {
             //當socket room中已無socket，會自動釋放socket room，自定room物件要自己釋放
             if (socket.adapter.rooms[roomName]) {
                 //通知其他人此socket已離線
-                var temp = socket.playerName + ' 已離開';
+                var temp = [socket.playerName + ' 已離開'];
                 roomsForLobby[roomName].numPlayers--;
                 //this.broadcast.emit('user message', temp);
                 //roomMessenger('user message', temp, 'test', this);
                 socket.to(roomName).broadcast.emit('user message', temp);
                 //紀錄訊息
-                msgRecorder(roomName, temp);
+                msgRecorder(roomName, temp[0]);
             }else {
                 //預設畫室不可刪除
                 if (roomName == '你畫我猜' || roomName == '猜猜猜'){
@@ -287,14 +291,17 @@ io.on('connection', function(socket) {
                 if(wordsToAll[0] != undefined ) {
                     temp[1] = wordsToAll;
                     //軌跡記錄在這要停止，避免答對後的亂畫也被記錄
-                    if (msg.isFinish == 'yes') temp[2] = 'yes';
+                    if (msg.isFinish == 'yes') {
+                        temp[2] = 'yes';
+
+                    }
                 }
             }
             io.to(roomName).emit('user message', temp);
-            if (msg.isFinish == 'yes') {
-                //角色轉換
-                //軌跡記錄在這要停止，避免答對後的亂畫也被記錄
-            }
+            //if (msg.isFinish == 'yes') {
+            //    角色轉換
+            //    軌跡記錄在這要停止，避免答對後的亂畫也被記錄
+            //}
 
             //記錄訊息，和繪圖一樣是主要的即時處理程序，效率優先，不調用函數
             if(rooms[roomName].numMsgs>24){
