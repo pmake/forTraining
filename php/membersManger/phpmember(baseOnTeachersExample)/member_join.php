@@ -167,80 +167,85 @@ if (isset($_GET['loginStatus'])) {
     </tr>
 </table>
 <script>
-    function checkForm() {
-        var inpM_username = document.formJoin.m_username;
-        if (inpM_username.value == '') {
-            alert('請輸入帳號!');
+function checkForm() {
+    //將查詢結果儲存到變數中，避免多餘的查詢
+    var inpM_username = document.formJoin.m_username;
+    if (inpM_username.value == '') {
+        alert('請輸入帳號!');
+        inpM_username.focus();
+        return false;
+    } else {
+        //將id字串長度計算結果儲存到變數中，避免重複計算，尤其是在for迴圈判斷結束點時
+        var uid = inpM_username.value,
+            uidLength = uid.length;
+        if (uidLength < 5 || uidLength > 12) {
+            alert('帳號長度需介於5~12個字元');
             inpM_username.focus();
             return false;
         } else {
-            var uid = inpM_username.value,
-                uidLength = uid.length;
-            if (uidLength < 5 || uidLength > 12) {
-                alert('帳號長度需介於5~12個字元');
-                inpM_username.focus();
-                return false;
-            } else {
-                //字元的比較會自動轉為ascii碼比大小
-                for (var i = 0; i < uidLength; i++) {
-                    var uidIndexWord = uid.charAt(i);
-                    if (uidIndexWord >= 'A' && uidIndexWord <= 'Z') {
-                        alert('帳號不可以含有大寫字元');
-                        inpM_username.focus();
-                        return false;
-                    }
-                    if (!((uidIndexWord >= 'a' && uidIndexWord <= 'z') || (uidIndexWord >= '0' && uidIndexWord <= '9') || uidIndexWord == '_')) {
-                        alert('帳號只能數字，英文字母及「_」');
-                        inpM_username.focus();
-                        return false;
-                    }
-                    if (uidIndexWord == "_" && uid.charAt(i - 1) == "_") {
-                        alert('「_」符號不可以相連');
-                        inpM_username.focus();
-                        return false;
-                    }
+            //字元的比較會自動轉為ascii碼比大小
+            //以local變數做為for迴圈的累加運算變數，而不是global變數(未使用var或let宣告的變數就是global變數)
+            for (var i = 0; i < uidLength; i++) {
+                //將取得特定索引位置字元的結果儲存到變數，避免重複運算
+                var uidIndexWord = uid.charAt(i);
+                if (uidIndexWord >= 'A' && uidIndexWord <= 'Z') {
+                    alert('帳號不可以含有大寫字元');
+                    inpM_username.focus();
+                    return false;
+                }
+                if (!((uidIndexWord >= 'a' && uidIndexWord <= 'z') || (uidIndexWord >= '0' && uidIndexWord <= '9') || uidIndexWord == '_')) {
+                    alert('帳號只能數字，英文字母及「_」');
+                    inpM_username.focus();
+                    return false;
+                }
+                if (uidIndexWord == "_" && uid.charAt(i - 1) == "_") {
+                    alert('「_」符號不可以相連');
+                    inpM_username.focus();
+                    return false;
                 }
             }
         }
-        var inpM_passwd = document.formJoin.m_passwd,
-            pw1 = inpM_passwd.value,
-            inpM_passwdrecheck = document.formJoin.m_passwdrecheck,
-            pw2 = inpM_passwdrecheck.value;
-        if (!checkPassword(pw1, pw2)) {
-            inpM_username.focus();
-            return false;
-        }
     }
-    function checkPassword(pw1, pw2) {
-        //以下順序代表著效率的優化
+    //將查詢結果儲存到變數中，避免多餘的查詢
+    var inpM_passwd = document.formJoin.m_passwd,
+        pw1 = inpM_passwd.value,
+        inpM_passwdrecheck = document.formJoin.m_passwdrecheck,
+        pw2 = inpM_passwdrecheck.value;
+    if (!checkPassword(pw1, pw2)) {
+        inpM_username.focus();
+        return false;
+    }
+}
+function checkPassword(pw1, pw2) {
+    //以下順序代表著效率的優化
 
-        //先簡單確認是否為空白
-        if (pw1 == '') {
-            alert('密碼不可以空白');
-            return false;
-        }
-        //先儲存長度再run for避免重複計算長度
-        var pwLength = pw1.length;
-        //既然已取得長度，就先比長度是否符合
-        if (pwLength < 5 || pwLength > 12) {
-            alert('密碼需介於5~12個字元');
-            return false;
-        }
-        //再來run for word by word比對
-        for (var i = 0; i < pwLength; i++) {
-            var pwIndexWord = pw1.charAt(i);
-            if (pwIndexWord == ' ' || pwIndexWord == '\"') {
-                alert('密碼不可以包含空格或雙引號');
-                return false;
-            }
-        }
-        //最後才是字串的比對
-        if (pw1 != pw2) {
-            alert('密碼確認不一致，請修正');
-            return false;
-        }
-        return true;
+    //先簡單確認是否為空白
+    if (pw1 == '') {
+        alert('密碼不可以空白');
+        return false;
     }
+    //先儲存長度再執行for迴圈避免重複計算長度
+    var pwLength = pw1.length;
+    //既然已取得長度，就先比長度是否符合限制，因為速度快，且寫在for外面也是避免無意義的重複
+    if (pwLength < 5 || pwLength > 12) {
+        alert('密碼需介於5~12個字元');
+        return false;
+    }
+    //再來執行for迴圈 word by word比對，只要一個不符合即return結束，也是很快
+    for (var i = 0; i < pwLength; i++) {
+        var pwIndexWord = pw1.charAt(i);
+        if (pwIndexWord == ' ' || pwIndexWord == '\"') {
+            alert('密碼不可以包含空格或雙引號');
+            return false;
+        }
+    }
+    //最後才是字串的比對，寫在for外面避免無意義的重複比對
+    if (pw1 != pw2) {
+        alert('密碼確認不一致，請修正');
+        return false;
+    }
+    return true;
+}
 </script>
 </body>
 </html>
