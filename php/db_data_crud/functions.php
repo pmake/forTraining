@@ -12,4 +12,3 @@ function dbConnector($host, $user, $password, $database, $port) {
     mysqli_query($conn, 'SET NAMES utf8');
     return $conn;
 }
-?>
