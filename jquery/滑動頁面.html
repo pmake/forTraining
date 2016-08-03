@@ -29,24 +29,25 @@
         <div class="box2"></div>
         <div class="box3"></div>
         <script>
-            var offset_b1 = $('.box1').offset().top;
-            var offset_b2 = $('.box2').offset().top;
-            var offset_b3 = $('.box3').offset().top;
-            
+            var offset_b1 = $('.box1').offset().top,
+                offset_b2 = $('.box2').offset().top,
+                offset_b3 = $('.box3').offset().top,
+                jqHtmlAndBody = $('html,body');
+
             $('ul a:first-child').click(function(){
-               $('html,body').animate({
-                   scrollTop:offset_b1
-               }); 
+                jqHtmlAndBody.animate({
+                    scrollTop:offset_b1
+                }); 
             });
             $('ul a:nth-child(2)').click(function(){
-               $('html,body').animate({
-                   scrollTop:offset_b2
-               }); 
+                jqHtmlAndBody.animate({
+                    scrollTop:offset_b2
+                }); 
             });
             $('ul a:last-child').click(function(){
-               $('html,body').animate({
-                   scrollTop:offset_b3
-               }); 
+                jqHtmlAndBody.animate({
+                    scrollTop:offset_b3
+                }); 
             });
         </script>
     </body>
