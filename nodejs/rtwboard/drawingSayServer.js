@@ -7,6 +7,7 @@ var express = require('express'),
     http = require('http').Server(app),
     io = require('socket.io')(http),
     bodyParser = require('body-parser');
+app.set('port', (process.env.PORT || 5000));
 
 //建立一個rooms物件模擬關聯式陣列
 var rooms = {}, roomsForLobby = {};
@@ -132,8 +133,8 @@ app.get('/invite', function(req,res){
 });
 
 
-http.listen(3000, function(){
-    console.log('listening on *:3000');
+http.listen(app.get('port'), function(){
+    console.log('The server is listening on port:', app.get('port'));
 });
 
 //內建的connection事件在客戶端搭建socket連線時觸發
