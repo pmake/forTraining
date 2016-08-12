@@ -15,9 +15,9 @@ var rooms = {}, roomsForLobby = {};
 //建立room類別
 function Room (maxPlayers, gameMode){
     //this.id = id;
-    //this.players = {};
+    this.orderedPlayers = [];
     //this.numPlayers = 0;
-    this.drawer = '';
+    this.drawerIndex = -1;
     this.answer = '';
     this.remainingWords = [];
     this.msgHistory = [];
@@ -156,11 +156,15 @@ io.on('connection', function(socket) {
         //判斷進入哪一個畫室，歸屬畫室
         var roomName = data.roomName;
         socket.join(roomName);
+        rooms[roomName].orderedPlayers.push(socket.id);
+        socket.posInRoom = rooms[roomName].orderedPlayers.length - 1;
         roomsForLobby[roomName].numPlayers++;
 
+        console.log(socket.id);
+
         //設定畫者，在離線或回合結束時轉換
-        if (rooms[roomName].drawer == ''){
-            rooms[roomName].drawer = socket.id;
+        if (rooms[roomName].drawerIndex == -1){
+            rooms[roomName].drawerIndex = 0;
             //資料庫取題目
             rooms[roomName].answer = '你畫我猜';
             var end = rooms[roomName].answer.length;
@@ -178,7 +182,9 @@ io.on('connection', function(socket) {
         //現存全部的room清單
         //console.log(socket.adapter.rooms);
         //room成員清單
-        //console.log(socket.adapter.rooms['test']['sockets']);
+        //console.log(socket.adapter.rooms[roomName]['sockets'][socket.id]);
+        console.log(io.sockets.connected[socket.Id]);
+
 
         //登入初始化，傳送歷史資料予客戶端
         socket.emit('show history',rooms[roomName].drawingHistory,rooms[roomName].msgHistory);
@@ -239,6 +245,7 @@ io.on('connection', function(socket) {
         //離線 
         socket.on('disconnect', function() {
             console.log(socket.playerName + ' disconnected');
+            rooms[roomName].orderedPlayers[socket.posInRoom] = '';
             //確認是否仍有玩家，若無則釋放自定room物件
             //當socket room中已無socket，會自動釋放socket room，自定room物件要自己釋放
             if (socket.adapter.rooms[roomName]) {
@@ -294,7 +301,28 @@ io.on('connection', function(socket) {
                     //軌跡記錄在這要停止，避免答對後的亂畫也被記錄
                     if (msg.isFinish == 'yes') {
                         temp[2] = 'yes';
-
+                        rooms[roomName].drawerIndex++;
+                        var len = rooms[roomName].orderedPlayers.length;
+                        do {
+                            if (rooms[roomName].drawerIndex < len){
+                                if(rooms[roomName].orderedPlayers[rooms[roomName].drawerIndex] != ''){
+                                    //next drawer
+                                    temp[3] = rooms[roomName].orderedPlayers[rooms[roomName].drawerIndex];
+                                    //next answer
+                                    temp[4] = rooms[roomName].answer = '你畫我猜';
+                                    //初始化
+                                    rooms[roomName].remainingWords = [];
+                                    //轉餘字陣列
+                                    var stop = rooms[roomName].answer.length;
+                                    for(var i=0;i<stop;i++){
+                                        rooms[roomName].remainingWords[i]= rooms[roomName].answer[i];
+                                    }
+                                    break;
+                                }else{
+                                    rooms[roomName].drawerIndex++;
+                                }
+                            }else rooms[roomName].drawerIndex = 0;
+                        } while(true);
                     }
                 }
             }
