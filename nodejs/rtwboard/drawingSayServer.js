@@ -14,11 +14,10 @@ var rooms = {}, roomsForLobby = {};
 
 //建立room類別
 function Room (maxPlayers, gameMode){
-    //this.id = id;
     this.orderedPlayers = [];
-    //this.numPlayers = 0;
     this.drawerIndex = -1;
     this.answer = '';
+    this.qID = 0;
     this.remainingWords = [];
     this.msgHistory = [];
     this.drawingHistory = [];
@@ -160,22 +159,23 @@ io.on('connection', function(socket) {
         socket.posInRoom = rooms[roomName].orderedPlayers.length - 1;
         roomsForLobby[roomName].numPlayers++;
 
-        console.log(socket.id);
+        console.log("id is" + socket.id);
 
         //設定畫者，在離線或回合結束時轉換
         if (rooms[roomName].drawerIndex == -1){
             rooms[roomName].drawerIndex = 0;
             //資料庫取題目
             rooms[roomName].answer = '你畫我猜';
+            rooms[roomName].qID++;
             var end = rooms[roomName].answer.length;
             //轉餘字陣列
             for(var i=0;i<end;i++){
                 rooms[roomName].remainingWords[i]= rooms[roomName].answer[i];
             }
-            var roleInfo = ['drawer', rooms[roomName].answer];
+            var roleInfo = [socket.id, rooms[roomName].answer, rooms[roomName].qID];
             socket.emit('role', roleInfo);
         }else {
-            var roleInfo = ['guesser', rooms[roomName].answer, rooms[roomName].remainingWords];
+            var roleInfo = ['guesser', rooms[roomName].answer, rooms[roomName].remainingWords, rooms[roomName].qID];
             socket.emit('role',roleInfo);
         }
 
@@ -245,7 +245,6 @@ io.on('connection', function(socket) {
         //離線 
         socket.on('disconnect', function() {
             console.log(socket.playerName + ' disconnected');
-            rooms[roomName].orderedPlayers[socket.posInRoom] = '';
             //確認是否仍有玩家，若無則釋放自定room物件
             //當socket room中已無socket，會自動釋放socket room，自定room物件要自己釋放
             if (socket.adapter.rooms[roomName]) {
@@ -257,6 +256,35 @@ io.on('connection', function(socket) {
                 socket.to(roomName).broadcast.emit('user message', temp);
                 //紀錄訊息
                 msgRecorder(roomName, temp[0]);
+                //如果是畫者，更換畫者
+                if(socket.id == rooms[roomName].orderedPlayers[rooms[roomName].drawerIndex]){
+                    //清除離線者之畫者登錄
+                    rooms[roomName].orderedPlayers[socket.posInRoom] = '';
+                    //尋找下一個畫者
+                    rooms[roomName].drawerIndex++;
+                    var len = rooms[roomName].orderedPlayers.length;
+                    do {
+                        if (rooms[roomName].drawerIndex < len){
+                            if(rooms[roomName].orderedPlayers[rooms[roomName].drawerIndex] != ''){
+                                //next answer
+                                rooms[roomName].answer = '你畫我猜';
+                                rooms[roomName].qid++;
+                                //初始化
+                                rooms[roomName].remainingWords = [];
+                                //轉餘字陣列
+                                var stop = rooms[roomName].answer.length;
+                                for(var i=0;i<stop;i++){
+                                    rooms[roomName].remainingWords[i]= rooms[roomName].answer[i];
+                                }
+                                //畫者斷線重置，不需傳輸remainingWords，減少傳輸量
+                                socket.to(roomName).broadcast.emit('role',[rooms[roomName].orderedPlayers[rooms[roomName].drawerIndex], rooms[roomName].answer, rooms[roomName].qID, 'dc']);
+                                break;
+                            }else{
+                                rooms[roomName].drawerIndex++;
+                            }
+                        }else rooms[roomName].drawerIndex = 0;
+                    } while(true);
+                }else rooms[roomName].orderedPlayers[socket.posInRoom] = '';
             }else {
                 //預設畫室不可刪除
                 if (roomName == '你畫我猜' || roomName == '猜猜猜'){
@@ -267,6 +295,11 @@ io.on('connection', function(socket) {
                     //清空畫布
                     rooms[roomName].drawingHistory=[];
                     rooms[roomName].numPixels=0;
+                    //畫者狀態初始化
+                    rooms[roomName].drawerIndex = -1;
+                    rooms[roomName].orderedPlayers = [];
+                    rooms[roomName].remainingWords = [];
+                    rooms[roomName].qID = 0;
                 }else {
                     //當有效率問題時，此處可測試改成null而不用delete
                     //有篇文章提到v8對常用物件有優化，delete會改變物件結構而影響優化
@@ -282,8 +315,8 @@ io.on('connection', function(socket) {
             //roomMessenger('user message', temp, 'test');
             //視需要增加非畫者判斷
 
-            //有猜對的處理
-            if(msg.correctWords){
+            //有猜對的處理，以qID做進度控制，避免時間差導致成員進度錯亂
+            if(msg.correctWords && msg.qID == rooms[roomName].qID){
                 var end = msg.correctWords.length,
                     correctWords = msg.correctWords,
                     remainingWords = rooms[roomName].remainingWords,
@@ -306,10 +339,12 @@ io.on('connection', function(socket) {
                         do {
                             if (rooms[roomName].drawerIndex < len){
                                 if(rooms[roomName].orderedPlayers[rooms[roomName].drawerIndex] != ''){
-                                    //next drawer
+                                    //next drawer's socket id
                                     temp[3] = rooms[roomName].orderedPlayers[rooms[roomName].drawerIndex];
                                     //next answer
                                     temp[4] = rooms[roomName].answer = '你畫我猜';
+                                    rooms[roomName].qID++;
+                                    temp[5] = rooms[roomName].qID;
                                     //初始化
                                     rooms[roomName].remainingWords = [];
                                     //轉餘字陣列

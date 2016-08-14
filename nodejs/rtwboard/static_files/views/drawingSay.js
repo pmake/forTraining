@@ -27,6 +27,8 @@ var jqBtnDrawMode = $('#btnDrawMode'),
     answerString = '',
     remainingWords = [],
     correctWords = [],
+    qID = 0,
+    interception = 0,
     audioCorrect = new Audio('../sounds/Wood_Plank_Flicks.mp3'),
     audioFinish = new Audio('../sounds/Darling_Ranch_Sting.mp3');
 
@@ -145,7 +147,7 @@ socket.on('user message',function(msg){
             for(ind in msg[1]){
                 btnWords[msg[1][ind]].innerHTML = answerString[msg[1][ind]];
                 $(btnWords[msg[1][ind]]).addClass('flipInX').attr('disabled', false);
-            } 
+            }
         }else {
             for(ind in msg[1]){
                 btnWords[msg[1][ind]].innerHTML = answerString[msg[1][ind]];
@@ -174,12 +176,15 @@ socket.on('user message',function(msg){
                 //下一回合開始倒數計時
                 setTimeout(function(){
                     countdown(10, function(){
-                        //角色轉換
-                        if(msg[3].slice(2) == socket.id){
-                            drawerAction(msg[4]);
-                        }else{
-                            guesserAction(msg[4],msg[4]);
-                        } 
+                        if(interception == 0){
+                            //角色轉換
+                            if(msg[3].slice(2) == socket.id){
+                                drawerAction(msg[4]);
+                            }else{
+                                guesserAction(msg[4],msg[4]);
+                            }
+                            qID = msg[5];
+                        }else interception = 0;
                     });
                 },2000);
             },1000);
@@ -254,53 +259,18 @@ function guesserAction(ans, remAns){
     }
 }
 socket.on('role', function(roleInfo){
-    if(roleInfo[0]=='drawer'){
+    if(roleInfo[3] == 'dc') interception = 1;
+    if(roleInfo[0].slice(2) == socket.id){
         drawerAction(roleInfo[1]);
-        //關閉猜者功能
-        //        jqBtnSayMode.attr('disabled', true);
-        //        inpUserInp.disabled = true;
-        //        jqBtnSend.attr('disabled', true);
-        //        //開啟畫者功能
-        //        jqBtnDrawMode.attr('disabled', false);
-        //        jqBtnLineWidthShow.attr('disabled', false);
-        //        jqBtnCleaner.attr('disabled', false);
-        //        jqCvDrawingArea.removeClass('notAllowed');
-        //        jqCvDrawingArea.on({
-        //            mousedown: openDrawing
-        //        });
-        //設定題目
-
-        //        for(let i=0, words=roleInfo[1].length;i<words;i++){
-        //            jqDivAnswerSquares.append('<button type="button" class="btn btn-default" disabled>' + roleInfo[1][i] + '</button>');
-        //            remainingWords[i]=i;
-        //        }
-    }else {
+        qID = roleInfo[2];
+    }else if(roleInfo[0] == 'guesser') {
         guesserAction(roleInfo[1],roleInfo[2]);
-        //關閉畫者功能
-        //        jqBtnDrawMode.attr('disabled', true);
-        //        jqBtnLineWidthShow.attr('disabled', true);
-        //        jqBtnCleaner.attr('disabled', true);
-        //        jqCvDrawingArea.addClass('notAllowed');
-        //        jqCvDrawingArea.off({
-        //            mousedown: openDrawing
-        //        });
-        //開啟猜者功能
-        //        jqBtnSayMode.attr('disabled', false);
-        //        inpUserInp.disabled = false;
-        //        jqBtnSend.attr('disabled', false);
-        //        inpUserInp.focus();
-        //設定題目
-
-        //        for(let i=0, words=roleInfo[1].length, content ='';i<words;i++){
-        //            if(!roleInfo[2][i]) content = roleInfo[1][i];
-        //            else {
-        //                content ='?';
-        //                remainingWords.push(i);
-        //            }
-        //            jqDivAnswerSquares.append('<button type="button" class="btn btn-default">' + content + '</button>');
-        //        }
+        qID = roleInfo[3];
+    }else {
+        //為了減少轉輸資料，不採用一律傳remainingWords的方式
+        guesserAction(roleInfo[1],roleInfo[1]);
+        qID = roleInfo[2];
     }
-    //answerString = roleInfo[1];
 });
 
 //for guesser
@@ -367,6 +337,7 @@ function msgEmiter () {
 
             if(correctWords.length > 0) {
                 msg.correctWords = correctWords;
+                msg.qID = qID;
                 if (!remainingWords.length) msg.isFinish = 'yes';
                 //清空
                 correctWords = [];
