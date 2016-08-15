@@ -1,5 +1,8 @@
 <?php
 session_start();
+
+if (! isset($_SESSION['loginMember']) || $_SESSION['loginMember'] == '' ) header("Location: index.php");
+
 if (isset($_GET['logout'])) {
     unset($_SESSION['loginMember']);
     unset($_SESSION['memberLevel']);
@@ -12,6 +15,7 @@ $conn = dbConnector('localhost', 'root', '', 'test', 3306);
 $qsFetchUserData = 'select * from memberdata where m_username = "' . $_SESSION['loginMember'] . '";';
 $result = $conn->query($qsFetchUserData);
 $resultAssoc = mysqli_fetch_assoc($result);
+
 
 mysqli_free_result($result);
 mysqli_close($conn);
@@ -62,7 +66,7 @@ mysqli_close($conn);
                             <p>您總共登入了 <?php echo $resultAssoc['m_login'];?> 次。<br>
                                 本次登入的時間為：<br>
                                 <?php echo $resultAssoc['m_logintime'];?></p>
-                            <p align="center"><a href="">修改資料</a> | <a href="?logout=true">登出系統</a></p>
+                            <p align="center"><a href="member_update.php">修改資料</a> | <a href="?logout=true">登出系統</a></p>
                         </div>
                         <div class="boxbl"></div>
                         <div class="boxbr"></div>
