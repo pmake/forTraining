@@ -177,13 +177,8 @@ socket.on('user message',function(msg){
                 setTimeout(function(){
                     countdown(10, function(){
                         if(interception == 0){
-                            //角色轉換
-                            if(msg[3].slice(2) == socket.id){
-                                drawerAction(msg[4]);
-                            }else{
-                                guesserAction(msg[4],msg[4]);
-                            }
-                            qID = msg[5];
+                            //送出角色確認需求
+                            socket.emit('user message',{roleConfirm: 1});
                         }else interception = 0;
                     });
                 },2000);
@@ -205,7 +200,7 @@ jqCvDrawingArea.off({
 });
 
 //角色判斷
-function drawerAction(ans){
+function drawerAction(ans, remAns){
     //初始化
     answerString = ans;
     remainingWords = [];
@@ -224,9 +219,14 @@ function drawerAction(ans){
     });
     //設定題目
 
-    for(let i=0, words=ans.length;i<words;i++){
-        jqDivAnswerSquares.append('<button type="button" class="btn btn-default" disabled>' + ans[i] + '</button>');
-        remainingWords[i]=i;
+    for(let i=0, words=ans.length, content = '';i<words;i++){
+        //有傳入remAns且索引值為undefined，主要確保因猜者已猜對部分文字，但畫者因時間差未尚未準備好題目，而未能正確顯示猜題狀態問題
+        if(remAns && !remAns[i]) content = '';
+        else {
+            content = 'disabled';
+            remainingWords.push(i);
+        }
+        jqDivAnswerSquares.append('<button type="button" class="btn btn-default" ' + content + '>' + ans[i] + '</button>');
     }
 }
 function guesserAction(ans, remAns){
@@ -261,7 +261,8 @@ function guesserAction(ans, remAns){
 socket.on('role', function(roleInfo){
     if(roleInfo[3] == 'dc') interception = 1;
     if(roleInfo[0].slice(2) == socket.id){
-        drawerAction(roleInfo[1]);
+        if(roleInfo[3] == 'rc') drawerAction(roleInfo[1], roleInfo[4]);
+        else drawerAction(roleInfo[1]);
         qID = roleInfo[2];
     }else if(roleInfo[0] == 'guesser') {
         guesserAction(roleInfo[1],roleInfo[2]);

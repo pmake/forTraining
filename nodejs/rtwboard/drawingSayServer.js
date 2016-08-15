@@ -310,6 +310,12 @@ io.on('connection', function(socket) {
         }); 
         //接收聊天訊息
         socket.on('user message',function(msg){
+            if(msg.roleConfirm){
+                if(socket.id == rooms[roomName].orderedPlayers[rooms[roomName].drawerIndex]) socket.emit('role', [socket.id, rooms[roomName].answer, rooms[roomName].qID, 'rc', rooms[roomName].remainingWords]);
+                else socket.emit('role', ['guesser', rooms[roomName].answer, rooms[roomName].remainingWords, rooms[roomName].qID]);
+                return;
+            }
+
             var temp = [socket.playerName + ' : ' + msg.content];
             //io.emit('user message',temp);
             //roomMessenger('user message', temp, 'test');
@@ -339,12 +345,9 @@ io.on('connection', function(socket) {
                         do {
                             if (rooms[roomName].drawerIndex < len){
                                 if(rooms[roomName].orderedPlayers[rooms[roomName].drawerIndex] != ''){
-                                    //next drawer's socket id
-                                    temp[3] = rooms[roomName].orderedPlayers[rooms[roomName].drawerIndex];
                                     //next answer
-                                    temp[4] = rooms[roomName].answer = '你畫我猜';
+                                    rooms[roomName].answer = '你畫我猜';
                                     rooms[roomName].qID++;
-                                    temp[5] = rooms[roomName].qID;
                                     //初始化
                                     rooms[roomName].remainingWords = [];
                                     //轉餘字陣列
