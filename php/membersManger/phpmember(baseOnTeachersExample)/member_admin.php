@@ -1,5 +1,7 @@
 <?php
 session_start();
+if (! isset($_SESSION['loginMember']) || $_SESSION['loginMember'] == '' ) header("Location: index.php");
+if($_SESSION['memberLevel'] == 'member') header("Location:member_center.php");
 
 if (isset($_GET['logout'])) {
     unset($_SESSION['loginMember']);
@@ -16,6 +18,13 @@ $resultAssoc = mysqli_fetch_assoc($result);
 
 
 mysqli_free_result($result);
+
+//刪除判斷
+if(isset($_GET['action'])) {
+    $qsDelMember = 'delete from memberdata where m_id = ' . $_GET['id'] . ';';
+    $conn->query($qsDelMember);
+}
+
 
 
 //設定每頁筆數
@@ -80,8 +89,8 @@ mysqli_close($conn);
                                     </tr>
                                     <?php while($row = mysqli_fetch_assoc($resultPart)) { ?>
                                     <tr>
-                                        <td width="10%" align="center" bgcolor="#FFFFFF"><p><a href="member_adminupdate.php?id=<?php echo $row['m_id'];?>">修改</a><br>
-                                            <a href="?action=delete&id=<?php echo $row['m_id'];?>" onClick="">刪除</a></p></td>
+                                        <td width="10%" align="center" bgcolor="#FFFFFF"><p><a href="member_adminupdate.php?id=<?php echo $row['m_id'];?>&adminid=<?php echo $resultAssoc['m_id'];?>">修改</a><br>
+                                            <a href="?action=delete&id=<?php echo $row['m_id'];?>" onClick="return confirm('are you sure?');">刪除</a></p></td>
                                         <td width="20%" align="center" bgcolor="#FFFFFF"><p><?php echo $row['m_name'];?></p></td>
                                         <td width="20%" align="center" bgcolor="#FFFFFF"><p><?php echo $row['m_username'];?></p></td>
                                         <td width="20%" align="center" bgcolor="#FFFFFF"><p><?php echo $row['m_jointime'];?></p></td>
@@ -121,7 +130,7 @@ mysqli_close($conn);
                                     <p><strong><?php echo $resultAssoc['m_username'];?></strong>您好。<br>
                                         本次登入的時間為：<br>
                                         <?php echo $resultAssoc['m_logintime'];?></p>
-                                    <p align="center"><a href="member_adminupdate.php?id=<?php echo $resultAssoc['m_id'];?>">修改資料</a> | <a href="?logout=true">登出系統</a></p>
+                                    <p align="center"><a href="member_adminupdate.php?adminid=<?php echo $resultAssoc['m_id'];?>">修改資料</a> | <a href="?logout=true">登出系統</a></p>
                                 </div>
                                 <div class="boxbl"></div>
                                 <div class="boxbr"></div>

@@ -230,7 +230,7 @@ mysqli_close($conn);
                                         本次登入的時間為：<br>
                                         <?php echo $resultAssoc['m_logintime'];?></p>
                                     <p align="center">
-                                        <a href="">會員中心</a> | <a href="?logout=true">登出系統</a>
+                                        <a href="member_center.php">會員中心</a> | <a href="?logout=true">登出系統</a>
                                     </p>
                                 </div>    
                                 <div class="boxbl"></div>
