@@ -6,7 +6,19 @@ var express = require('express'),
     app = express(),
     http = require('http').Server(app),
     io = require('socket.io')(http),
-    bodyParser = require('body-parser');
+    bodyParser = require('body-parser'),
+    mongoose = require('mongoose'),
+    answerSchema = mongoose.Schema({
+        _id: Number,
+        answer: String,
+        category: String,
+        difficulty: String
+    }),
+    recordSchema = mongoose.Schema({
+        _id: Number,
+        pixels: Array
+    });
+
 app.set('port', (process.env.PORT || 5000));
 
 //建立一個rooms物件模擬關聯式陣列

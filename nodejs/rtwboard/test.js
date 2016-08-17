@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-
 mongoose.connect('mongodb://localhost/test');
 
 var db = mongoose.connection;
@@ -10,41 +9,42 @@ db.once('open', function(){
     console.log('db connected');
 });
 
-var kittySchema = mongoose.Schema({
+var countersSchema = mongoose.Schema({
+    _id: String,
+    seq: Number
+});
+
+var Counter = mongoose.model('Counter', countersSchema);
+//
+//var counter = new Counter({_id: 'answerSquence', seq: 0});
+
+
+var testSchema = mongoose.Schema({
+    _id: Number,
     name: String
 });
 
-//var Kitten = mongoose.model('Kitten', kittySchema);
+var Test = mongoose.model('Test', testSchema);
 
-//var silence = new Kitten({name: 'Silence'});
+var test = new Test({name: 'lol'});
 
-kittySchema.methods.speak = function(){
-    var greeting = this.name
-    ? 'Meow name is ' + this.name
-    : "I don't have a name";
-    console.log(greeting);
+saveBySquence('answerSquence', test);
+
+Test.find((err, data)=>{
+    console.log(data);
+});
+
+function saveBySquence(squenceName, doc) {
+    Counter.findOneAndUpdate(
+
+        { _id: squenceName },
+        { $inc: { seq: 1 } },
+        {new: true},
+        (err, result)=>{
+            doc._id = result.seq;
+            doc.save();
+        }
+    );
 }
 
-var Kitten = mongoose.model('Kitten', kittySchema);
-
-var fluffy = new Kitten({name: 'fluffy'});
-
-fluffy.speak();
-
-fluffy.save(function(err, fluffy){
-    if(err) return console.error(err);
-    fluffy.speak();
-    
-    //queries
-    Kitten.find(function(err, kittens){
-        if(err) return console.error(err);
-        console.log(kittens);
-    });
-
-    Kitten.find({name: /^fluff/}, function(err, fluffs){
-        if(err) return console.error(err);
-        console.log(fluffs);
-    });
-
-});
 
