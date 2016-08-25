@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>xAxB Game</title>
+    </head>
+    <body>
+        <script>
+
+            //宣告給for用以及儲存猜題次數的變數並賦予初始值
+            var i = 0,j = 0,times = 0;
+            //宣告用來儲存a與b數量的變數，並賦予初始值0
+            var a = 0,b = 0;
+            //宣告用來儲存答案的陣列變數並給予隨機產生的4個不重複的0~9數字
+            var answer = [0,0,0,0];
+            for (i=0;i<answer.length;i++){
+                do {
+                    answer[i] = Math.floor((Math.random() * 10));
+                    //判斷是否重複
+                    for (j=0;j<i;j++){
+                        if (answer[i]==answer[j]) break;
+                    }
+                }while(j != i);
+            }
+            var st='', go=1;
+            function guess(){
+                if (!go) return;
+                st = setTimeout(function(){
+                    var input = prompt("AB猜數字遊戲，題目已隨機產生\n請輸入4位數數字進行猜題，數字不可重複，你還有"+(15-times)+"次猜題的機會",1234);
+                    //判斷輸入值是否符合要求
+                    if(input.length==4 && input <= 9999) {
+                        //判斷是否重複
+                        for (i=0;i<answer.length;i++){
+                            for (j=0;j<answer.length;j++){
+                                if (i==j) continue;
+                                else if (input[i]==input[j]) {
+                                    //有重複則跳出廻圈
+                                    i=answer.length;
+                                    j=answer.length;
+                                }
+                            }
+                        }
+                        if (i==(answer.length+1)) alert("輸入內容不符合要求!請重新輸入!");
+                        else {
+                            //比對數字並依結果增加a與b數量
+                            for(i=0;i<answer.length;i++){
+                                if (input[i] == answer[i]) a++;
+                                else {
+                                    for (j=0;j<answer.length;j++){
+                                        if (i==j) continue;
+                                        else if (input[i]==answer[j]) {
+                                            b++;
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                            //列示每次猜題結果
+                            document.write(input+" | "+a+"A"+b+"B"+"<br>");
+                            times+=1;//紀錄猜題1次
+                            //判斷是否結束遊戲，猜對或是猜題15次就結束遊戲
+                            if (a==4){
+                                document.write("答對了!");
+                                if(times==1) alert("你可以去買樂透了!");
+                                else if(times<=5) alert("高手!");
+                                else if(times<=10) alert("厲害哦!");
+                                else if(times<=15) alert("要加油!");
+                                clearTimeout(st);
+                                go=0;
+                            }else if (times==15) {
+                                alert("猜15次囉!下次再加油!");
+                                clearTimeout(st);
+                                go=0;
+                            }
+                            //重置a,b計數
+                            a=0;
+                            b=0;
+                        }
+                    }
+                    else {
+                        alert("輸入內容不符合要求!請重新輸入!");
+                    }
+                    guess();
+                },100);
+            }
+            guess();
+
+        </script>
+    </body>
+</html>
