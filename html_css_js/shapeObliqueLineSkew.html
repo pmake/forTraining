@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Shape</title>
+    </head>
+    <style>
+        div {
+
+            display: inline-block;
+            height: 50px;
+            text-align: center;
+            line-height: 50px;
+        }
+        #con {
+            border: 1px solid black;
+        }
+        .t1 {
+            width:150px;
+        }
+        .t4 {
+            position: relative;
+            width:250px;
+
+        }
+        .t2 {
+            width:250px;
+            transform: skewX(-30deg);
+            position: absolute;
+            left:-10px;
+            border-right: 1px solid black;
+        }
+        .t3 {
+            width:50px;
+        }
+    </style>
+    <body>
+        <div id="con">
+            <div class='t1'>機台稼動率</div>
+            <div class="t4">
+                廠區
+                <div class='t2'></div>
+            </div>
+
+            <div class='t3'>登出</div>
+        </div>
+    </body>
+</html>
