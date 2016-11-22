@@ -4,45 +4,16 @@
         <meta charset="utf-8">
         <title>Shape</title>
     </head>
-    <style type="text/css">
-        div {
-            text-align: center;
-            width: 10px;
-            position: absolute;
-            height: 50%;
-            background-color: #ccc;
-            border: 2px solid blue;
-            left: -2px;
-        }
-        #con {
-            margin-top: 50px;
-            border: 1px solid black;
-            height: 200px;
-            position: relative;
-
-        }
-        .t1 {
-            top: -20%;
-            transform: skewY(-20deg);
-            border-bottom: none;
-        }
-
-        .t2 {
-            top: 25%;
-            border-top: none;
-            border-bottom: none;
-        }
-        .t3 {
-            top: 70%;
-            transform: skewY(20deg);
-            border-top: none;
+    <style>
+        .test {
+            width: 0;
+            height: 55px;
+            border-top: 15px solid transparent;
+            border-bottom: 15px solid transparent;
+            border-right: 25px solid red;
         }
     </style>
     <body>
-        <div id="con">
-            <div class='t1'></div>
-            <div class='t2'></div>
-            <div class='t3'></div>
-        </div>
+        <div class="test"></div>
     </body>
 </html>
